@@ -1,0 +1,296 @@
+[
+    {
+        "so": "vorstellen",
+        "de": "isbarid / soo bandhigid",
+        "explanation": "Waxaa loo adeegsadaa isbarid qof ama soo bandhigid fikrad ama shay",
+        "uses": 2,
+        "example": "Ich stelle mich vor / waan isbarayaa"
+    },
+    {
+        "so": "einstellen",
+        "de": "shaqaaleysiin / dejin",
+        "explanation": "Waxaa loo isticmaalaa shaqaaleysiin ama qalab dejin",
+        "uses": 2,
+        "example": "Die Firma stellt neue Arbeiter ein / shirkaddu waxay shaqaaleysiisay shaqaale cusub"
+    },
+    {
+        "so": "herstellen",
+        "de": "soo saarid / samayn",
+        "explanation": "Waxaa loo isticmaalaa wax soo saar ama wax samayn",
+        "uses": 1,
+        "example": "Die Fabrik stellt Autos her / warshaddu waxay soo saartaa gaariyo"
+    },
+    {
+        "so": "abstellen",
+        "de": "damid / meel dhig",
+        "explanation": "Waxaa loo adeegsadaa daminta qalab ama wax meel dhigista",
+        "uses": 2,
+        "example": "Bitte stellen Sie den Motor ab / fadlan demi matoorka"
+    },
+    {
+        "so": "aufstellen",
+        "de": "taagid / dhigid si toosan",
+        "explanation": "Waxaa loo isticmaalaa wax taagid ama qorshe dejin",
+        "uses": 2,
+        "example": "Wir stellen den Tisch auf / miiska ayaan taagaynaa"
+    },
+    {
+        "so": "umstellen",
+        "de": "beddelid / dib u habayn",
+        "explanation": "Waxaa loo adeegsadaa wax beddelid ama dib u habayn",
+        "uses": 1,
+        "example": "Die Firma stellt das System um / shirkaddu way beddeshay nidaamka"
+    },
+    {
+        "so": "feststellen",
+        "de": "ogaansho / xaqiijin",
+        "explanation": "Waxaa loo isticmaalaa xaqiijin ama ogaansho wax jira",
+        "uses": 1,
+        "example": "Der Arzt stellt die Krankheit fest / dhakhtarku wuu ogaaday cudurka"
+    },
+
+    
+    {
+        "so": "setzen",
+        "de": "dhigid / fadhiisin",
+        "explanation": "Waxaa loo isticmaalaa wax dhigid ama qof fadhiisin",
+        "uses": 2,
+        "example": "Ich setze mich auf den Stuhl / waxaan fariisanayaa kursiga"
+    },
+    {
+        "so": "einsetzen",
+        "de": "isticmaalid / shaqo gelin",
+        "explanation": "Waxaa loo adeegsadaa wax adeegsi ama shaqo gelin",
+        "uses": 2,
+        "example": "Die Firma setzt neue Maschinen ein / shirkaddu waxay adeegsanaysaa mashiinno cusub"
+    },
+    {
+        "so": "aufsetzen",
+        "de": "xirid / saarid korka",
+        "explanation": "Waxaa loo isticmaalaa wax korka saarid sida koofiyad ama muraayad",
+        "uses": 2,
+        "example": "Ich setze die Brille auf / waxaan xirayaa muraayadaha"
+    },
+    {
+        "so": "absetzen",
+        "de": "joojin / ka degid",
+        "explanation": "Waxaa loo adeegsadaa wax joojin ama ka degid gaari",
+        "uses": 2,
+        "example": "Der Bus setzt die Fahrgäste ab / baska ayaa rakaabka dejinaya"
+    },
+    {
+        "so": "durchsetzen",
+        "de": "hirgelin / ku adkaysasho",
+        "explanation": "Waxaa loo isticmaalaa hirgelinta fikrad ama sharci",
+        "uses": 1,
+        "example": "Er setzt seine Meinung durch / wuu hirgeliyay fikradiisa"
+    },
+    {
+        "so": "umsetzen",
+        "de": "hirgelin / fulin",
+        "explanation": "Waxaa loo adeegsadaa qorshe ama fikrad fulinteeda",
+        "uses": 1,
+        "example": "Wir setzen den Plan um / waxaan fulinaynaa qorshaha"
+    },
+    {
+        "so": "fortsetzen",
+        "de": "sii wadid",
+        "explanation": "Waxaa loo isticmaalaa wax sii wadid kadib hakad",
+        "uses": 1,
+        "example": "Der Lehrer setzt den Unterricht fort / macallinku wuu sii wadayaa casharka"
+    },
+
+
+
+    {
+        "so": "gehen",
+        "de": "socod / tagid",
+        "explanation": "Waxaa loo isticmaalaa socod ama tagid meel",
+        "uses": 2,
+        "example": "Ich gehe zur Schule / waxaan aadayaa dugsiga"
+    },
+    {
+        "so": "aufgehen",
+        "de": "furmid / iftiimid",
+        "explanation": "Waxaa loo adeegsadaa wax isfuraya ama wax si lama filaan ah u caddaanaya",
+        "uses": 2,
+        "example": "Die Tür geht auf / albaabku wuu furmay"
+    },
+    {
+        "so": "ausgehen",
+        "de": "baxid / dhammaad",
+        "explanation": "Waxaa loo isticmaalaa baxid ama wax dhammaanaya sida koronto ama lacag",
+        "uses": 2,
+        "example": "Das Licht geht aus / iftiinku wuu dansaday"
+    },
+    {
+        "so": "eingehen",
+        "de": "galid / aqbalid",
+        "explanation": "Waxaa loo adeegsadaa galid ama aqbalid dalab ama heshiis",
+        "uses": 2,
+        "example": "Er geht auf das Angebot ein / wuu aqbalay dalabka"
+    },
+    {
+        "so": "abgehen",
+        "de": "ka tagid / dhicid",
+        "explanation": "Waxaa loo isticmaalaa wax ka go’aya ama qof ka tagaya meel",
+        "uses": 2,
+        "example": "Der Knopf ist abgegangen / badhanku wuu ka dhacay"
+    },
+    {
+        "so": "mitgehen",
+        "de": "la socod / la raacid",
+        "explanation": "Waxaa loo adeegsadaa la socod qof ama fikrad",
+        "uses": 1,
+        "example": "Ich gehe mit dir mit / waan kula soconayaa"
+    },
+    {
+        "so": "untergehen",
+        "de": "degid / baaba’id",
+        "explanation": "Waxaa loo isticmaalaa qorrax dhicid ama wax baaba’a",
+        "uses": 2,
+        "example": "Die Sonne geht unter / qorraxdu way dhacaysaa"
+    },
+    {
+        "so": "zurückgehen",
+        "de": "dib u noqosho",
+        "explanation": "Waxaa loo adeegsadaa dib u noqosho ama hoos u dhac",
+        "uses": 2,
+        "example": "Die Preise gehen zurück / qiimihii wuu hoos u dhacay"
+    },
+
+    {
+        "so": "kommen",
+        "de": "imaansho / tagid",
+        "explanation": "Waxaa loo isticmaalaa imaansho meel ama qof tagid meel",
+        "uses": 2,
+        "example": "Ich komme aus Deutschland / waxaan ka imid Jarmalka"
+    },
+    {
+        "so": "ankommen",
+        "de": "imaansho / soo gaarid",
+        "explanation": "Waxaa loo adeegsadaa imaansho meel ama soo gaarid safar kadib",
+        "uses": 2,
+        "example": "Der Zug kommt um 10 Uhr an / tareenku wuxuu yimaadaa 10-ka saac"
+    },
+    {
+        "so": "mitkommen",
+        "de": "la imaan / la socod",
+        "explanation": "Waxaa loo isticmaalaa la imaan qof ama la socod meel",
+        "uses": 2,
+        "example": "Kommst du mit ins Kino? / ma ila imaaneysaa shineemo?"
+    },
+    {
+        "so": "zurückkommen",
+        "de": "dib u soo noqosho",
+        "explanation": "Waxaa loo adeegsadaa dib u soo noqosho meel ama qof dib ugu soo laabasho",
+        "uses": 2,
+        "example": "Ich komme morgen zurück berri ayaan soo noqonayaa"
+    },
+    {
+        "so": "aufkommen",
+        "de": "bixin qarash / soo ifbaxid ",
+        "explanation": "Waxaa loo isticmaalaa bixinta qarash ama wax soo ifbaxaya",
+        "uses": 1,
+        "example": "Die Versicherung kommt für den Schaden auf / caymiska ayaa daboolaya khasaaraha"
+    },
+    {
+        "so": "loskommen",
+        "de": "ka baxid / ka firaaqo",
+        "explanation": "Waxaa loo adeegsadaa ka baxid xaalad ama ka firaaqo qof",
+        "uses": 1,
+        "example": "Endlich komme ich von der Arbeit los / ugu dambeyn shaqada ayaan ka baxayaa"
+    },
+    
+    {
+        "so": "bringen",
+        "de": "keenid / gayn",
+        "explanation": "Waxaa loo isticmaalaa wax keenid ama meel gayn",
+        "uses": 2,
+        "example": "Ich bringe dir das Buch / waxaan kuu keenayaa buugga"
+    },
+    {
+        "so": "mitbringen",
+        "de": "la keenid",
+        "explanation": "Waxaa loo adeegsadaa wax lala imaanayo qof ama meel",
+        "uses": 1,
+        "example": "Bitte bring Essen mit / fadlan cunto la imow"
+    },
+    {
+        "so": "herbringen",
+        "de": "halkaan keenid",
+        "explanation": "Waxaa loo isticmaalaa wax loo keenayo halka qofku joogo",
+        "uses": 1,
+        "example": "Bring den Stuhl her / kursiga halkaan keen"
+    },
+    {
+        "so": "hinbringen",
+        "de": "halkaa gayn",
+        "explanation": "Waxaa loo adeegsadaa wax loo gaynayo meel kale",
+        "uses": 1,
+        "example": "Ich bringe dich nach Hause hin / waxaan ku geynayaa guriga"
+    },
+    {
+        "so": "umbringen",
+        "de": "dilid",
+        "explanation": "Waxaa loo isticmaalaa dilid qof ama xayawaan",
+        "uses": 1,
+        "example": "Der Unfall hat ihn umgebracht / shilka ayaa dilay"
+    },
+    {
+        "so": "verbringen",
+        "de": "waqti ku qaadid",
+        "explanation": "Waxaa loo adeegsadaa waqti ku qaadasho meel ama hawl",
+        "uses": 1,
+        "example": "Wir verbringen den Urlaub hier / fasaxa ayaan halkan ku qaadanaynaa"
+    },
+    {
+        "so": "beibringen",
+        "de": "barid / ku beerid",
+        "explanation": "Waxaa loo isticmaalaa wax qof la barayo ama lagu baraarujinayo",
+        "uses": 1,
+        "example": "Der Lehrer bringt den Kindern Lesen bei / macallinku carruurta ayuu akhris barayaa"
+    },
+
+
+    {
+        "so": "aufbauen",
+        "de": "dhisid / taagid",
+        "explanation": "Waxaa loo adeegsadaa marka wax la dhisayo ama la taagayo, gaar ahaan wax la kala qaaday oo mar kale la dhisayo.",
+        "uses": 2,
+        "example": "Wir bauen das Zelt auf / Waxaan dhisaynaa teendhada"
+    },
+    {
+        "so": "abbauen",
+        "de": "dumin / kala qaadid",
+        "explanation": "Waxaa loo isticmaalaa marka wax la dumiyo ama la kala qaadayo ka dib marka la isticmaalay.",
+        "uses": 2,
+        "example": "Wir bauen das Zelt ab / Waxaan duminaynaa teendhada"
+    },
+    {
+        "so": "einbauen",
+        "de": "ku rakibid",
+        "explanation": "Waxaa loo adeegsadaa marka wax lagu rakibayo meel ama qalab kale gudihiisa.",
+        "uses": 2,
+        "example": "Der Mechaniker baut den Motor ein / Farsamayaqaanku wuxuu ku rakibayaa matoorka"
+    },
+    {
+        "so": "ausbauen",
+        "de": "ka saarid / ka furid",
+        "explanation": "Waxaa loo isticmaalaa marka wax laga saarayo meel ama qalab uu ku jiray.",
+        "uses": 2,
+        "example": "Der Mechaniker baut den Motor aus / Farsamayaqaanku wuxuu ka saaraya matoorka"
+    },
+    {
+        "so": "umbauen",
+        "de": "dib-u-dhisid / wax ka beddelid",
+        "explanation": "Waxaa loo adeegsadaa marka wax la beddelayo ama dib loo qaabeynayo.",
+        "uses": 2,
+        "example": "Sie bauen das Haus um / Waxay dib u dhisayaan guriga"
+    }
+]
+
+
+
+
+
