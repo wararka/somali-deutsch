@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Somali-Deutsch App (Hacker)</title>
+    <style>
+        :root {
+            --bg-color: #0b0f12;
+            --text-color: #c8ff4c;
+            --muted: #7aa7a7;
+            --card-bg: rgba(10, 15, 20, 0.7);
+            --border: rgba(57, 255, 20, 0.25);
+            --glow: rgba(57, 255, 20, 0.8);
+            --accent: #33ff33;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: radial-gradient(circle at 20% 20%, #0b1420, #05070b 70%, #000);
+            color: var(--text-color);
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 32px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px var(--glow);
+        }
+
+        /* Help Link */
+        .help-link {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: rgba(0,0,0,0.4);
+            color: var(--accent);
+            cursor: pointer;
+            box-shadow: 0 0 10px var(--glow);
+            text-decoration: none;
+        }
+
+        /* Terminal */
+        .terminal-container {
+            background: #0b0b0b;
+            color: var(--accent);
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            border: 1px solid var(--border);
+        }
+
+        #terminal-output {
+            height: 120px;
+            overflow-y: auto;
+            margin-bottom: 5px;
+            white-space: pre-wrap;
+            font-size: 14px;
+            border: 1px solid rgba(57, 255, 20, 0.2);
+            padding: 10px;
+            border-radius: 6px;
+            background: rgba(0,0,0,0.4);
+        }
+
+        .terminal-input-line {
+            display: flex;
+            border-top: 1px solid #333;
+            padding-top: 5px;
+            margin-top: 10px;
+        }
+
+        #cmdInput {
+            background: transparent;
+            border: none;
+            color: var(--accent);
+            outline: none;
+            flex: 1;
+            font-size: 16px;
+        }
+
+        /* Search */
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid rgba(57, 255, 20, 0.4);
+            border-radius: 25px;
+            outline: none;
+            background: rgba(0,0,0,0.4);
+            color: var(--text-color);
+        }
+
+        .search-box input::placeholder {
+            color: var(--muted);
+        }
+
+        /* Results */
+        #results {
+            display: block;
+        }
+
+        .word-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+            border-left: 5px solid rgba(57, 255, 20, 0.7);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .uses-badge {
+            float: right;
+            background: rgba(57, 255, 20, 0.85);
+            color: black;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: var(--text-color);
+        }
+
+        p {
+            color: var(--muted);
+        }
+
+        /* Help Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #0b0b0b;
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            color: var(--text-color);
+            box-shadow: 0 0 20px rgba(0,0,0,0.7);
+        }
+
+        .modal-content h3 {
+            margin-top: 0;
+        }
+
+        .close-btn {
+            float: right;
+            cursor: pointer;
+            color: var(--accent);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body id="mainBody">
+
+    <!-- Help Link -->
+    <a class="help-link" id="helpBtn">Help</a>
+
+    <div class="terminal-container">
+        <div id="terminal-output">Nidaamka waa diyaar... 
+Amarrada: list, count, info [eray], clear, bg [color], color [color], time, date</div>
+        <div class="terminal-input-line">
+            <span>$ &nbsp;</span><input type="text" id="cmdInput" autofocus>
+        </div>
+    </div>
+
+    <h1>🇸🇴 Somali - Deutsch 🇩🇪</h1>
+
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Eray qor (Somali ama German)..." onkeyup="searchWords()">
+    </div>
+
+    <div id="results"></div>
+
+    <!-- Help Modal -->
+    <div class="modal" id="helpModal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeHelp">&times;</span>
+            <h3>Help - Amarrada Terminalka</h3>
+            <p><strong>list</strong> - Liiska erayada oo la soo bandhigo</p>
+            <p><strong>count</strong> - Tirada erayada</p>
+            <p><strong>info [eray]</strong> - Macluumaad ku saabsan erayga</p>
+            <p><strong>clear</strong> - Nadiifi terminal-ka</p>
+            <p><strong>bg [color]</strong> - Bedel background-ka (tusaale: bg #000)</p>
+            <p><strong>color [color]</strong> - Bedel text color (tusaale: color #33ff33)</p>
+            <p><strong>time</strong> - Waqtiga hadda</p>
+            <p><strong>date</strong> - Taariikhda maanta</p>
+        </div>
+    </div>
+
+    <script>
+        const words = [
+    {
+        "so": "vorstellen",
+        "de": "isbarid / soo bandhigid",
+        "explanation": "Waxaa loo adeegsadaa isbarid qof ama soo bandhigid fikrad ama shay",
+        "uses": 2,
+        "example": "Ich stelle mich vor / waan isbarayaa"
+    },
+    {
+        "so": "einstellen",
+        "de": "shaqaaleysiin / dejin",
+        "explanation": "Waxaa loo isticmaalaa shaqaaleysiin ama qalab dejin",
+        "uses": 2,
+        "example": "Die Firma stellt neue Arbeiter ein / shirkaddu waxay shaqaaleysiisay shaqaale cusub"
+    },
+    {
+        "so": "herstellen",
+        "de": "soo saarid / samayn",
+        "explanation": "Waxaa loo isticmaalaa wax soo saar ama wax samayn",
+        "uses": 1,
+        "example": "Die Fabrik stellt Autos her / warshaddu waxay soo saartaa gaariyo"
+    },
+    {
+        "so": "abstellen",
+        "de": "damid / meel dhig",
+        "explanation": "Waxaa loo adeegsadaa daminta qalab ama wax meel dhigista",
+        "uses": 2,
+        "example": "Bitte stellen Sie den Motor ab / fadlan demi matoorka"
+    },
+    {
+        "so": "aufstellen",
+        "de": "taagid / dhigid si toosan",
+        "explanation": "Waxaa loo isticmaalaa wax taagid ama qorshe dejin",
+        "uses": 2,
+        "example": "Wir stellen den Tisch auf / miiska ayaan taagaynaa"
+    },
+    {
+        "so": "umstellen",
+        "de": "beddelid / dib u habayn",
+        "explanation": "Waxaa loo adeegsadaa wax beddelid ama dib u habayn",
+        "uses": 1,
+        "example": "Die Firma stellt das System um / shirkaddu way beddeshay nidaamka"
+    },
+    {
+        "so": "feststellen",
+        "de": "ogaansho / xaqiijin",
+        "explanation": "Waxaa loo isticmaalaa xaqiijin ama ogaansho wax jira",
+        "uses": 1,
+        "example": "Der Arzt stellt die Krankheit fest / dhakhtarku wuu ogaaday cudurka"
+    },
+
+    
+    {
+        "so": "setzen",
+        "de": "dhigid / fadhiisin",
+        "explanation": "Waxaa loo isticmaalaa wax dhigid ama qof fadhiisin",
+        "uses": 2,
+        "example": "Ich setze mich auf den Stuhl / waxaan fariisanayaa kursiga"
+    },
+    {
+        "so": "einsetzen",
+        "de": "isticmaalid / shaqo gelin",
+        "explanation": "Waxaa loo adeegsadaa wax adeegsi ama shaqo gelin",
+        "uses": 2,
+        "example": "Die Firma setzt neue Maschinen ein / shirkaddu waxay adeegsanaysaa mashiinno cusub"
+    },
+    {
+        "so": "aufsetzen",
+        "de": "xirid / saarid korka",
+        "explanation": "Waxaa loo isticmaalaa wax korka saarid sida koofiyad ama muraayad",
+        "uses": 2,
+        "example": "Ich setze die Brille auf / waxaan xirayaa muraayadaha"
+    },
+    {
+        "so": "absetzen",
+        "de": "joojin / ka degid",
+        "explanation": "Waxaa loo adeegsadaa wax joojin ama ka degid gaari",
+        "uses": 2,
+        "example": "Der Bus setzt die Fahrgäste ab / baska ayaa rakaabka dejinaya"
+    },
+    {
+        "so": "durchsetzen",
+        "de": "hirgelin / ku adkaysasho",
+        "explanation": "Waxaa loo isticmaalaa hirgelinta fikrad ama sharci",
+        "uses": 1,
+        "example": "Er setzt seine Meinung durch / wuu hirgeliyay fikradiisa"
+    },
+    {
+        "so": "umsetzen",
+        "de": "hirgelin / fulin",
+        "explanation": "Waxaa loo adeegsadaa qorshe ama fikrad fulinteeda",
+        "uses": 1,
+        "example": "Wir setzen den Plan um / waxaan fulinaynaa qorshaha"
+    },
+    {
+        "so": "fortsetzen",
+        "de": "sii wadid",
+        "explanation": "Waxaa loo isticmaalaa wax sii wadid kadib hakad",
+        "uses": 1,
+        "example": "Der Lehrer setzt den Unterricht fort / macallinku wuu sii wadayaa casharka"
+    },
+
+
+
+    {
+        "so": "gehen",
+        "de": "socod / tagid",
+        "explanation": "Waxaa loo isticmaalaa socod ama tagid meel",
+        "uses": 2,
+        "example": "Ich gehe zur Schule / waxaan aadayaa dugsiga"
+    },
+    {
+        "so": "aufgehen",
+        "de": "furmid / iftiimid",
+        "explanation": "Waxaa loo adeegsadaa wax isfuraya ama wax si lama filaan ah u caddaanaya",
+        "uses": 2,
+        "example": "Die Tür geht auf / albaabku wuu furmay"
+    },
+    {
+        "so": "ausgehen",
+        "de": "baxid / dhammaad",
+        "explanation": "Waxaa loo isticmaalaa baxid ama wax dhammaanaya sida koronto ama lacag",
+        "uses": 2,
+        "example": "Das Licht geht aus / iftiinku wuu dansaday"
+    },
+    {
+        "so": "eingehen",
+        "de": "galid / aqbalid",
+        "explanation": "Waxaa loo adeegsadaa galid ama aqbalid dalab ama heshiis",
+        "uses": 2,
+        "example": "Er geht auf das Angebot ein / wuu aqbalay dalabka"
+    },
+    {
+        "so": "abgehen",
+        "de": "ka tagid / dhicid",
+        "explanation": "Waxaa loo isticmaalaa wax ka go’aya ama qof ka tagaya meel",
+        "uses": 2,
+        "example": "Der Knopf ist abgegangen / badhanku wuu ka dhacay"
+    },
+    {
+        "so": "mitgehen",
+        "de": "la socod / la raacid",
+        "explanation": "Waxaa loo adeegsadaa la socod qof ama fikrad",
+        "uses": 1,
+        "example": "Ich gehe mit dir mit / waan kula soconayaa"
+    },
+    {
+        "so": "untergehen",
+        "de": "degid / baaba’id",
+        "explanation": "Waxaa loo isticmaalaa qorrax dhicid ama wax baaba’a",
+        "uses": 2,
+        "example": "Die Sonne geht unter / qorraxdu way dhacaysaa"
+    },
+    {
+        "so": "zurückgehen",
+        "de": "dib u noqosho",
+        "explanation": "Waxaa loo adeegsadaa dib u noqosho ama hoos u dhac",
+        "uses": 2,
+        "example": "Die Preise gehen zurück / qiimihii wuu hoos u dhacay"
+    },
+
+    {
+        "so": "kommen",
+        "de": "imaansho / tagid",
+        "explanation": "Waxaa loo isticmaalaa imaansho meel ama qof tagid meel",
+        "uses": 2,
+        "example": "Ich komme aus Deutschland / waxaan ka imid Jarmalka"
+    },
+    {
+        "so": "ankommen",
+        "de": "imaansho / soo gaarid",
+        "explanation": "Waxaa loo adeegsadaa imaansho meel ama soo gaarid safar kadib",
+        "uses": 2,
+        "example": "Der Zug kommt um 10 Uhr an / tareenku wuxuu yimaadaa 10-ka saac"
+    },
+    {
+        "so": "mitkommen",
+        "de": "la imaan / la socod",
+        "explanation": "Waxaa loo isticmaalaa la imaan qof ama la socod meel",
+        "uses": 2,
+        "example": "Kommst du mit ins Kino? / ma ila imaaneysaa shineemo?"
+    },
+    {
+        "so": "zurückkommen",
+        "de": "dib u soo noqosho",
+        "explanation": "Waxaa loo adeegsadaa dib u soo noqosho meel ama qof dib ugu soo laabasho",
+        "uses": 2,
+        "example": "Ich komme morgen zurück berri ayaan soo noqonayaa"
+    },
+    {
+        "so": "aufkommen",
+        "de": "bixin qarash / soo ifbaxid ",
+        "explanation": "Waxaa loo isticmaalaa bixinta qarash ama wax soo ifbaxaya",
+        "uses": 1,
+        "example": "Die Versicherung kommt für den Schaden auf / caymiska ayaa daboolaya khasaaraha"
+    },
+    {
+        "so": "loskommen",
+        "de": "ka baxid / ka firaaqo",
+        "explanation": "Waxaa loo adeegsadaa ka baxid xaalad ama ka firaaqo qof",
+        "uses": 1,
+        "example": "Endlich komme ich von der Arbeit los / ugu dambeyn shaqada ayaan ka baxayaa"
+    },
+    
+    {
+        "so": "bringen",
+        "de": "keenid / gayn",
+        "explanation": "Waxaa loo isticmaalaa wax keenid ama meel gayn",
+        "uses": 2,
+        "example": "Ich bringe dir das Buch / waxaan kuu keenayaa buugga"
+    },
+    {
+        "so": "mitbringen",
+        "de": "la keenid",
+        "explanation": "Waxaa loo adeegsadaa wax lala imaanayo qof ama meel",
+        "uses": 1,
+        "example": "Bitte bring Essen mit / fadlan cunto la imow"
+    },
+    {
+        "so": "herbringen",
+        "de": "halkaan keenid",
+        "explanation": "Waxaa loo isticmaalaa wax loo keenayo halka qofku joogo",
+        "uses": 1,
+        "example": "Bring den Stuhl her / kursiga halkaan keen"
+    },
+    {
+        "so": "hinbringen",
+        "de": "halkaa gayn",
+        "explanation": "Waxaa loo adeegsadaa wax loo gaynayo meel kale",
+        "uses": 1,
+        "example": "Ich bringe dich nach Hause hin / waxaan ku geynayaa guriga"
+    },
+    {
+        "so": "umbringen",
+        "de": "dilid",
+        "explanation": "Waxaa loo isticmaalaa dilid qof ama xayawaan",
+        "uses": 1,
+        "example": "Der Unfall hat ihn umgebracht / shilka ayaa dilay"
+    },
+    {
+        "so": "verbringen",
+        "de": "waqti ku qaadid",
+        "explanation": "Waxaa loo adeegsadaa waqti ku qaadasho meel ama hawl",
+        "uses": 1,
+        "example": "Wir verbringen den Urlaub hier / fasaxa ayaan halkan ku qaadanaynaa"
+    },
+    {
+        "so": "beibringen",
+        "de": "barid / ku beerid",
+        "explanation": "Waxaa loo isticmaalaa wax qof la barayo ama lagu baraarujinayo",
+        "uses": 1,
+        "example": "Der Lehrer bringt den Kindern Lesen bei / macallinku carruurta ayuu akhris barayaa"
+    },
+
+
+    {
+        "so": "aufbauen",
+        "de": "dhisid / taagid",
+        "explanation": "Waxaa loo adeegsadaa marka wax la dhisayo ama la taagayo, gaar ahaan wax la kala qaaday oo mar kale la dhisayo.",
+        "uses": 2,
+        "example": "Wir bauen das Zelt auf / Waxaan dhisaynaa teendhada"
+    },
+    {
+        "so": "abbauen",
+        "de": "dumin / kala qaadid",
+        "explanation": "Waxaa loo isticmaalaa marka wax la dumiyo ama la kala qaadayo ka dib marka la isticmaalay.",
+        "uses": 2,
+        "example": "Wir bauen das Zelt ab / Waxaan duminaynaa teendhada"
+    },
+    {
+        "so": "einbauen",
+        "de": "ku rakibid",
+        "explanation": "Waxaa loo adeegsadaa marka wax lagu rakibayo meel ama qalab kale gudihiisa.",
+        "uses": 2,
+        "example": "Der Mechaniker baut den Motor ein / Farsamayaqaanku wuxuu ku rakibayaa matoorka"
+    },
+    {
+        "so": "ausbauen",
+        "de": "ka saarid / ka furid",
+        "explanation": "Waxaa loo isticmaalaa marka wax laga saarayo meel ama qalab uu ku jiray.",
+        "uses": 2,
+        "example": "Der Mechaniker baut den Motor aus / Farsamayaqaanku wuxuu ka saaraya matoorka"
+    },
+    {
+        "so": "umbauen",
+        "de": "dib-u-dhisid / wax ka beddelid",
+        "explanation": "Waxaa loo adeegsadaa marka wax la beddelayo ama dib loo qaabeynayo.",
+        "uses": 2,
+        "example": "Sie bauen das Haus um / Waxay dib u dhisayaan guriga"
+    }
+]
+
+
+
+
+
+
+
+        // Search function
+        function searchWords() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+
+            if (query.trim() === '') {
+                resultsDiv.innerHTML = '';
+                return;
+            }
+
+            const filtered = words.filter(w =>
+                w.so.toLowerCase().includes(query) ||
+                w.de.toLowerCase().includes(query)
+            );
+
+            if (filtered.length === 0) {
+                resultsDiv.innerHTML = `<p style="color: var(--muted); text-align:center;">Eray lama helin.</p>`;
+                return;
+            }
+
+            filtered.forEach(word => {
+                resultsDiv.innerHTML += `
+                    <div class="word-card">
+                        <span class="uses-badge">Bedeutungen: ${word.uses}</span>
+                        <h2>${word.so} <small class="de-word">(${word.de})</small></h2>
+                        <p><strong>Info:</strong> ${word.explanation}</p>
+                        <p><strong>Beispiel:</strong> ${word.example}</p>
+                    </div>
+                `;
+            });
+        }
+
+        // Show all words (list)
+        function showAllWords() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+            words.forEach(word => {
+                resultsDiv.innerHTML += `
+                    <div class="word-card">
+                        <span class="uses-badge">Bedeutungen: ${word.uses}</span>
+                        <h2>${word.so} <small class="de-word">(${word.de})</small></h2>
+                        <p><strong>Info:</strong> ${word.explanation}</p>
+                        <p><strong>Beispiel:</strong> ${word.example}</p>
+                    </div>
+                `;
+            });
+        }
+
+        // Help Modal
+        const helpBtn = document.getElementById('helpBtn');
+        const helpModal = document.getElementById('helpModal');
+        const closeHelp = document.getElementById('closeHelp');
+
+        helpBtn.addEventListener('click', () => {
+            helpModal.style.display = 'flex';
+        });
+
+        closeHelp.addEventListener('click', () => {
+            helpModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === helpModal) {
+                helpModal.style.display = 'none';
+            }
+        });
+
+        // Terminal
+        const cmdInput = document.getElementById('cmdInput');
+        const outputDiv = document.getElementById('terminal-output');
+
+        cmdInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                const cmd = this.value.trim().toLowerCase();
+                let output = '';
+
+                if (cmd === "list") {
+                    showAllWords();
+                    output = "Liiska erayada waa la soo bandhigay.";
+                } else if (cmd === "count") {
+                    output = `Anzahl der Wörter: ${words.length}`;
+                } else if (cmd.startsWith("info ")) {
+                    const term = cmd.replace("info ", "").trim();
+
+                    if (term === "") {
+                        output = "Fadlan qor eray ka dib info.";
+                    } else {
+                        const found = words.filter(w => w.so.toLowerCase().startsWith(term));
+                        output = found.length > 0
+                            ? found.map(w => `${w.so}: ${w.explanation}`).join('\n')
+                            : "Kein Wort gefunden.";
+                    }
+                } else if (cmd === "clear") {
+                    outputDiv.innerHTML = "Terminal bereinigt...";
+                    this.value = '';
+                    return;
+                } else if (cmd.startsWith("bg ")) {
+                    const color = cmd.replace("bg ", "").trim();
+                    document.body.style.background = color;
+                    output = `Background waa la beddelay: ${color}`;
+                } else if (cmd.startsWith("color ")) {
+                    const color = cmd.replace("color ", "").trim();
+                    document.body.style.color = color;
+                    output = `Text color waa la beddelay: ${color}`;
+                } else if (cmd === "time") {
+                    const time = new Date().toLocaleTimeString();
+                    output = `Waqtiga hadda: ${time}`;
+                } else if (cmd === "date") {
+                    const date = new Date().toLocaleDateString();
+                    output = `Taariikhda maanta: ${date}`;
+                } else {
+                    output = `Befehl '${cmd}' unbekannt.`;
+                }
+
+                outputDiv.innerHTML = output;
+                outputDiv.scrollTop = outputDiv.scrollHeight;
+                this.value = '';
+            }
+        });
+    </script>
+</body>
+</html>
