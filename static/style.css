@@ -1,0 +1,103 @@
+/* Hacker Theme - Responsive Version */
+:root {
+    --bg-color: #0a0a0a;
+    --terminal-bg: #0d0d0d;
+    --main-green: #00ff41;
+    --dim-green: #003b00;
+    --text-white: #e0e0e0;
+}
+
+* {
+    box-sizing: border-box; /* Muhiim u ah inaanu cabbirku dillaacin */
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--main-green);
+    font-family: 'Courier New', Courier, monospace;
+    max-width: 900px;
+    margin: auto;
+    padding: 15px; /* Wax yar ayaa loo soo dhoweeyay geesaha */
+    line-height: 1.6;
+}
+
+/* SEARCH BOX - Wuxuu isku beddelayaa hal saf mobilada */
+.search-box {
+    display: flex;
+    flex-wrap: wrap; /* Tani waxay u oggolaanaysaa inuu jabo haddii boosku yaraado */
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.search-box input[type="text"] {
+    flex: 1;
+    min-width: 200px; /* Mobilka wuxuu qaadanayaa ballac buuxa */
+}
+
+.search-box button {
+    width: 100%; /* Mobilka wuxuu noqonayaa badhan weyn */
+}
+
+@media (min-width: 600px) {
+    .search-box button {
+        width: auto; /* Laptop-ka wuxuu dib ugu laabanayaa cabbirkiisii */
+    }
+}
+
+/* WORD CARDS - Ku habboon shashad kasta */
+.word-card {
+    background-color: rgba(0, 20, 0, 0.5);
+    border: 1px solid var(--dim-green);
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    position: relative;
+}
+
+.uses-badge {
+    display: inline-block;
+    font-size: 0.7em;
+    background: var(--dim-green);
+    padding: 2px 8px;
+    border: 1px solid var(--main-green);
+    margin-bottom: 10px;
+}
+
+@media (min-width: 600px) {
+    .uses-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+    }
+}
+
+/* TERMINAL - Ka dhig mid si fudud looga qori karo mobilka */
+.terminal-container {
+    background-color: #000;
+    border: 2px solid var(--main-green);
+    padding: 15px;
+    margin-top: 30px;
+    font-size: 14px;
+}
+
+#cmdInput {
+    width: 80%;
+    border: none !important;
+    background: transparent !important;
+    color: var(--main-green);
+    outline: none;
+    font-size: 16px; /* 16px waxay ka hortagtaa in mobilku Zoom sameeyo markaad wax qoreyso */
+}
+
+/* FORM ADD PAGE - Mobilka saaxiib la ah */
+.form-container input, .form-container textarea {
+    width: 100%;
+    margin-bottom: 15px;
+    display: block;
+}
+
+/* Sawirada ama Video-yada haddii aad ku darto */
+img {
+    max-width: 100%;
+    height: auto;
+}
