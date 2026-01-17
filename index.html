@@ -19,13 +19,14 @@
             font-family: 'Courier New', monospace;
             background: radial-gradient(circle at 20% 20%, #0b1420, #05070b 70%, #000);
             color: var(--text-color);
-            padding: 20px;
+            padding: 15px;
+            margin: 0;
         }
 
         h1 {
             text-align: center;
             margin-bottom: 15px;
-            font-size: 32px;
+            font-size: 26px;
             letter-spacing: 2px;
             text-shadow: 0 0 10px var(--glow);
         }
@@ -33,9 +34,9 @@
         /* Help Link */
         .help-link {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 10px 15px;
+            top: 15px;
+            right: 15px;
+            padding: 8px 12px;
             border: 1px solid var(--border);
             border-radius: 8px;
             background: rgba(0,0,0,0.4);
@@ -43,16 +44,18 @@
             cursor: pointer;
             box-shadow: 0 0 10px var(--glow);
             text-decoration: none;
+            font-size: 14px;
+            z-index: 999;
         }
 
         /* Terminal */
         .terminal-container {
             background: #0b0b0b;
             color: var(--accent);
-            padding: 15px;
+            padding: 12px;
             border-radius: 10px;
             font-family: 'Courier New', monospace;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.5);
             border: 1px solid var(--border);
         }
@@ -62,7 +65,7 @@
             overflow-y: auto;
             margin-bottom: 5px;
             white-space: pre-wrap;
-            font-size: 14px;
+            font-size: 13px;
             border: 1px solid rgba(57, 255, 20, 0.2);
             padding: 10px;
             border-radius: 6px;
@@ -89,7 +92,7 @@
         .search-box {
             display: flex;
             gap: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             justify-content: center;
         }
 
@@ -101,6 +104,7 @@
             outline: none;
             background: rgba(0,0,0,0.4);
             color: var(--text-color);
+            font-size: 14px;
         }
 
         .search-box input::placeholder {
@@ -114,7 +118,7 @@
 
         .word-card {
             background: var(--card-bg);
-            padding: 20px;
+            padding: 18px;
             border-radius: 12px;
             margin-bottom: 10px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.5);
@@ -136,10 +140,12 @@
         h2 {
             margin-top: 0;
             color: var(--text-color);
+            font-size: 18px;
         }
 
         p {
             color: var(--muted);
+            font-size: 13px;
         }
 
         /* Help Modal */
@@ -172,6 +178,30 @@
             cursor: pointer;
             color: var(--accent);
             font-weight: bold;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .terminal-container {
+                padding: 10px;
+            }
+
+            #terminal-output {
+                height: 100px;
+                font-size: 12px;
+            }
+
+            .word-card {
+                padding: 15px;
+            }
         }
     </style>
 </head>
@@ -503,7 +533,7 @@ Amarrada: list, count, info [eray], clear, bg [color], color [color], time, date
         "uses": 2,
         "example": "Sie bauen das Haus um / Waxay dib u dhisayaan guriga"
     }
-]
+];
 
 
 
