@@ -3,541 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Somali-Deutsch App (Hacker Terminal)</title>
+    <title>Somali-Deutsch Hacker Terminal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --bg-color: #0b0f12;
-            --text-color: #00ff41;
-            --muted: #7aa7a7;
-            --card-bg: rgba(10, 15, 20, 0.9);
-            --border: rgba(0, 255, 65, 0.3);
-            --glow: rgba(0, 255, 65, 0.7);
-            --accent: #00ff41;
-            --error: #ff3333;
-            --warning: #ffaa00;
-            --success: #00ff88;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Courier New', monospace;
-            background: radial-gradient(circle at 20% 20%, #0a1929, #050a0f 70%, #000);
-            color: var(--text-color);
-            padding: 15px;
-            margin: 0;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Hacker Matrix Background Effect */
-        .matrix-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            opacity: 0.05;
-            pointer-events: none;
-        }
-
-        /* Scan Line Effect */
-        .scan-line {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(to bottom, transparent, var(--accent), transparent);
-            opacity: 0.15;
-            z-index: 999;
-            animation: scan 3s linear infinite;
-        }
-
-        @keyframes scan {
-            0% { top: 0%; }
-            100% { top: 100%; }
-        }
-
-        /* Header */
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        h1 {
-            font-size: 28px;
-            letter-spacing: 3px;
-            text-shadow: 0 0 10px var(--glow);
-            background: linear-gradient(90deg, #00ff41, #33ff77);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: inline-block;
-        }
-
-        .status-bar {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .status-item {
-            padding: 5px 12px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            background: rgba(0, 20, 10, 0.5);
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* Help & Commands Link */
-        .help-link {
-            padding: 10px 15px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            background: rgba(0, 20, 10, 0.6);
-            color: var(--accent);
-            cursor: pointer;
-            box-shadow: 0 0 15px var(--glow);
-            text-decoration: none;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
-        }
-
-        .help-link:hover {
-            background: rgba(0, 40, 20, 0.8);
-            transform: translateY(-2px);
-            box-shadow: 0 0 20px var(--glow);
-        }
-
-        /* Terminal */
-        .terminal-container {
-            background: rgba(5, 10, 15, 0.95);
-            color: var(--accent);
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-            box-shadow: 
-                0 0 30px rgba(0, 255, 65, 0.3),
-                inset 0 0 20px rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--border);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .terminal-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.05), transparent);
-            pointer-events: none;
-        }
-
-        .terminal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(0, 255, 65, 0.2);
-        }
-
-        .terminal-title {
-            font-size: 16px;
-            font-weight: bold;
-            color: var(--accent);
-        }
-
-        .terminal-controls {
-            display: flex;
-            gap: 10px;
-        }
-
-        .term-btn {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        .term-close { background: #ff5f56; }
-        .term-min { background: #ffbd2e; }
-        .term-max { background: #27ca3f; }
-
-        #terminal-output {
-            height: 180px;
-            overflow-y: auto;
-            margin-bottom: 10px;
-            white-space: pre-wrap;
-            font-size: 14px;
-            border: 1px solid rgba(0, 255, 65, 0.2);
-            padding: 15px;
-            border-radius: 8px;
-            background: rgba(0, 10, 5, 0.5);
-            line-height: 1.5;
-            font-family: 'Consolas', 'Monaco', monospace;
-        }
-
-        .terminal-input-line {
-            display: flex;
-            align-items: center;
-            padding-top: 10px;
-            border-top: 1px solid rgba(0, 255, 65, 0.2);
-        }
-
-        .prompt {
-            margin-right: 10px;
-            color: var(--success);
-            font-weight: bold;
-        }
-
-        #cmdInput {
-            background: transparent;
-            border: none;
-            color: var(--accent);
-            outline: none;
-            flex: 1;
-            font-size: 16px;
-            font-family: 'Courier New', monospace;
-            caret-color: var(--accent);
-            padding: 5px;
-        }
-
-        #cmdInput::placeholder {
-            color: rgba(0, 255, 65, 0.5);
-        }
-
-        /* Search */
-        .search-box {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 25px;
-            justify-content: center;
-            position: relative;
-        }
-
-        .search-box input {
-            flex: 1;
-            padding: 15px 20px;
-            border: 2px solid rgba(0, 255, 65, 0.4);
-            border-radius: 30px;
-            outline: none;
-            background: rgba(5, 15, 10, 0.8);
-            color: var(--text-color);
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-
-        .search-box input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 20px var(--glow);
-        }
-
-        .search-box input::placeholder {
-            color: var(--muted);
-        }
-
-        .search-btn {
-            padding: 15px 25px;
-            background: linear-gradient(135deg, #00b33c, #00ff41);
-            color: black;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-
-        .search-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 20px var(--glow);
-        }
-
-        /* Results */
-        #results {
-            display: block;
-            margin-top: 20px;
-        }
-
-        .word-card {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
-            border-left: 6px solid var(--accent);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s;
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        .word-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 255, 65, 0.2);
-            border-left-color: var(--success);
-        }
-
-        .word-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.03), transparent);
-            pointer-events: none;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .uses-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: linear-gradient(135deg, #00b33c, #00ff41);
-            color: black;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            box-shadow: 0 0 10px var(--glow);
-        }
-
-        h2 {
-            margin-top: 0;
-            color: var(--text-color);
-            font-size: 22px;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .de-word {
-            color: var(--warning);
-            font-size: 18px;
-            font-style: italic;
-        }
-
-        p {
-            color: var(--muted);
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 10px;
-        }
-
-        .example-box {
-            background: rgba(0, 20, 10, 0.4);
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 10px;
-            border-left: 3px solid var(--warning);
-        }
-
-        /* Help Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.85);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal-content {
-            background: rgba(5, 15, 10, 0.95);
-            border: 2px solid var(--border);
-            padding: 30px;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 700px;
-            color: var(--text-color);
-            box-shadow: 0 0 50px rgba(0, 255, 65, 0.3);
-            position: relative;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .modal-content h3 {
-            margin-top: 0;
-            color: var(--accent);
-            font-size: 24px;
-            margin-bottom: 20px;
-            text-align: center;
-            text-shadow: 0 0 10px var(--glow);
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            cursor: pointer;
-            color: var(--accent);
-            font-size: 30px;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-
-        .close-btn:hover {
-            color: var(--error);
-            transform: scale(1.2);
-        }
-
-        .command-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .command-item {
-            background: rgba(0, 20, 10, 0.5);
-            padding: 15px;
-            border-radius: 10px;
-            border-left: 4px solid var(--accent);
-        }
-
-        .command-item strong {
-            color: var(--accent);
-            display: block;
-            margin-bottom: 5px;
-            font-size: 16px;
-        }
-
-        /* Typing cursor */
-        .typing-cursor {
-            display: inline-block;
-            width: 8px;
-            height: 20px;
-            background-color: var(--accent);
-            margin-left: 5px;
-            animation: blink 1s infinite;
-            vertical-align: middle;
-        }
-
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-
-        /* Error message */
-        .error-message {
-            color: var(--error);
-            text-shadow: 0 0 10px rgba(255, 50, 50, 0.7);
-            animation: errorShake 0.5s;
-        }
-
-        @keyframes errorShake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-            20%, 40%, 60%, 80% { transform: translateX(5px); }
-        }
-
-        /* Success message */
-        .success-message {
-            color: var(--success);
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.7);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header-container {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .status-bar {
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-            
-            .command-list {
-                grid-template-columns: 1fr;
-            }
-            
-            .terminal-container {
-                padding: 12px;
-            }
-            
-            #terminal-output {
-                height: 150px;
-                font-size: 13px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 22px;
-            }
-            
-            .search-box {
-                flex-direction: column;
-            }
-            
-            .search-btn {
-                width: 100%;
-            }
-            
-            .word-card {
-                padding: 15px;
-            }
-        }
-
-        /* Scrollbar Styling */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(0, 20, 10, 0.5);
-            border-radius: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #00b33c, #00ff41);
-            border-radius: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #00ff41, #33ff77);
-        }
-    </style>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body id="mainBody">
-    <!-- Hacker Effects -->
+    <!-- Matrix Effect -->
     <div class="matrix-bg" id="matrixEffect"></div>
     <div class="scan-line"></div>
+    
+    <!-- Matrix Toggle Button -->
+    <div class="matrix-toggle" id="matrixToggle" title="Toggle Matrix Effect">
+        <i class="fas fa-matrix"></i>
+    </div>
+
+    <!-- Word Detail Modal -->
+    <div class="word-modal" id="wordModal">
+        <div class="word-modal-content">
+            <button class="close-modal" id="closeModal">&times;</button>
+            <h2 class="word-modal-title" id="modalTitle">Word Details</h2>
+            <div class="word-modal-info" id="modalContent">
+                Content will appear here
+            </div>
+        </div>
+    </div>
 
     <!-- Header -->
     <div class="header-container">
         <div>
-            <h1><i class="fas fa-terminal"></i> Somali-Deutsch Hacker Terminal</h1>
+            <h1><i class="fas fa-terminal"></i> Somali-Deutsch Terminal</h1>
             <p style="color: var(--muted); margin-top: 5px;">Erayada Jarmalka iyo macnaha Soomaaliga</p>
         </div>
         
@@ -546,47 +40,53 @@
                 <i class="fas fa-database"></i>
                 <span id="wordCount">0</span> Wörter
             </div>
-            <div class="status-item">
-                <i class="fas fa-bolt"></i>
-                <span id="connectionStatus">VERBUNDEN</span>
-            </div>
             <a class="help-link" id="helpBtn">
-                <i class="fas fa-code"></i> AMARRO & HELP
+                <i class="fas fa-code"></i> AMARRO
             </a>
         </div>
     </div>
 
     <!-- Terminal -->
     <div class="terminal-container">
-        <div class="terminal-header">
-            <div class="terminal-title">
-                <i class="fas fa-terminal"></i> ROOT@SOMALI-DEUTSCH:~$
-            </div>
-            <div class="terminal-controls">
-                <div class="term-btn term-close" id="termClose"></div>
-                <div class="term-btn term-min" id="termMin"></div>
-                <div class="term-btn term-max" id="termMax"></div>
-            </div>
-        </div>
-        
         <div id="terminal-output">
 <span class="success-message">>>> SYSTEM INITIALIZED...</span>
-<span class="success-message">>>> LOADING VOCABULARY DATABASE...</span>
-<span class="success-message">>>> CONNECTION ESTABLISHED</span>
-<span class="success-message">>>> WELCOME TO SOMALI-DEUTSCH HACKER TERMINAL</span>
-<span class="success-message">>>> TYPE 'help' OR 'commands' FOR AVAILABLE COMMANDS</span>
+<span class="success-message">>>> TYPE 'help' FOR COMMANDS</span>
+<span class="success-message">>>> MOBILE: USE ENTER BUTTON BELOW</span>
         </div>
         
         <div class="terminal-input-line">
-            <div class="prompt">root@sd-term:~$</div>
-            <input type="text" id="cmdInput" autofocus placeholder="Type command here...">
+            <div style="margin-right: 10px; color: var(--success); font-weight: bold;">$</div>
+            <input type="text" id="cmdInput" autofocus placeholder="Type command here... (help, list, color, bg, info)">
             <div class="typing-cursor"></div>
+        </div>
+        
+        <!-- Mobile Enter Button -->
+        <button class="mobile-enter-btn" id="mobileEnter">
+            <i class="fas fa-arrow-right"></i> ENTER COMMAND
+        </button>
+        
+        <!-- Quick Command Buttons -->
+        <div class="command-buttons">
+            <div class="command-btn" onclick="executeQuickCommand('help')">HELP</div>
+            <div class="command-btn" onclick="executeQuickCommand('list')">LIST ALL</div>
+            <div class="command-btn" onclick="executeQuickCommand('random')">RANDOM</div>
+            <div class="command-btn" onclick="executeQuickCommand('matrix')">MATRIX</div>
+            <div class="command-btn" onclick="executeQuickCommand('color white')">WHITE</div>
+            <div class="command-btn" onclick="executeQuickCommand('color black')">BLACK</div>
+            <div class="command-btn" onclick="executeQuickCommand('info gehen')">INFO GEHEN</div>
+        </div>
+        
+        <!-- BG Color Presets -->
+        <div class="bg-colors" id="bgColors">
+            <div style="grid-column: 1 / -1; color: var(--accent); font-weight: bold; text-align: center;">
+                BG COLORS:
+            </div>
         </div>
     </div>
 
     <!-- Search -->
     <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Eray qor (Somali ama German)..." onkeyup="searchWords()">
+        <input type="text" id="searchInput" placeholder="Search word (Somali or German)...">
         <button class="search-btn" onclick="searchWords()">
             <i class="fas fa-search"></i> RAADI
         </button>
@@ -600,540 +100,1018 @@
         <div class="modal-content">
             <span class="close-btn" id="closeHelp">&times;</span>
             <h3><i class="fas fa-code"></i> TERMINAL COMMANDS</h3>
-            <p style="text-align: center; margin-bottom: 20px; color: var(--muted);">
-                Available system commands for the hacker terminal
-            </p>
             
             <div class="command-list">
                 <div class="command-item">
-                    <strong>help / commands</strong>
-                    Display all available commands
-                </div>
-                <div class="command-item">
-                    <strong>list / show all</strong>
-                    Display all vocabulary words
-                </div>
-                <div class="command-item">
-                    <strong>count / stats</strong>
-                    Show database statistics
-                </div>
-                <div class="command-item">
-                    <strong>search [term]</strong>
-                    Search for a specific word
-                </div>
-                <div class="command-item">
-                    <strong>info [word]</strong>
-                    Detailed information about a word
-                </div>
-                <div class="command-item">
-                    <strong>clear / cls</strong>
-                    Clear terminal screen
-                </div>
-                <div class="command-item">
-                    <strong>random / zufall</strong>
-                    Show a random word
-                </div>
-                <div class="command-item">
-                    <strong>theme [dark/light/hacker]</strong>
-                    Change interface theme
-                </div>
-                <div class="command-item">
-                    <strong>bg [color]</strong>
-                    Change background color (hex or name)
-                </div>
-                <div class="command-item">
-                    <strong>color [color]</strong>
+                    <strong>color white/black/blue/green/red/yellow</strong>
                     Change text color
                 </div>
                 <div class="command-item">
-                    <strong>time</strong>
-                    Show current time
+                    <strong>bg [color]</strong>
+                    Change background color
                 </div>
                 <div class="command-item">
-                    <strong>date</strong>
-                    Show current date
+                    <strong>list ver</strong>
+                    List all verbs
                 </div>
                 <div class="command-item">
-                    <strong>export</strong>
-                    Export vocabulary list
+                    <strong>list stellen</strong>
+                    List all words with "stellen"
+                </div>
+                <div class="command-item">
+                    <strong>info [word]</strong>
+                    Show detailed info about word
+                </div>
+                <div class="command-item">
+                    <strong>info ab*</strong>
+                    Show words starting with "ab"
                 </div>
                 <div class="command-item">
                     <strong>matrix</strong>
-                    Toggle matrix background effect
+                    Toggle matrix background
                 </div>
                 <div class="command-item">
-                    <strong>sound [on/off]</strong>
-                    Toggle sound effects
+                    <strong>clear</strong>
+                    Clear terminal
                 </div>
                 <div class="command-item">
-                    <strong>shutdown / exit</strong>
-                    Fake shutdown sequence
+                    <strong>search [word]</strong>
+                    Search for word
                 </div>
-            </div>
-            
-            <div style="margin-top: 25px; padding: 15px; background: rgba(0, 20, 10, 0.5); border-radius: 10px;">
-                <strong style="color: var(--accent);">Keyboard Shortcuts:</strong>
-                <p style="margin-top: 10px;">
-                    <kbd>Ctrl + L</kbd> - Clear terminal<br>
-                    <kbd>Tab</kbd> - Auto-complete commands<br>
-                    <kbd>↑ / ↓</kbd> - Command history<br>
-                    <kbd>Ctrl + H</kbd> - Show/hide help
-                </p>
+                <div class="command-item">
+                    <strong>random</strong>
+                    Show random word
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Audio for sound effects -->
-    <audio id="typeSound" src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3" preload="auto"></audio>
-    <audio id="errorSound" src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3" preload="auto"></audio>
-    <audio id="successSound" src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3" preload="auto"></audio>
-
     <script>
-        // Words array (same as before)
-        const words = [
-    // ========== STELLEN ==========
+  const words = [
     {
-        "de": "vorstellen",
-        "so": "is-barid / soo bandhigid",
-        "explanation": "Waxaa loo isticmaalaa marka la is-barayo qof ama la soo bandhigayo fikrad ama shey.",
-        "uses": 2,
-        "example": "Ich stelle mich vor. / Waan is-barayaa."
+        so: "gehen",
+        de: "socod / tagid",
+        explanation: "Waxaa loo isticmaalaa socod ama u tagid meel.",
+        uses: 2,
+        example: "Ich gehe nach Hause / Waxaan aadayaa guriga"
     },
     {
-        "de": "einstellen",
-        "so": "shaqaaleysiin / dejin",
-        "explanation": "Waxaa loo isticmaalaa marka la shaqaaleysiinayo ama la dejineynayo qalab.",
-        "uses": 2,
-        "example": "Die Firma stellt neue Arbeiter ein. / Shirkaddu waxay shaqaaleysiisay shaqaale cusub."
+        so: "aufgehen",
+        de: "furmid",
+        explanation: "Waxaa loo adeegsadaa wax isfuraya sida albaab ama daaqad.",
+        uses: 2,
+        example: "Die Tür geht auf / Albaabku wuu furmay"
     },
     {
-        "de": "herstellen",
-        "so": "soo saarid / samayn",
-        "explanation": "Waxaa loo isticmaalaa marka la sameynayo shey guryaha warshadeed.",
-        "uses": 1,
-        "example": "Die Fabrik stellt Autos her. / Warshaddu waxay soo saartaa baabuurro."
+        so: "ausgehen",
+        de: "dansid / bakhtiin",
+        explanation: "Waxaa loo isticmaalaa marka iftiin, dab ama koronto bakhtiyo ama qof bannaanka u baxo.",
+        uses: 2,
+        example: "Das Licht geht aus / Iftiinku wuu dansaday"
     },
     {
-        "de": "abstellen",
-        "so": "damid / meel dhigid",
-        "explanation": "Waxaa loo isticmaalaa marka la daminayo qalab ama la meel-dhiginayo shey.",
-        "uses": 2,
-        "example": "Bitte stellen Sie den Motor ab. / Fadlan dami matoorka."
+        so: "eingehen",
+        de: "aqbalid / ka jawaabid",
+        explanation: "Waxaa loo adeegsadaa aqbalidda dalab, heshiis ama ka jawaabidda mawduuc.",
+        uses: 2,
+        example: "Er geht auf das Angebot ein / Wuxuu aqbalay dalabka"
     },
     {
-        "de": "aufstellen",
-        "so": "taagid / qorshe dejin",
-        "explanation": "Waxaa loo isticmaalaa marka la taaginayo shey ama la dejineynayo qorshe.",
-        "uses": 2,
-        "example": "Wir stellen den Tisch auf. / Waxaan taaginaynaa miiska."
+        so: "untergehen",
+        de: "dhicid / baaba'id",
+        explanation: "Waxaa loo isticmaalaa marka qorraxdu dhacdo ama wax baaba'aan.",
+        uses: 2,
+        example: "Die Sonne geht unter / Qorraxdu way dhacaysaa"
     },
     {
-        "de": "umstellen",
-        "so": "beddelid / dib u habayn",
-        "explanation": "Waxaa loo isticmaalaa marka la beddelayo nidaam ama hab.",
-        "uses": 1,
-        "example": "Die Firma stellt das System um. / Shirkaddu way beddeshay nidaamka."
+        so: "weggehen",
+        de: "ka tagid",
+        explanation: "Waxaa loo adeegsadaa marka qof meel ka tagayo.",
+        uses: 2,
+        example: "Er geht weg / Wuu ka tagayaa"
     },
     {
-        "de": "feststellen",
-        "so": "ogaansho / xaqiijin",
-        "explanation": "Waxaa loo isticmaalaa marka la ogaado ama la xaqiijiyo arrin.",
-        "uses": 1,
-        "example": "Der Arzt stellt die Krankheit fest. / Dhakhtarku wuu ogaaday cudurka."
+        so: "mitgehen",
+        de: "raacid",
+        explanation: "Waxaa loo isticmaalaa marka qof lala socdo ama lala raaco.",
+        uses: 2,
+        example: "Ich gehe mit dir mit / Waan kula socdaa"
     },
     {
-        "de": "darstellen",
-        "so": "muujin / sawirid",
-        "explanation": "Waxaa loo isticmaalaa marka la sawirayo ama la muujinayo arrin.",
-        "uses": 1,
-        "example": "Das Bild stellt eine Landschaft dar. / Sawirku wuxuu muujinayaa muuqaal degaan."
+        so: "zurückgehen",
+        de: "dib u noqosho",
+        explanation: "Waxaa loo adeegsadaa dib ugu laabashada meel hore.",
+        uses: 2,
+        example: "Wir gehen zurück nach Hause / Waxaan dib ugu laabanaynaa guriga"
     },
     {
-        "de": "verstellen",
-        "so": "badalid / khaldan u dejin",
-        "explanation": "Waxaa loo isticmaalaa marka la badalo deji ama la meel mariyo khaldan.",
-        "uses": 2,
-        "example": "Er hat die Uhr verstellt. / Wuxuu u badalay saacadda."
-    },
-
-    // ========== SETZEN ==========
-    {
-        "de": "setzen",
-        "so": "fariisin / dhigid",
-        "explanation": "Waxaa loo isticmaalaa marka la fariisiyo qof ama la dhiginayo shey.",
-        "uses": 2,
-        "example": "Ich setze mich auf den Stuhl. / Waxaan fariisanayaa kursiga."
+        so: "losgehen",
+        de: "bilaabmid",
+        explanation: "Waxaa loo isticmaalaa marka wax bilaabmaan (safar, dhacdo, dagaal).",
+        uses: 1,
+        example: "Die Reise geht los / Safarku wuu bilaabmay"
     },
     {
-        "de": "einsetzen",
-        "so": "isticmaalid / shaqo gelin",
-        "explanation": "Waxaa loo isticmaalaa marka la isticmaalayo qalab ama la gelinayo shaqo.",
-        "uses": 2,
-        "example": "Die Firma setzt neue Maschinen ein. / Shirkaddu waxay isticmaali maysaa mashiinno cusub."
+        so: "weitergehen",
+        de: "sii socod",
+        explanation: "Waxaa loo adeegsadaa wax sii socda ama la sii wado.",
+        uses: 1,
+        example: "Der Unterricht geht weiter / Casharku wuu sii socdaa"
     },
     {
-        "de": "aufsetzen",
-        "so": "xirid / saarid korka",
-        "explanation": "Waxaa loo isticmaalaa marka la xiranayo koofiyad ama la saaranayo shey korka.",
-        "uses": 2,
-        "example": "Ich setze die Brille auf. / Waxaan xirayaa muraayadaha."
+        so: "vorbeigehen",
+        de: "dhaafid",
+        explanation: "Waxaa loo isticmaalaa marka qof ama wax meel dhaafo.",
+        uses: 2,
+        example: "Er geht am Haus vorbei / Wuxuu ka dhaafay guriga"
     },
     {
-        "de": "absetzen",
-        "so": "joojin / ka dhigid",
-        "explanation": "Waxaa loo isticmaalaa marka la joojinayo shaqo ama la ka-dhigayo gaari.",
-        "uses": 2,
-        "example": "Der Bus setzt die Fahrgäste ab. / Basku waxuu ka dhigayaa rakaabka."
-    },
-    {
-        "de": "durchsetzen",
-        "so": "ku adkaysasho / hirgelin",
-        "explanation": "Waxaa loo isticmaalaa marka la ku adkaysto ama la hirgeliyo fikrad.",
-        "uses": 1,
-        "example": "Er setzt seine Meinung durch. / Wuu ku adkaystay fikradiisa."
-    },
-    {
-        "de": "umsetzen",
-        "so": "fulin",
-        "explanation": "Waxaa loo isticmaalaa marka la fulinayo qorshe.",
-        "uses": 1,
-        "example": "Wir setzen den Plan um. / Waxaan fulinaynaa qorshaha."
-    },
-    {
-        "de": "fortsetzen",
-        "so": "sii wadid",
-        "explanation": "Waxaa loo isticmaalaa marka la sii wadayo hawl.",
-        "uses": 1,
-        "example": "Der Lehrer setzt den Unterricht fort. / Macallinku wuu sii wadayaa casharka."
-    },
-    {
-        "de": "aussetzen",
-        "so": "dib u joojin / ka bixin",
-        "explanation": "Waxaa loo isticmaalaa marka la dib u joojinayo ama laga bixiyo xaalad.",
-        "uses": 2,
-        "example": "Das Konzert wurde ausgesetzt. / Koorsadaha waxaa la dib u joojiyay."
+        so: "nachgehen",
+        de: "dabagalid",
+        explanation: "Waxaa loo adeegsadaa baaritaan ama daba galid arrin.",
+        uses: 1,
+        example: "Die Polizei geht dem Fall nach / Boolisku way dabagalayaan kiiska"
     },
 
-    // ========== GEHEN ==========
     {
-        "de": "gehen",
-        "so": "tagid / socod",
-        "explanation": "Waxaa loo isticmaalaa marka la tegayo ama la soconayo.",
-        "uses": 2,
-        "example": "Ich gehe zur Schule. / Waxaan tagayaa dugsiga."
+        so: "kommen",
+        de: "imaansho",
+        explanation: "Waxaa loo isticmaalaa imaanshaha qof ama wax.",
+        uses: 2,
+        example: "Ich komme nach Hause / Waxaan imaanayaa guriga"
     },
     {
-        "de": "aufgehen",
-        "so": "furmid / iftiimid",
-        "explanation": "Waxaa loo isticmaalaa marka albaabku furmo ama fikradu si fiican u cadawdo.",
-        "uses": 2,
-        "example": "Die Tür geht auf. / Albaabku wuu furmay."
+        so: "ankommen",
+        de: "gaadhid",
+        explanation: "Waxaa loo adeegsadaa marka qof ama wax meel gaadho.",
+        uses: 2,
+        example: "Der Zug kommt pünktlich an / Tareenku wuu gaadhay waqtigiisii"
     },
     {
-        "de": "ausgehen",
-        "so": "dhammaad / baxid",
-        "explanation": "Waxaa loo isticmaalaa marka wax dhammaado ama la baxo guriga.",
-        "uses": 2,
-        "example": "Das Licht geht aus. / Iftiinku wuu damay."
+        so: "aufkommen",
+        de: "soo bixid / kacid",
+        explanation: "Waxaa loo isticmaalaa fikrad, su'aal ama dhibaato soo baxda.",
+        uses: 1,
+        example: "Eine Frage kommt auf / Su’aal ayaa soo baxday"
     },
     {
-        "de": "eingehen",
-        "so": "galid / aqbalid",
-        "explanation": "Waxaa loo isticmaalaa marka la galo heshiis ama la aqbalo dalab.",
-        "uses": 2,
-        "example": "Er geht auf das Angebot ein. / Wuu aqbalay dalabka."
+        so: "bekommen",
+        de: "helid / qaadasho",
+        explanation: "Waxaa loo adeegsadaa helidda ama qaadashada wax.",
+        uses: 2,
+        example: "Ich bekomme ein Geschenk / Waxaan helayaa hadiyad"
     },
     {
-        "de": "abgehen",
-        "so": "ka tagid / dhicid",
-        "explanation": "Waxaa loo isticmaalaa marka wax ka gooyo ama ka dhaco.",
-        "uses": 2,
-        "example": "Der Knopf ist abgegangen. / Badhanku wuu ka dhacay."
+        so: "einkommen",
+        de: "soo gelid",
+        explanation: "Waxaa loo isticmaalaa marka lacag ama xog soo gasho.",
+        uses: 1,
+        example: "Das Geld kommt ein / Lacagtu way soo gashay"
     },
     {
-        "de": "mitgehen",
-        "so": "la raacid / la socod",
-        "explanation": "Waxaa loo isticmaalaa marka la raacayo qof.",
-        "uses": 1,
-        "example": "Ich gehe mit dir mit. / Waxaan la soconayaa."
+        so: "entkommen",
+        de: "ka baxsad",
+        explanation: "Waxaa loo adeegsadaa baxsad ama ka badbaadid khatar.",
+        uses: 1,
+        example: "Der Dieb konnte entkommen / Tuuggii wuu baxsaday"
     },
     {
-        "de": "untergehen",
-        "so": "dhac / baaba'in",
-        "explanation": "Waxaa loo isticmaalaa marka qorraxdu dhacdo ama doonadu dhacdo.",
-        "uses": 2,
-        "example": "Die Sonne geht unter. / Qorraxdu way dhacaysaa."
+        so: "herkommen",
+        de: "ka imaanid",
+        explanation: "Waxaa loo isticmaalaa asalka ama meesha wax ka yimaadeen.",
+        uses: 2,
+        example: "Woher kommst du? / Xaggee baad ka timid?"
     },
     {
-        "de": "zurückgehen",
-        "so": "dib u noqosho",
-        "explanation": "Waxaa loo isticmaalaa marka la dib u noqdo ama qiimo hoos u dhaco.",
-        "uses": 2,
-        "example": "Die Preise gehen zurück. / Qiimaha way hoos u dhaceen."
+        so: "mitkommen",
+        de: "raacid / la imaatin",
+        explanation: "Waxaa loo adeegsadaa marka qof lala yimaado.",
+        uses: 2,
+        example: "Kommst du mit? / Ma nala imanaysaa?"
     },
     {
-        "de": "spazierengehen",
-        "so": "socod bilaash ah",
-        "explanation": "Waxaa loo isticmaalaa marka la socdo si madadaalo leh.",
-        "uses": 1,
-        "example": "Wir gehen im Park spazieren. / Waxaan ku soconaynaa beerta."
-    },
-
-    // ========== KOMMEN ==========
-    {
-        "de": "kommen",
-        "so": "imaansho",
-        "explanation": "Waxaa loo isticmaalaa marka la imanayo meel.",
-        "uses": 1,
-        "example": "Ich komme aus Deutschland. / Waxaan ka imid Jarmalka."
+        so: "nachkommen",
+        de: "raacid / fulin",
+        explanation: "Waxaa loo isticmaalaa fulinta waajib ama amar.",
+        uses: 1,
+        example: "Er kommt seiner Pflicht nach / Wuxuu gutay waajibkiisa"
     },
     {
-        "de": "ankommen",
-        "so": "soo gaarid / imaansho",
-        "explanation": "Waxaa loo isticmaalaa marka la soo gaarayo meel.",
-        "uses": 2,
-        "example": "Der Zug kommt um 10 Uhr an. / Tareenku wuxuu yimaadaa 10ka."
+        so: "umkommen",
+        de: "dhimasho / halaag",
+        explanation: "Waxaa loo adeegsadaa dhimasho ku timaadda shil ama masiibo.",
+        uses: 1,
+        example: "Viele Menschen kamen um / Dad badan ayaa dhintay"
     },
     {
-        "de": "mitkommen",
-        "so": "la imaan",
-        "explanation": "Waxaa loo isticmaalaa marka la la imanayo qof.",
-        "uses": 1,
-        "example": "Kommst du mit ins Kino? / Ma la imaaneysaa sinimaha?"
+        so: "vorbeikommen",
+        de: "soo dhaafid / martid",
+        explanation: "Waxaa loo isticmaalaa marka qof si kooban u soo booqdo.",
+        uses: 2,
+        example: "Ich komme später vorbei / Waan soo dhaafi doonaa dambe"
     },
     {
-        "de": "zurückkommen",
-        "so": "dib u soo noqosho",
-        "explanation": "Waxaa loo isticmaalaa marka la dib u soo noqdo meel.",
-        "uses": 1,
-        "example": "Ich komme morgen zurück. / Berri ayaan soo noqonayaa."
-    },
-    {
-        "de": "aufkommen",
-        "so": "soo ifbaxid / qarash bixin",
-        "explanation": "Waxaa loo isticmaalaa marka la soo ifbaxayo ama qarash la bixiyo.",
-        "uses": 2,
-        "example": "Die Versicherung kommt für den Schaden auf. / Caymisku wuu bixiyaa khasara."
-    },
-    {
-        "de": "loskommen",
-        "so": "ka baxid",
-        "explanation": "Waxaa loo isticmaalaa marka laga baxo xaalad adag.",
-        "uses": 1,
-        "example": "Endlich komme ich von der Arbeit los. / Ugu dambeyntii shaqada ayaan ka baxay."
-    },
-    {
-        "de": "bekommen",
-        "so": "helid",
-        "explanation": "Waxaa loo isticmaalaa marka la helo wax.",
-        "uses": 1,
-        "example": "Ich bekomme ein Geschenk. / Waxaan helayaa hadiyad."
+        so: "zurückkommen",
+        de: "soo noqosho",
+        explanation: "Waxaa loo adeegsadaa ku soo laabashada meel.",
+        uses: 2,
+        example: "Er kommt morgen zurück / Wuxuu soo noqonayaa berri"
     },
 
-    // ========== BRINGEN ==========
     {
-        "de": "bringen",
-        "so": "keenid",
-        "explanation": "Waxaa loo isticmaalaa marka la keeno wax.",
-        "uses": 1,
-        "example": "Ich bringe dir das Buch. / Waxaan kuu keenayaa buugga."
+        so: "springen",
+        de: "boodid",
+        explanation: "Waxaa loo isticmaalaa boodidda qof ama shay.",
+        uses: 2,
+        example: "Das Kind springt hoch / Ilmuhu wuu boodaa"
     },
     {
-        "de": "mitbringen",
-        "so": "la keenid",
-        "explanation": "Waxaa loo isticmaalaa marka wax lala keeno.",
-        "uses": 1,
-        "example": "Bitte bring Essen mit. / Fadlan cunto la keeno."
+        so: "aufspringen",
+        de: "si kedis ah u boodid / furmid",
+        explanation: "Waxaa loo adeegsadaa marka qof si degdeg ah u boodo ama shay isfuro.",
+        uses: 2,
+        example: "Er springt vom Stuhl auf / Wuxuu si kedis ah uga booday kursiga"
     },
     {
-        "de": "herbringen",
-        "so": "halkan keenid",
-        "explanation": "Waxaa loo isticmaalaa marka wax loo keeno halkan.",
-        "uses": 1,
-        "example": "Bring den Stuhl her. / Kursiga halkan kee."
+        so: "abspringen",
+        de: "ka boodid",
+        explanation: "Waxaa loo isticmaalaa boodid laga boodo meel sare ama gaari socda.",
+        uses: 2,
+        example: "Er springt vom Zug ab / Wuxuu ka booday tareenka"
     },
     {
-        "de": "hinbringen",
-        "so": "halkaa keenid",
-        "explanation": "Waxaa loo isticmaalaa marka wax loo keeno meel kale.",
-        "uses": 1,
-        "example": "Ich bringe dich nach Hause hin. / Waxaan ku keenayaa guriga."
+        so: "einspringen",
+        de: "beddelid / ku meel gaar shaqayn",
+        explanation: "Waxaa loo adeegsadaa marka qof kale booskiisa la galo.",
+        uses: 1,
+        example: "Ich springe für ihn ein / Waxaan u beddelayaa isaga"
     },
     {
-        "de": "umbringen",
-        "so": "dilid",
-        "explanation": "Waxaa loo isticmaalaa marka la dilo qof.",
-        "uses": 1,
-        "example": "Der Unfall hat ihn umgebracht. / Shilku wuu dilay."
+        so: "herausspringen",
+        de: "dibadda u boodid",
+        explanation: "Waxaa loo isticmaalaa marka wax si lama filaan ah dibadda u soo boodaan.",
+        uses: 2,
+        example: "Der Ball springt aus der Tasche heraus / Kubbaddu boorsada ayay ka soo boodday"
     },
     {
-        "de": "verbringen",
-        "so": "waqtiga ku qaadid",
-        "explanation": "Waxaa loo isticmaalaa marka la ku qaado waqti.",
-        "uses": 1,
-        "example": "Wir verbringen den Urlaub hier. / Waxaan ku qaadanaynaa fasaxa halkan."
+        so: "überspringen",
+        de: "ka boodid / dhaafid",
+        explanation: "Waxaa loo adeegsadaa marka wax la iska dhaafo ama laga boodo.",
+        uses: 1,
+        example: "Wir überspringen dieses Kapitel / Waxaan ka boodnay cutubkan"
     },
     {
-        "de": "beibringen",
-        "so": "barid",
-        "explanation": "Waxaa loo isticmaalaa marka la baro qof wax.",
-        "uses": 1,
-        "example": "Der Lehrer bringt den Kindern Lesen bei. / Macallinku wuxuu barayaa carruurta akhriska."
+        so: "zurückspringen",
+        de: "dib u boodid",
+        explanation: "Waxaa loo isticmaalaa boodid dib loogu laabto meel hore.",
+        uses: 2,
+        example: "Die Katze springt zurück / Bisaddu way dib u boodday"
     },
     {
-        "de": "unterbringen",
-        "so": "meel gelin / hoy gelin",
-        "explanation": "Waxaa loo isticmaalaa marka la geliyo qof meel.",
-        "uses": 1,
-        "example": "Wir bringen die Gäste im Hotel unter. / Waxaan gelinaynaa martida hoteelka."
+        so: "wegspringen",
+        de: "ka boodid / ka cararid",
+        explanation: "Waxaa loo adeegsadaa boodid degdeg ah si looga fogaado khatar.",
+        uses: 2,
+        example: "Er springt zur Seite weg / Wuxuu dhinac uga booday"
     },
 
-    // ========== BAUEN ==========
+
     {
-        "de": "bauen",
-        "so": "dhisid",
-        "explanation": "Waxaa loo isticmaalaa guud ahaan marka la dhiso.",
-        "uses": 1,
-        "example": "Wir bauen ein Haus. / Waxaan dhisaynaa guri."
+        so: "fangen",
+        de: "qabasho",
+        explanation: "Waxaa loo isticmaalaa qabashada qof ama shay.",
+        uses: 2,
+        example: "Der Hund fängt den Ball / Eygu wuxuu qabtay kubbadda"
     },
     {
-        "de": "aufbauen",
-        "so": "dhisid / taagid",
-        "explanation": "Waxaa loo isticmaalaa marka la dhisayo wax kala qaaday ama la taagayo.",
-        "uses": 2,
-        "example": "Wir bauen das Zelt auf. / Waxaan dhisaynaa teendhada."
+        so: "anfangen",
+        de: "bilaabid",
+        explanation: "Waxaa loo adeegsadaa bilaabidda hawl, shaqo ama waxbarasho.",
+        uses: 2,
+        example: "Wir fangen mit der Arbeit an / Waxaan bilaabaynaa shaqada"
     },
     {
-        "de": "abbauen",
-        "so": "dumin / kala qaadid",
-        "explanation": "Waxaa loo isticmaalaa marka la dumiyo ama la kala qaadayo wax la isticmaalay.",
-        "uses": 2,
-        "example": "Wir bauen das Zelt ab. / Waxaan duminaynaa teendhada."
+        so: "auffangen",
+        de: "qabasho / celin",
+        explanation: "Waxaa loo isticmaalaa qabashada wax dhacaya ama yaraynta saameyn.",
+        uses: 1,
+        example: "Er fängt das Glas auf / Wuxuu qabtay koobka"
     },
     {
-        "de": "einbauen",
-        "so": "ku rakibid",
-        "explanation": "Waxaa loo isticmaalaa marka wax lagu rakibayo gudaha shey kale.",
-        "uses": 2,
-        "example": "Der Mechaniker baut den Motor ein. / Makaanikigu wuxuu ku rakibayaa matoorka."
+        so: "abfangen",
+        de: "hor istaagid / qabasho",
+        explanation: "Waxaa loo adeegsadaa wax hor istaagid ama ka hor qabasho.",
+        uses: 1,
+        example: "Die Polizei fängt den Dieb ab / Boolisku wuxuu qabtay tuugga"
     },
     {
-        "de": "ausbauen",
-        "so": "ka saarid / horumarin",
-        "explanation": "Waxaa loo isticmaalaa marka laga saaro qalab ama loo kordhiyo awood.",
-        "uses": 2,
-        "example": "Der Mechaniker baut den Motor aus. / Makaanikigu wuxuu ka saarayaa matoorka."
+        so: "einfangen",
+        de: "qabasho / ururin",
+        explanation: "Waxaa loo isticmaalaa qabashada xoolo ama wax baxsaday.",
+        uses: 1,
+        example: "Die Bauern fangen die Tiere ein / Beeralaydu waxay qabteen xoolihii"
     },
     {
-        "de": "umbauen",
-        "so": "dib u dhisid / beddelid",
-        "explanation": "Waxaa loo isticmaalaa marka la dib u dhiso ama la beddelo guri.",
-        "uses": 2,
-        "example": "Sie bauen das Haus um. / Waxay dib u dhisayaan guriga."
+        so: "wegfangen",
+        de: "ka qaadid / ka qabasho",
+        explanation: "Waxaa loo adeegsadaa marka wax qof kale laga hor qabto.",
+        uses: 1,
+        example: "Er fängt mir den Ball weg / Wuxuu iga hor qabtay kubbadda"
     },
     {
-        "de": "anbauen",
-        "so": "ku darsasho / beerid",
-        "explanation": "Waxaa loo isticmaalaa marka la ku darsado guri ama la beero geed.",
-        "uses": 2,
-        "example": "Wir bauen eine Garage an. / Waxaan ku darsanaynaa gaaraji."
+        so: "überfangen",
+        de: "ka badbadin / daboolid",
+        explanation: "Waxaa loo isticmaalaa wax si xad-dhaaf ah u daboola ama u gaadha.",
+        uses: 1,
+        example: "Die Angst überfängt ihn / Cabsi ayaa qabsatay"
+    },
+
+    {
+        so: "fangen",
+        de: "qabasho",
+        explanation: "Waxaa loo isticmaalaa qabashada qof ama shay.",
+        uses: 2,
+        example: "Der Hund fängt den Ball / Eygu wuxuu qabtay kubbadda"
+    },
+    {
+        so: "anfangen",
+        de: "bilaabid",
+        explanation: "Waxaa loo adeegsadaa bilaabidda hawl, shaqo ama waxbarasho.",
+        uses: 2,
+        example: "Wir fangen mit der Arbeit an / Waxaan bilaabaynaa shaqada"
+    },
+    {
+        so: "auffangen",
+        de: "qabasho / celin",
+        explanation: "Waxaa loo isticmaalaa qabashada wax dhacaya ama yaraynta saameyn.",
+        uses: 1,
+        example: "Er fängt das Glas auf / Wuxuu qabtay koobka"
+    },
+    {
+        so: "abfangen",
+        de: "hor istaagid / qabasho",
+        explanation: "Waxaa loo adeegsadaa wax hor istaagid ama ka hor qabasho.",
+        uses: 1,
+        example: "Die Polizei fängt den Dieb ab / Boolisku wuxuu qabtay tuugga"
+    },
+    {
+        so: "einfangen",
+        de: "qabasho / ururin",
+        explanation: "Waxaa loo isticmaalaa qabashada xoolo ama wax baxsaday.",
+        uses: 1,
+        example: "Die Bauern fangen die Tiere ein / Beeralaydu waxay qabteen xoolihii"
+    },
+    {
+        so: "wegfangen",
+        de: "ka qaadid / ka qabasho",
+        explanation: "Waxaa loo adeegsadaa marka wax qof kale laga hor qabto.",
+        uses: 1,
+        example: "Er fängt mir den Ball weg / Wuxuu iga hor qabtay kubbadda"
+    },
+    {
+        so: "überfangen",
+        de: "ka badbadin / daboolid",
+        explanation: "Waxaa loo isticmaalaa wax si xad-dhaaf ah u daboola ama u gaadha.",
+        uses: 1,
+        example: "Die Angst überfängt ihn / Cabsi ayaa qabsatay"
+    },
+
+
+    {
+        so: "nehmen",
+        de: "qaadid",
+        explanation: "Waxaa loo isticmaalaa qaadashada shay ama qof.",
+        uses: 2,
+        example: "Ich nehme das Buch / Waxaan qaadanayaa buugga"
+    },
+    {
+        so: "annehmen",
+        de: "aqbalid",
+        explanation: "Waxaa loo adeegsadaa aqbalidda dalab, fikrad ama hadiyad.",
+        uses: 2,
+        example: "Er nimmt das Angebot an / Wuxuu aqbalay dalabka"
+    },
+    {
+        so: "aufnehmen",
+        de: "qaadid / duubid",
+        explanation: "Waxaa loo isticmaalaa qaadashada qof ama duubista cod iyo muuqaal.",
+        uses: 2,
+        example: "Die Schule nimmt neue Schüler auf / Dugsigu wuxuu qaadanayaa arday cusub"
+    },
+    {
+        so: "abnehmen",
+        de: "dhimid / ka qaadid",
+        explanation: "Waxaa loo adeegsadaa dhimista miisaan ama wax laga qaado.",
+        uses: 2,
+        example: "Er nimmt ab / Wuu miisaankiisu yaraanayaa"
+    },
+    {
+        so: "mitnehmen",
+        de: "la qaadid",
+        explanation: "Waxaa loo isticmaalaa wax ama qof lala qaato.",
+        uses: 2,
+        example: "Ich nehme dich mit / Waan ku qaadanayaa"
+    },
+    {
+        so: "wegnehmen",
+        de: "ka qaadid",
+        explanation: "Waxaa loo adeegsadaa wax qof kale laga qaado.",
+        uses: 2,
+        example: "Er nimmt mir das Handy weg / Wuxuu iga qaaday taleefanka"
+    },
+    {
+        so: "einnehmen",
+        de: "qaadasho / qabsasho",
+        explanation: "Waxaa loo isticmaalaa qaadashada daawo ama qabsashada meel.",
+        uses: 1,
+        example: "Sie nimmt die Medizin ein / Waxay qaadanaysaa daawada"
+    },
+    {
+        so: "übernehmen",
+        de: "la wareegid / qaadid masuuliyad",
+        explanation: "Waxaa loo adeegsadaa qaadashada masuuliyad ama shaqo.",
+        uses: 1,
+        example: "Er übernimmt die Verantwortung / Wuxuu qaatay masuuliyadda"
+    },
+    {
+        so: "teilnehmen",
+        de: "ka qaybgalid",
+        explanation: "Waxaa loo isticmaalaa ka qaybgalidda dhacdo ama kulan.",
+        uses: 1,
+        example: "Ich nehme am Kurs teil / Waxaan ka qaybgalayaa koorsada"
+    },
+    {
+        so: "zunehmen",
+        de: "kordhid (miisaan)",
+        explanation: "Waxaa loo adeegsadaa miisaan ama tiro kordhaysa.",
+        uses: 1,
+        example: "Er nimmt zu / Wuu miisaankiisu kordhay"
+    },
+
+    {
+        so: "geben",
+        de: "siinid",
+        explanation: "Waxaa loo isticmaalaa siinta qof ama shay wax.",
+        uses: 2,
+        example: "Ich gebe dir das Buch / Waxaan ku siinayaa buugga"
+    },
+    {
+        so: "abgeben",
+        de: "wareejin / dhiibid",
+        explanation: "Waxaa loo adeegsadaa wax la dhiibo ama la wareejiyo.",
+        uses: 2,
+        example: "Er gibt den Schlüssel ab / Wuxuu dhiibayaa furaha"
+    },
+    {
+        so: "angeben",
+        de: "sheegid / faanid",
+        explanation: "Waxaa loo isticmaalaa xog sheegid ama faan.",
+        uses: 2,
+        example: "Bitte geben Sie Ihre Adresse an / Fadlan sheeg cinwaankaaga"
+    },
+    {
+        so: "aufgeben",
+        de: "joojin / ka tagid",
+        explanation: "Waxaa loo adeegsadaa ka tagidda ama is dhiibid.",
+        uses: 2,
+        example: "Er gibt nicht auf / Isagu ma quusto"
+    },
+    {
+        so: "ausgeben",
+        de: "kharash gareyn",
+        explanation: "Waxaa loo isticmaalaa lacag bixinta ama wax ku qarash garayn.",
+        uses: 2,
+        example: "Ich gebe viel Geld aus / Waxaan qarash gareeyaa lacag badan"
+    },
+    {
+        so: "eingeben",
+        de: "gelin / ku qorid",
+        explanation: "Waxaa loo adeegsadaa gelinta xog kombiyuutar ama qalab.",
+        uses: 1,
+        example: "Bitte geben Sie das Passwort ein / Fadlan geli erayga sirta"
+    },
+    {
+        so: "mitgeben",
+        de: "la siinid",
+        explanation: "Waxaa loo isticmaalaa wax lala sii diro qof.",
+        uses: 2,
+        example: "Die Mutter gibt dem Kind Essen mit / Hooyadu cunno ayay siisay ilmaha"
+    },
+    {
+        so: "weitergeben",
+        de: "sii gudbin",
+        explanation: "Waxaa loo adeegsadaa xog ama wax loo sii gudbiyo qof kale.",
+        uses: 1,
+        example: "Er gibt die Nachricht weiter / Wuxuu sii gudbiyay fariinta"
+    },
+    {
+        so: "zurückgeben",
+        de: "soo celin",
+        explanation: "Waxaa loo isticmaalaa wax dib loo celiyo.",
+        uses: 2,
+        example: "Ich gebe das Buch zurück / Waxaan soo celinayaa buugga"
+    },
+    {
+        so: "übergeben",
+        de: "ku wareejin / dhiibid",
+        explanation: "Waxaa loo adeegsadaa si rasmi ah wax loo wareejiyo ama qof matago.",
+        uses: 1,
+        example: "Er übergibt das Amt / Wuxuu wareejinayaa xilka"
+    },
+
+    {
+        so: "stehen",
+        de: "istaagid",
+        explanation: "Waxaa loo isticmaalaa istaagga qof ama shay.",
+        uses: 2,
+        example: "Ich stehe vor dem Haus / Waxaan istaagayaa guriga hortiisa"
+    },
+    {
+        so: "aufstehen",
+        de: "kacid / istaagid",
+        explanation: "Waxaa loo adeegsadaa ka kacidda sariir ama kursi.",
+        uses: 2,
+        example: "Ich stehe früh auf / Waxaan kacaa aroortii hore"
+    },
+    {
+        so: "anstehen",
+        de: "saf u galid / sugid",
+        explanation: "Waxaa loo isticmaalaa saf u galid ama wax sugid.",
+        uses: 2,
+        example: "Wir stehen an der Kasse an / Waxaan saf ugu jirnaa khasnadda"
+    },
+    {
+        so: "bestehen",
+        de: "ku guulaysasho / ka koobnaansho",
+        explanation: "Waxaa loo adeegsadaa imtixaan ku guulaysasho ama wax ka koobnaan.",
+        uses: 1,
+        example: "Er besteht die Prüfung / Wuxuu ku guulaystay imtixaanka"
+    },
+    {
+        so: "entstehen",
+        de: "abuurmid / dhalan",
+        explanation: "Waxaa loo isticmaalaa marka wax cusub abuurmaan.",
+        uses: 1,
+        example: "Ein Problem entsteht / Dhibaato ayaa dhalatay"
+    },
+    {
+        so: "feststehen",
+        de: "hubanti noqosho",
+        explanation: "Waxaa loo adeegsadaa marka wax si cad loo hubiyo.",
+        uses: 1,
+        example: "Der Termin steht fest / Ballantu waa hubaal"
+    },
+    {
+        so: "herumstehen",
+        de: "meel ku istaagid",
+        explanation: "Waxaa loo isticmaalaa marka wax meel yaallaan iyagoo aan la isticmaalin.",
+        uses: 1,
+        example: "Die Kartons stehen herum / Sanduuqyada meel bay yaallaan"
+    },
+    {
+        so: "mitstehen",
+        de: "la istaagid",
+        explanation: "Waxaa loo adeegsadaa marka qof la istaago ama la taageero.",
+        uses: 1,
+        example: "Ich stehe dir bei und mit / Waan kula garab istaagayaa"
+    },
+    {
+        so: "umstehen",
+        de: "ku wareegsan istaagid",
+        explanation: "Waxaa loo isticmaalaa marka dad ama wax wax ku wareegsan yihiin.",
+        uses: 1,
+        example: "Viele Leute stehen das Haus um / Dad badan ayaa guriga ku wareegsan"
+    },
+    {
+        so: "zustehen",
+        de: "xaq u lahaansho",
+        explanation: "Waxaa loo adeegsadaa marka qof wax xaq u leeyahay.",
+        uses: 1,
+        example: "Das Geld steht ihm zu / Lacagtu waa xaqiisa"
+    },
+
+    {
+        so: "setzen",
+        de: "dhigid / fadhiisin",
+        explanation: "Waxaa loo isticmaalaa wax dhigid ama qof fadhiisin.",
+        uses: 2,
+        example: "Ich setze mich auf den Stuhl / Waxaan fariisanayaa kursiga"
+    },
+    {
+        so: "aufsetzen",
+        de: "saarid korka / xirid",
+        explanation: "Waxaa loo isticmaalaa wax korka la saaro sida koofiyad ama muraayad.",
+        uses: 2,
+        example: "Ich setze die Brille auf / Waxaan xirayaa muraayadaha"
+    },
+    {
+        so: "absetzen",
+        de: "dejid / ka joojin",
+        explanation: "Waxaa loo isticmaalaa rakaab dejin ama wax joojin.",
+        uses: 2,
+        example: "Der Bus setzt die Fahrgäste ab / Basku wuxuu dejinayaa rakaabka"
+    },
+    {
+        so: "einsetzen",
+        de: "isticmaalid / shaqo gelin",
+        explanation: "Waxaa loo adeegsadaa adeegsi ama shaqo gelin qalab ama qof.",
+        uses: 2,
+        example: "Die Firma setzt neue Maschinen ein / Shirkaddu waxay adeegsanaysaa mashiinno cusub"
+    },
+    {
+        so: "aussetzen",
+        de: "joojin / ku harid dibadda",
+        explanation: "Waxaa loo isticmaalaa joojinta hawl ama qof dibadda loo daayo.",
+        uses: 1,
+        example: "Er setzt die Arbeit aus / Wuxuu shaqada joojiyay"
+    },
+    {
+        so: "fortsetzen",
+        de: "sii wadid",
+        explanation: "Waxaa loo isticmaalaa wax sii wadid kadib hakad.",
+        uses: 1,
+        example: "Der Lehrer setzt den Unterricht fort / Macallinku wuu sii wadayaa casharka"
+    },
+    {
+        so: "umsetzen",
+        de: "fulin / beddelid",
+        explanation: "Waxaa loo isticmaalaa fulinta qorshe ama fikrad, ama beddelid.",
+        uses: 1,
+        example: "Wir setzen den Plan um / Waxaan fulinaynaa qorshaha"
+    },
+    {
+        so: "durchsetzen",
+        de: "hirgelin / ku adkaysasho",
+        explanation: "Waxaa loo isticmaalaa hirgelinta fikrad ama sharci iyadoo la adkaysanayo.",
+        uses: 1,
+        example: "Er setzt seine Meinung durch / Wuxuu hirgeliyay fikradiisa"
+    },
+    {
+        so: "zusetzen",
+        de: "kordhin / ku darid",
+        explanation: "Waxaa loo isticmaalaa ku daridda wax si loo kordhiyo.",
+        uses: 1,
+        example: "Man setzt Salz dem Essen zu / Waxaa cuntada lagu daray cusbo"
+    },
+    {
+        so: "zusammen setzen",
+        de: "isku dhigid / wada fadhiisin",
+        explanation: "Waxaa loo isticmaalaa in wax la isku dhigo ama dadka la wada fariisiyo.",
+        uses: 1,
+        example: "Wir setzen uns zusammen / Waxaan iskula fariisanay"
     }
 ];
 
+
         // Global variables
-        let commandHistory = [];
-        let historyIndex = -1;
         let soundEnabled = true;
         let matrixEnabled = true;
-        let currentTheme = 'hacker';
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             updateWordCount();
             createMatrixEffect();
+            createBGColorButtons();
             
-            // Set up keyboard shortcuts
-            document.addEventListener('keydown', handleKeyboardShortcuts);
+            // Mobile enter button
+            document.getElementById('mobileEnter').addEventListener('click', processCommand);
             
-            // Terminal controls
-            document.getElementById('termClose').addEventListener('click', fakeShutdown);
-            document.getElementById('termMin').addEventListener('click', minimizeTerminal);
-            document.getElementById('termMax').addEventListener('click', maximizeTerminal);
+            // Matrix toggle
+            document.getElementById('matrixToggle').addEventListener('click', function() {
+                const result = toggleMatrix();
+                addToTerminal(`matrix: ${result}`);
+            });
             
-            // Auto-focus on input
-            document.getElementById('cmdInput').focus();
+            // Word modal
+            document.getElementById('closeModal').addEventListener('click', function() {
+                document.getElementById('wordModal').style.display = 'none';
+            });
+            
+            // Click outside modal to close
+            document.getElementById('wordModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.style.display = 'none';
+                }
+            });
+            
+            // Set up keyboard listener for command input
+            document.getElementById('cmdInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    processCommand();
+                }
+            });
+            
+            // Set up keyboard listener for search input (ENTER EVENT KU DAR)
+            document.getElementById('searchInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchWords();
+                }
+            });
         });
 
-        // Update word count
-        function updateWordCount() {
-            document.getElementById('wordCount').textContent = words.length;
+        // Mobile-friendly command processing
+        function processCommand() {
+            const cmdInput = document.getElementById('cmdInput');
+            const cmd = cmdInput.value.trim();
+            
+            if (!cmd) return;
+            
+            // Add to terminal
+            addToTerminal(`$ ${cmd}`);
+            
+            // Process command
+            const output = processTerminalCommand(cmd);
+            addToTerminal(output);
+            
+            // Clear input
+            cmdInput.value = '';
+            cmdInput.focus();
         }
 
-        // Matrix background effect
-        function createMatrixEffect() {
-            const matrix = document.getElementById('matrixEffect');
-            const chars = "01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン";
+        // Process terminal commands
+        function processTerminalCommand(cmd) {
+            if (!cmd) return "";
             
-            for (let i = 0; i < 100; i++) {
-                const span = document.createElement('span');
-                span.textContent = chars[Math.floor(Math.random() * chars.length)];
-                span.style.position = 'absolute';
-                span.style.left = Math.random() * 100 + 'vw';
-                span.style.top = Math.random() * 100 + 'vh';
-                span.style.color = 'rgba(0, 255, 65, ' + (Math.random() * 0.3 + 0.1) + ')';
-                span.style.fontSize = (Math.random() * 20 + 10) + 'px';
-                span.style.animation = `fall ${Math.random() * 10 + 5}s linear infinite`;
-                span.style.animationDelay = Math.random() * 5 + 's';
-                matrix.appendChild(span);
+            const parts = cmd.toLowerCase().split(' ');
+            const mainCmd = parts[0];
+            const args = parts.slice(1).join(' ');
+            
+            switch(mainCmd) {
+                case 'help':
+                    return `AVAILABLE COMMANDS:\n• help - Show this help\n• list [prefix] - List words by prefix\n• color [color] - Change text color\n• bg [color] - Change background\n• info [word] - Show word details\n• search [word] - Search for word\n• random - Random word\n• matrix - Toggle matrix\n• clear - Clear terminal`;
+                
+                case 'list':
+                    if (args === 'ver' || args === 'verb') {
+                        return listByType('verb');
+                    } else if (args === 'stellen' || args.startsWith('stell')) {
+                        return listByPrefix('stellen');
+                    } else if (args === 'setzen') {
+                        return listByPrefix('setzen');
+                    } else if (args === 'gehen') {
+                        return listByPrefix('gehen');
+                    } else if (args === 'kommen') {
+                        return listByPrefix('kommen');
+                    } else if (args === 'bringen') {
+                        return listByPrefix('bringen');
+                    } else if (args === 'bauen') {
+                        return listByPrefix('bauen');
+                    } else {
+                        showAllWords();
+                        return `Showing all ${words.length} words`;
+                    }
+                
+                case 'color':
+                    if (!args) return "Specify color: white, black, blue, green, red, yellow, #hex";
+                    
+                    const colorMap = {
+                        'white': '#ffffff',
+                        'black': '#000000',
+                        'blue': '#0066ff',
+                        'green': '#00ff00',
+                        'red': '#ff0000',
+                        'yellow': '#ffff00',
+                        'cyan': '#00ffff',
+                        'magenta': '#ff00ff',
+                        'orange': '#ff9900',
+                        'purple': '#9900ff'
+                    };
+                    
+                    const color = colorMap[args] || args;
+                    document.body.style.color = color;
+                    return `Text color changed to ${args}`;
+                
+                case 'bg':
+                case 'background':
+                    if (!args) return "Specify color name or hex code";
+                    changeBackgroundColor(args);
+                    return `Background changed to ${args}`;
+                
+                case 'search':
+                    if (!args) return "Specify search term";
+                    document.getElementById('searchInput').value = args;
+                    searchWords();
+                    return `Searching for: ${args}`;
+                
+                case 'random':
+                    const randomWord = words[Math.floor(Math.random() * words.length)];
+                    showWordModal(randomWord);
+                    return `Random word: ${randomWord.so}`;
+                
+                case 'matrix':
+                    const result = toggleMatrix();
+                    return `Matrix effect: ${result}`;
+                
+                case 'clear':
+                    document.getElementById('terminal-output').innerHTML = '';
+                    return "Terminal cleared";
+                
+                case 'theme':
+                    if (args === 'light') {
+                        document.body.style.background = '#f5f5f5';
+                        document.body.style.color = '#333333';
+                        return "Theme changed to light";
+                    } else if (args === 'dark') {
+                        document.body.style.background = '#111111';
+                        document.body.style.color = '#ffffff';
+                        return "Theme changed to dark";
+                    } else {
+                        document.body.style.background = 'radial-gradient(circle at 20% 20%, #0a1929, #050a0f 70%, #000)';
+                        document.body.style.color = '#00ff41';
+                        return "Theme changed to hacker";
+                    }
+                
+                case 'info':
+                    if (!args) return "Specify word to get info. Example: 'info gehen' or 'info ab*' for words starting with ab";
+                    
+                    // Check if it's a wildcard search
+                    if (args.endsWith('*')) {
+                        const prefix = args.slice(0, -1); // Remove *
+                        return showWordsStartingWith(prefix);
+                    }
+                    
+                    // Search for exact or partial match
+                    return showWordInfo(args);
+                
+                default:
+                    return `Unknown command: ${cmd}\nType 'help' for commands`;
+            }
+        }
+
+        // INFO COMMAND - Show word details or words starting with prefix
+        function showWordInfo(searchTerm) {
+            searchTerm = searchTerm.toLowerCase();
+            
+            // Search in German (so field)
+            let foundWord = words.find(word => 
+                word.so.toLowerCase() === searchTerm || 
+                word.so.toLowerCase().includes(searchTerm)
+            );
+            
+            // If not found in German, search in Somali (de field)
+            if (!foundWord) {
+                foundWord = words.find(word => 
+                    word.de.toLowerCase().includes(searchTerm)
+                );
             }
             
-            // Add CSS for falling animation
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes fall {
-                    0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
-                    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+            if (foundWord) {
+                showWordModal(foundWord);
+                return `Showing info for: ${foundWord.so}`;
+            } else {
+                // Show all words containing the search term
+                const matchingWords = words.filter(word => 
+                    word.so.toLowerCase().includes(searchTerm) ||
+                    word.de.toLowerCase().includes(searchTerm)
+                );
+                
+                if (matchingWords.length > 0) {
+                    showFilteredWords(matchingWords);
+                    return `Found ${matchingWords.length} words containing "${searchTerm}"`;
+                } else {
+                    return `No word found for "${searchTerm}". Try 'info ab*' for words starting with "ab"`;
                 }
-            `;
-            document.head.appendChild(style);
-        }
-
-        // Toggle matrix effect
-        function toggleMatrix() {
-            matrixEnabled = !matrixEnabled;
-            const matrix = document.getElementById('matrixEffect');
-            matrix.style.display = matrixEnabled ? 'block' : 'none';
-            return matrixEnabled ? "MATRIX EFFECT: ENABLED" : "MATRIX EFFECT: DISABLED";
-        }
-
-        // Play sound
-        function playSound(type) {
-            if (!soundEnabled) return;
-            
-            const sounds = {
-                'type': document.getElementById('typeSound'),
-                'error': document.getElementById('errorSound'),
-                'success': document.getElementById('successSound')
-            };
-            
-            if (sounds[type]) {
-                sounds[type].currentTime = 0;
-                sounds[type].play().catch(e => console.log("Audio error:", e));
             }
         }
 
-        // Toggle sound
-        function toggleSound(state) {
-            if (state === 'on') soundEnabled = true;
-            else if (state === 'off') soundEnabled = false;
-            else soundEnabled = !soundEnabled;
+        // Show words starting with prefix (for wildcard search)
+        function showWordsStartingWith(prefix) {
+            prefix = prefix.toLowerCase();
             
-            return `SOUND EFFECTS: ${soundEnabled ? 'ENABLED' : 'DISABLED'}`;
+            const matchingWords = words.filter(word => 
+                word.so.toLowerCase().startsWith(prefix) ||
+                word.de.toLowerCase().startsWith(prefix)
+            );
+            
+            if (matchingWords.length > 0) {
+                showFilteredWords(matchingWords);
+                return `Found ${matchingWords.length} words starting with "${prefix}":`;
+            } else {
+                return `No words found starting with "${prefix}"`;
+            }
         }
 
-        // Search function
+        // Quick command execution
+        function executeQuickCommand(cmd) {
+            document.getElementById('cmdInput').value = cmd;
+            processCommand();
+        }
+
+        // List words by prefix
+        function listByPrefix(prefix) {
+            const filtered = words.filter(w => w.de.toLowerCase().includes(prefix));
+            
+            if (filtered.length === 0) {
+                return `No words found with prefix: ${prefix}`;
+            }
+            
+            let result = `Words with "${prefix}":\n\n`;
+            filtered.forEach((word, i) => {
+                result += `${i+1}. ${word.de} - ${word.so}\n`;
+            });
+            
+            // Also display in UI
+            showFilteredWords(filtered);
+            
+            return result;
+        }
+
+        // List verbs
+        function listByType(type) {
+            const filtered = words.filter(w => w.de.endsWith('en'));
+            
+            let result = `German verbs (${filtered.length}):\n\n`;
+            filtered.forEach((word, i) => {
+                result += `${i+1}. ${word.de} - ${word.so}\n`;
+            });
+            
+            showFilteredWords(filtered);
+            
+            return result;
+        }
+
+        // Show filtered words in UI
+        function showFilteredWords(filteredWords) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+            
+            filteredWords.forEach(word => {
+                resultsDiv.innerHTML += `
+                    <div class="word-card word-card-clickable" onclick="showWordModal(${JSON.stringify(word).replace(/"/g, '&quot;')})">
+                        <span class="uses-badge">Uses: ${word.uses}</span>
+                        <h2>${word.so} <small style="color: var(--warning);">(${word.de})</small></h2>
+                        <p><strong>Explanation:</strong> ${word.explanation}</p>
+                        <div class="example-box">
+                            <strong>Example:</strong> ${word.example}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Show all words
+        function showAllWords() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+            
+            words.forEach(word => {
+                resultsDiv.innerHTML += `
+                    <div class="word-card word-card-clickable" onclick="showWordModal(${JSON.stringify(word).replace(/"/g, '&quot;')})">
+                        <span class="uses-badge">Uses: ${word.uses}</span>
+                        <h2>${word.so} <small style="color: var(--warning);">(${word.de})</small></h2>
+                        <p><strong>Explanation:</strong> ${word.explanation}</p>
+                        <div class="example-box">
+                            <strong>Example:</strong> ${word.example}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Show word in modal
+        function showWordModal(word) {
+            const modal = document.getElementById('wordModal');
+            const title = document.getElementById('modalTitle');
+            const content = document.getElementById('modalContent');
+            
+            title.textContent = `${word.so} (${word.de})`;
+            
+            content.innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <strong style="color: var(--accent); font-size: 18px;">Somali:</strong> 
+                    <span style="font-size: 20px; font-weight: bold;">${word.so}</span>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <strong style="color: var(--accent); font-size: 18px;">German:</strong> 
+                    <span style="font-size: 20px; font-weight: bold;">${word.de}</span>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <strong style="color: var(--accent);">Explanation:</strong><br>
+                    ${word.explanation}
+                </div>
+                
+                <div style="margin-bottom: 20px;" class="word-modal-example">
+                    <strong style="color: var(--warning);">Example:</strong><br>
+                    ${word.example}
+                </div>
+                
+                <div style="background: rgba(0, 20, 10, 0.5); padding: 15px; border-radius: 10px;">
+                    <strong style="color: var(--accent);">Uses:</strong> ${word.uses} meaning(s)
+                </div>
+                
+                <div style="margin-top: 30px; text-align: center;">
+                    <button onclick="playAudioExample('${word.de}')" style="padding: 12px 25px; background: var(--accent); color: black; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
+                        <i class="fas fa-volume-up"></i> Listen Pronunciation
+                    </button>
+                </div>
+            `;
+            
+            modal.style.display = 'block';
+        }
+
+        // Search function with clickable results
         function searchWords() {
-            playSound('type');
             const query = document.getElementById('searchInput').value.toLowerCase();
             const resultsDiv = document.getElementById('results');
             resultsDiv.innerHTML = '';
@@ -1151,10 +1129,9 @@
 
             if (filtered.length === 0) {
                 resultsDiv.innerHTML = `
-                    <div class="word-card" style="border-left-color: var(--error); text-align: center;">
-                        <h2><i class="fas fa-exclamation-triangle"></i> Eray Lama Helin</h2>
-                        <p>Wax erey ah oo ku qoran '${query}' lama helin database-ka.</p>
-                        <p style="color: var(--muted); font-size: 12px;">Isku day erey kale ama isticmaal command 'search ${query}' terminal-ka.</p>
+                    <div class="word-card" style="text-align: center; border-left-color: var(--error);">
+                        <h2><i class="fas fa-exclamation-triangle"></i> No Results</h2>
+                        <p>No words found for "${query}"</p>
                     </div>
                 `;
                 return;
@@ -1162,399 +1139,132 @@
 
             filtered.forEach(word => {
                 resultsDiv.innerHTML += `
-                    <div class="word-card">
-                        <span class="uses-badge">Bedeutungen: ${word.uses}</span>
-                        <h2>${word.so} <small class="de-word">(${word.de})</small></h2>
-                        <p><strong>Info:</strong> ${word.explanation}</p>
+                    <div class="word-card word-card-clickable" onclick="showWordModal(${JSON.stringify(word).replace(/"/g, '&quot;')})">
+                        <span class="uses-badge">Uses: ${word.uses}</span>
+                        <h2>${word.so} <small style="color: var(--warning);">(${word.de})</small></h2>
+                        <p><strong>Explanation:</strong> ${word.explanation}</p>
                         <div class="example-box">
-                            <strong>Beispiel:</strong> ${word.example}
+                            <strong>Example:</strong> ${word.example}
                         </div>
                     </div>
                 `;
             });
             
-            // Update terminal
-            const output = document.getElementById('terminal-output');
-            output.innerHTML += `\n<span class="success-message">>>> SEARCH RESULTS FOR "${query}": ${filtered.length} WORDS FOUND</span>`;
-            output.scrollTop = output.scrollHeight;
+            // Add to terminal
+            addToTerminal(`Search: Found ${filtered.length} results for "${query}"`);
         }
 
-        // Show all words
-        function showAllWords() {
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = '';
+        // Add text to terminal
+        function addToTerminal(text) {
+            const outputDiv = document.getElementById('terminal-output');
+            const isError = text.toLowerCase().includes('error') || text.toLowerCase().includes('unknown');
             
-            words.forEach(word => {
-                resultsDiv.innerHTML += `
-                    <div class="word-card">
-                        <span class="uses-badge">Bedeutungen: ${word.uses}</span>
-                        <h2>${word.so} <small class="de-word">(${word.de})</small></h2>
-                        <p><strong>Info:</strong> ${word.explanation}</p>
-                        <div class="example-box">
-                            <strong>Beispiel:</strong> ${word.example}
-                        </div>
-                    </div>
-                `;
-            });
-            
-            return `DISPLAYING ALL ${words.length} WORDS`;
+            outputDiv.innerHTML += `<br><span class="${isError ? 'error-message' : 'success-message'}">${text}</span>`;
+            outputDiv.scrollTop = outputDiv.scrollHeight;
         }
 
-        // Show word info
-        function showWordInfo(term) {
-            const found = words.filter(w => 
-                w.so.toLowerCase().includes(term) || 
-                w.de.toLowerCase().includes(term)
-            );
+        // Matrix effect functions
+        function createMatrixEffect() {
+            const matrix = document.getElementById('matrixEffect');
+            const chars = "01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン";
             
-            if (found.length === 0) {
-                return `ERROR: WORD '${term}' NOT FOUND IN DATABASE`;
+            for (let i = 0; i < 80; i++) {
+                const span = document.createElement('span');
+                span.textContent = chars[Math.floor(Math.random() * chars.length)];
+                span.style.position = 'absolute';
+                span.style.left = Math.random() * 100 + 'vw';
+                span.style.top = Math.random() * 100 + 'vh';
+                span.style.color = 'rgba(0, 255, 65, ' + (Math.random() * 0.3 + 0.1) + ')';
+                span.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                span.style.animation = `fall ${Math.random() * 10 + 5}s linear infinite`;
+                span.style.animationDelay = Math.random() * 5 + 's';
+                span.className = 'matrix-char';
+                matrix.appendChild(span);
             }
-            
-            let result = `INFORMATION FOR '${term}':\n`;
-            found.forEach((word, i) => {
-                result += `\n[${i+1}] ${word.so} (${word.de})\n`;
-                result += `Explanation: ${word.explanation}\n`;
-                result += `Example: ${word.example}\n`;
-                result += `Uses: ${word.uses} meaning(s)\n`;
-            });
-            
-            return result;
         }
 
-        // Show random word
-        function showRandomWord() {
-            const randomWord = words[Math.floor(Math.random() * words.length)];
-            return `RANDOM WORD:\n${randomWord.so} (${randomWord.de})\n${randomWord.explanation}\nExample: ${randomWord.example}`;
-        }
-
-        // Change theme
-        function changeTheme(theme) {
-            const root = document.documentElement;
+        function toggleMatrix() {
+            matrixEnabled = !matrixEnabled;
+            const matrix = document.getElementById('matrixEffect');
+            const chars = matrix.querySelectorAll('.matrix-char');
             
-            const themes = {
-                'dark': {
-                    bg: '#0b0f12',
-                    text: '#ffffff',
-                    accent: '#00ff41'
-                },
-                'light': {
-                    bg: '#f5f5f5',
-                    text: '#333333',
-                    accent: '#0066cc'
-                },
-                'hacker': {
-                    bg: '#0a1929',
-                    text: '#00ff41',
-                    accent: '#00ff41'
-                }
-            };
-            
-            if (themes[theme]) {
-                root.style.setProperty('--bg-color', themes[theme].bg);
-                root.style.setProperty('--text-color', themes[theme].text);
-                root.style.setProperty('--accent', themes[theme].accent);
-                currentTheme = theme;
-                return `THEME CHANGED TO: ${theme.toUpperCase()}`;
+            if (matrixEnabled) {
+                matrix.style.display = 'block';
+                chars.forEach(char => {
+                    char.style.animationPlayState = 'running';
+                });
+                return 'ENABLED';
             } else {
-                return `ERROR: THEME '${theme}' NOT AVAILABLE. CHOOSE: dark, light, hacker`;
+                chars.forEach(char => {
+                    char.style.animationPlayState = 'paused';
+                });
+                matrix.style.display = 'none';
+                return 'DISABLED';
             }
         }
 
-        // Export words
-        function exportWords() {
-            const dataStr = JSON.stringify(words, null, 2);
-            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+        // BG color functions
+        function createBGColorButtons() {
+            const colors = [
+                {name: 'Black', value: '#000000'},
+                {name: 'Dark', value: '#111111'},
+                {name: 'Hacker', value: 'radial-gradient(circle at 20% 20%, #0a1929, #050a0f 70%, #000)'},
+                {name: 'Blue', value: '#001f3f'},
+                {name: 'Green', value: '#003300'},
+                {name: 'Red', value: '#330000'},
+                {name: 'Purple', value: '#1a001a'},
+                {name: 'Light', value: '#f5f5f5', textColor: '#333333'}
+            ];
             
-            const exportFileDefaultName = 'somali-deutsch-vocabulary.json';
+            const container = document.getElementById('bgColors');
             
-            const linkElement = document.createElement('a');
-            linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', exportFileDefaultName);
-            linkElement.click();
-            
-            return `VOCABULARY EXPORTED TO ${exportFileDefaultName}`;
-        }
-
-        // Fake shutdown
-        function fakeShutdown() {
-            playSound('error');
-            const output = document.getElementById('terminal-output');
-            output.innerHTML = '<span class="error-message">>>> INITIATING SYSTEM SHUTDOWN...</span>';
-            
-            let count = 3;
-            const shutdownInterval = setInterval(() => {
-                if (count > 0) {
-                    output.innerHTML += `\n<span class="error-message">>>> SHUTDOWN IN ${count}...</span>`;
-                    count--;
-                } else {
-                    clearInterval(shutdownInterval);
-                    output.innerHTML += '\n<span class="error-message">>>> SYSTEM OFFLINE</span>';
-                    output.innerHTML += '\n<span class="success-message">>>> PRESS ANY KEY TO REBOOT...</span>';
-                    
-                    document.addEventListener('keydown', function reboot() {
-                        location.reload();
-                    }, { once: true });
-                }
-                output.scrollTop = output.scrollHeight;
-            }, 1000);
-        }
-
-        // Terminal controls
-        function minimizeTerminal() {
-            const terminal = document.getElementById('terminal-output');
-            terminal.style.height = terminal.style.height === '50px' ? '180px' : '50px';
-            playSound('type');
-        }
-
-        function maximizeTerminal() {
-            const terminal = document.getElementById('terminal-output');
-            terminal.style.height = terminal.style.height === '400px' ? '180px' : '400px';
-            playSound('type');
-        }
-
-        // Keyboard shortcuts
-        function handleKeyboardShortcuts(e) {
-            const input = document.getElementById('cmdInput');
-            
-            // Ctrl + L to clear
-            if (e.ctrlKey && e.key === 'l') {
-                e.preventDefault();
-                document.getElementById('terminal-output').innerHTML = '<span class="success-message">>>> TERMINAL CLEARED</span>';
-                playSound('type');
-            }
-            
-            // Ctrl + H for help
-            if (e.ctrlKey && e.key === 'h') {
-                e.preventDefault();
-                document.getElementById('helpModal').style.display = 
-                    document.getElementById('helpModal').style.display === 'flex' ? 'none' : 'flex';
-                playSound('type');
-            }
-            
-            // Up arrow for history
-            if (e.key === 'ArrowUp') {
-                e.preventDefault();
-                if (historyIndex < commandHistory.length - 1) {
-                    historyIndex++;
-                    input.value = commandHistory[commandHistory.length - 1 - historyIndex];
-                }
-            }
-            
-            // Down arrow for history
-            if (e.key === 'ArrowDown') {
-                e.preventDefault();
-                if (historyIndex > 0) {
-                    historyIndex--;
-                    input.value = commandHistory[commandHistory.length - 1 - historyIndex];
-                } else {
-                    historyIndex = -1;
-                    input.value = '';
-                }
-            }
-            
-            // Tab for auto-complete
-            if (e.key === 'Tab') {
-                e.preventDefault();
-                const commands = ['help', 'list', 'count', 'search', 'info', 'clear', 'random', 'theme', 'bg', 'color', 'time', 'date', 'export', 'matrix', 'sound', 'shutdown'];
-                const current = input.value.toLowerCase();
+            colors.forEach(color => {
+                const btn = document.createElement('button');
+                btn.className = 'bg-color-btn';
+                btn.textContent = color.name;
+                btn.style.background = color.value;
+                btn.style.color = color.textColor || '#ffffff';
                 
-                for (let cmd of commands) {
-                    if (cmd.startsWith(current) && current !== cmd) {
-                        input.value = cmd;
-                        break;
+                btn.addEventListener('click', function() {
+                    changeBackgroundColor(color.value);
+                    if (color.textColor) {
+                        document.body.style.color = color.textColor;
                     }
-                }
-            }
+                    addToTerminal(`Background: ${color.name}`);
+                });
+                
+                container.appendChild(btn);
+            });
         }
 
-        // Terminal command processor
-        const cmdInput = document.getElementById('cmdInput');
-        const outputDiv = document.getElementById('terminal-output');
+        function changeBackgroundColor(color) {
+            document.body.style.background = color;
+        }
 
-        cmdInput.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                playSound('type');
-                const cmd = this.value.trim();
-                let output = '';
-                
-                if (cmd === '') {
-                    this.value = '';
-                    return;
-                }
-                
-                // Add to history
-                commandHistory.push(cmd);
-                historyIndex = -1;
-                
-                const cmdLower = cmd.toLowerCase();
-                const parts = cmdLower.split(' ');
-                const mainCmd = parts[0];
-                const args = parts.slice(1).join(' ');
-                
-                // Process commands
-                switch(mainCmd) {
-                    case 'help':
-                    case 'commands':
-                        output = `AVAILABLE COMMANDS:\n` +
-                                 `• help / commands - Show this help\n` +
-                                 `• list / show all - Display all words\n` +
-                                 `• count / stats - Show statistics\n` +
-                                 `• search [term] - Search for a word\n` +
-                                 `• info [word] - Word information\n` +
-                                 `• clear / cls - Clear terminal\n` +
-                                 `• random / zufall - Random word\n` +
-                                 `• theme [dark/light/hacker] - Change theme\n` +
-                                 `• bg [color] - Change background\n` +
-                                 `• color [color] - Change text color\n` +
-                                 `• time - Current time\n` +
-                                 `• date - Current date\n` +
-                                 `• export - Export vocabulary\n` +
-                                 `• matrix - Toggle matrix effect\n` +
-                                 `• sound [on/off] - Toggle sound\n` +
-                                 `• shutdown / exit - Fake shutdown`;
-                        break;
-                        
-                    case 'list':
-                    case 'show':
-                    case 'showall':
-                        showAllWords();
-                        output = `>>> DISPLAYING ALL ${words.length} WORDS IN DATABASE`;
-                        break;
-                        
-                    case 'count':
-                    case 'stats':
-                    case 'statistik':
-                        output = `DATABASE STATISTICS:\n` +
-                                 `• Total words: ${words.length}\n` +
-                                 `• German verbs: ${words.filter(w => w.de.includes('en')).length}\n` +
-                                 `• Average uses: ${(words.reduce((a, w) => a + w.uses, 0) / words.length).toFixed(1)}`;
-                        break;
-                        
-                    case 'search':
-                        if (!args) {
-                            output = `ERROR: PLEASE SPECIFY SEARCH TERM\nUsage: search [word]`;
-                        } else {
-                            document.getElementById('searchInput').value = args;
-                            searchWords();
-                            output = `SEARCHING FOR: "${args}"`;
-                        }
-                        break;
-                        
-                    case 'info':
-                        if (!args) {
-                            output = `ERROR: PLEASE SPECIFY WORD\nUsage: info [word]`;
-                        } else {
-                            output = showWordInfo(args);
-                        }
-                        break;
-                        
-                    case 'clear':
-                    case 'cls':
-                        outputDiv.innerHTML = '<span class="success-message">>>> TERMINAL CLEARED</span>';
-                        this.value = '';
-                        return;
-                        
-                    case 'random':
-                    case 'zufall':
-                        output = showRandomWord();
-                        break;
-                        
-                    case 'theme':
-                        output = changeTheme(args || 'hacker');
-                        break;
-                        
-                    case 'bg':
-                    case 'background':
-                        if (!args) {
-                            output = `ERROR: PLEASE SPECIFY COLOR\nUsage: bg [color]`;
-                        } else {
-                            document.body.style.background = args;
-                            output = `BACKGROUND COLOR CHANGED TO: ${args}`;
-                        }
-                        break;
-                        
-                    case 'color':
-                    case 'textcolor':
-                        if (!args) {
-                            output = `ERROR: PLEASE SPECIFY COLOR\nUsage: color [color]`;
-                        } else {
-                            document.body.style.color = args;
-                            output = `TEXT COLOR CHANGED TO: ${args}`;
-                        }
-                        break;
-                        
-                    case 'time':
-                        const time = new Date().toLocaleTimeString();
-                        output = `CURRENT TIME: ${time}`;
-                        break;
-                        
-                    case 'date':
-                        const date = new Date().toLocaleDateString('de-DE', {
-                            weekday: 'long',
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                        });
-                        output = `CURRENT DATE: ${date}`;
-                        break;
-                        
-                    case 'export':
-                        output = exportWords();
-                        break;
-                        
-                    case 'matrix':
-                        output = toggleMatrix();
-                        break;
-                        
-                    case 'sound':
-                        output = toggleSound(args);
-                        break;
-                        
-                    case 'shutdown':
-                    case 'exit':
-                    case 'quit':
-                        fakeShutdown();
-                        this.value = '';
-                        return;
-                        
-                    default:
-                        playSound('error');
-                        output = `<span class="error-message">ERROR: UNKNOWN COMMAND '${mainCmd}'</span>\nType 'help' for available commands`;
-                        break;
-                }
-                
-                // Display output
-                outputDiv.innerHTML += `\nroot@sd-term:~$ ${cmd}\n<span class="success-message">${output}</span>`;
-                outputDiv.scrollTop = outputDiv.scrollHeight;
-                this.value = '';
+        // Update word count
+        function updateWordCount() {
+            document.getElementById('wordCount').textContent = words.length;
+        }
+
+        // Audio function (placeholder)
+        function playAudioExample(word) {
+            addToTerminal(`Audio: Playing pronunciation for "${word}"`);
+            // In a real app, you would integrate with a TTS API here
+        }
+
+        // Help modal
+        document.getElementById('helpBtn').addEventListener('click', function() {
+            document.getElementById('helpModal').style.display = 'flex';
+        });
+        
+        document.getElementById('closeHelp').addEventListener('click', function() {
+            document.getElementById('helpModal').style.display = 'none';
+        });
+        
+        window.addEventListener('click', function(e) {
+            if (e.target === document.getElementById('helpModal')) {
+                document.getElementById('helpModal').style.display = 'none';
             }
-        });
-
-        // Help Modal
-        const helpBtn = document.getElementById('helpBtn');
-        const helpModal = document.getElementById('helpModal');
-        const closeHelp = document.getElementById('closeHelp');
-
-        helpBtn.addEventListener('click', () => {
-            playSound('type');
-            helpModal.style.display = 'flex';
-        });
-
-        closeHelp.addEventListener('click', () => {
-            playSound('type');
-            helpModal.style.display = 'none';
-        });
-
-        window.addEventListener('click', (e) => {
-            if (e.target === helpModal) {
-                helpModal.style.display = 'none';
-            }
-        });
-
-        // Auto-focus on input when clicking anywhere
-        document.addEventListener('click', function() {
-            document.getElementById('cmdInput').focus();
         });
     </script>
 </body>
