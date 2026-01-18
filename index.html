@@ -147,621 +147,569 @@
     </div>
 
     <script>
-  const words = [
-    {
-        so: "gehen",
-        de: "socod / tagid",
-        explanation: "Waxaa loo isticmaalaa socod ama u tagid meel.",
-        uses: 2,
-        example: "Ich gehe nach Hause / Waxaan aadayaa guriga"
-    },
-    {
-        so: "aufgehen",
-        de: "furmid",
-        explanation: "Waxaa loo adeegsadaa wax isfuraya sida albaab ama daaqad.",
-        uses: 2,
-        example: "Die Tür geht auf / Albaabku wuu furmay"
-    },
-    {
-        so: "ausgehen",
-        de: "dansid / bakhtiin",
-        explanation: "Waxaa loo isticmaalaa marka iftiin, dab ama koronto bakhtiyo ama qof bannaanka u baxo.",
-        uses: 2,
-        example: "Das Licht geht aus / Iftiinku wuu dansaday"
-    },
-    {
-        so: "eingehen",
-        de: "aqbalid / ka jawaabid",
-        explanation: "Waxaa loo adeegsadaa aqbalidda dalab, heshiis ama ka jawaabidda mawduuc.",
-        uses: 2,
-        example: "Er geht auf das Angebot ein / Wuxuu aqbalay dalabka"
-    },
-    {
-        so: "untergehen",
-        de: "dhicid / baaba'id",
-        explanation: "Waxaa loo isticmaalaa marka qorraxdu dhacdo ama wax baaba'aan.",
-        uses: 2,
-        example: "Die Sonne geht unter / Qorraxdu way dhacaysaa"
-    },
-    {
-        so: "weggehen",
-        de: "ka tagid",
-        explanation: "Waxaa loo adeegsadaa marka qof meel ka tagayo.",
-        uses: 2,
-        example: "Er geht weg / Wuu ka tagayaa"
-    },
-    {
-        so: "mitgehen",
-        de: "raacid",
-        explanation: "Waxaa loo isticmaalaa marka qof lala socdo ama lala raaco.",
-        uses: 2,
-        example: "Ich gehe mit dir mit / Waan kula socdaa"
-    },
-    {
-        so: "zurückgehen",
-        de: "dib u noqosho",
-        explanation: "Waxaa loo adeegsadaa dib ugu laabashada meel hore.",
-        uses: 2,
-        example: "Wir gehen zurück nach Hause / Waxaan dib ugu laabanaynaa guriga"
-    },
-    {
-        so: "losgehen",
-        de: "bilaabmid",
-        explanation: "Waxaa loo isticmaalaa marka wax bilaabmaan (safar, dhacdo, dagaal).",
-        uses: 1,
-        example: "Die Reise geht los / Safarku wuu bilaabmay"
-    },
-    {
-        so: "weitergehen",
-        de: "sii socod",
-        explanation: "Waxaa loo adeegsadaa wax sii socda ama la sii wado.",
-        uses: 1,
-        example: "Der Unterricht geht weiter / Casharku wuu sii socdaa"
-    },
-    {
-        so: "vorbeigehen",
-        de: "dhaafid",
-        explanation: "Waxaa loo isticmaalaa marka qof ama wax meel dhaafo.",
-        uses: 2,
-        example: "Er geht am Haus vorbei / Wuxuu ka dhaafay guriga"
-    },
-    {
-        so: "nachgehen",
-        de: "dabagalid",
-        explanation: "Waxaa loo adeegsadaa baaritaan ama daba galid arrin.",
-        uses: 1,
-        example: "Die Polizei geht dem Fall nach / Boolisku way dabagalayaan kiiska"
-    },
+        // Words array - waa la badali karaa iyo kordhin karaa
+        const words = [
+            {
+                so: "gehen",
+                de: "socod / tagid",
+                explanation: "Waxaa loo isticmaalaa socod ama u tagid meel.",
+                uses: 2,
+                example: "Ich gehe nach Hause / Waxaan aadayaa guriga"
+            },
+            {
+                so: "aufgehen",
+                de: "furmid",
+                explanation: "Waxaa loo adeegsadaa wax isfuraya sida albaab ama daaqad.",
+                uses: 2,
+                example: "Die Tür geht auf / Albaabku wuu furmay"
+            },
+            {
+                so: "ausgehen",
+                de: "dansid / bakhtiin",
+                explanation: "Waxaa loo isticmaalaa marka iftiin, dab ama koronto bakhtiyo ama qof bannaanka u baxo.",
+                uses: 2,
+                example: "Das Licht geht aus / Iftiinku wuu dansaday"
+            },
+            {
+                so: "eingehen",
+                de: "aqbalid / ka jawaabid",
+                explanation: "Waxaa loo adeegsadaa aqbalidda dalab, heshiis ama ka jawaabidda mawduuc.",
+                uses: 2,
+                example: "Er geht auf das Angebot ein / Wuxuu aqbalay dalabka"
+            },
+            {
+                so: "untergehen",
+                de: "dhicid / baaba'id",
+                explanation: "Waxaa loo isticmaalaa marka qorraxdu dhacdo ama wax baaba'aan.",
+                uses: 2,
+                example: "Die Sonne geht unter / Qorraxdu way dhacaysaa"
+            },
+            {
+                so: "weggehen",
+                de: "ka tagid",
+                explanation: "Waxaa loo adeegsadaa marka qof meel ka tagayo.",
+                uses: 2,
+                example: "Er geht weg / Wuu ka tagayaa"
+            },
+            {
+                so: "mitgehen",
+                de: "raacid",
+                explanation: "Waxaa loo isticmaalaa marka qof lala socdo ama lala raaco.",
+                uses: 2,
+                example: "Ich gehe mit dir mit / Waan kula socdaa"
+            },
+            {
+                so: "zurückgehen",
+                de: "dib u noqosho",
+                explanation: "Waxaa loo adeegsadaa dib ugu laabashada meel hore.",
+                uses: 2,
+                example: "Wir gehen zurück nach Hause / Waxaan dib ugu laabanaynaa guriga"
+            },
+            {
+                so: "losgehen",
+                de: "bilaabmid",
+                explanation: "Waxaa loo isticmaalaa marka wax bilaabmaan (safar, dhacdo, dagaal).",
+                uses: 1,
+                example: "Die Reise geht los / Safarku wuu bilaabmay"
+            },
+            {
+                so: "weitergehen",
+                de: "sii socod",
+                explanation: "Waxaa loo adeegsadaa wax sii socda ama la sii wado.",
+                uses: 1,
+                example: "Der Unterricht geht weiter / Casharku wuu sii socdaa"
+            },
+            {
+                so: "vorbeigehen",
+                de: "dhaafid",
+                explanation: "Waxaa loo isticmaalaa marka qof ama wax meel dhaafo.",
+                uses: 2,
+                example: "Er geht am Haus vorbei / Wuxuu ka dhaafay guriga"
+            },
+            {
+                so: "nachgehen",
+                de: "dabagalid",
+                explanation: "Waxaa loo adeegsadaa baaritaan ama daba galid arrin.",
+                uses: 1,
+                example: "Die Polizei geht dem Fall nach / Boolisku way dabagalayaan kiiska"
+            },
 
-    {
-        so: "kommen",
-        de: "imaansho",
-        explanation: "Waxaa loo isticmaalaa imaanshaha qof ama wax.",
-        uses: 2,
-        example: "Ich komme nach Hause / Waxaan imaanayaa guriga"
-    },
-    {
-        so: "ankommen",
-        de: "gaadhid",
-        explanation: "Waxaa loo adeegsadaa marka qof ama wax meel gaadho.",
-        uses: 2,
-        example: "Der Zug kommt pünktlich an / Tareenku wuu gaadhay waqtigiisii"
-    },
-    {
-        so: "aufkommen",
-        de: "soo bixid / kacid",
-        explanation: "Waxaa loo isticmaalaa fikrad, su'aal ama dhibaato soo baxda.",
-        uses: 1,
-        example: "Eine Frage kommt auf / Su’aal ayaa soo baxday"
-    },
-    {
-        so: "bekommen",
-        de: "helid / qaadasho",
-        explanation: "Waxaa loo adeegsadaa helidda ama qaadashada wax.",
-        uses: 2,
-        example: "Ich bekomme ein Geschenk / Waxaan helayaa hadiyad"
-    },
-    {
-        so: "einkommen",
-        de: "soo gelid",
-        explanation: "Waxaa loo isticmaalaa marka lacag ama xog soo gasho.",
-        uses: 1,
-        example: "Das Geld kommt ein / Lacagtu way soo gashay"
-    },
-    {
-        so: "entkommen",
-        de: "ka baxsad",
-        explanation: "Waxaa loo adeegsadaa baxsad ama ka badbaadid khatar.",
-        uses: 1,
-        example: "Der Dieb konnte entkommen / Tuuggii wuu baxsaday"
-    },
-    {
-        so: "herkommen",
-        de: "ka imaanid",
-        explanation: "Waxaa loo isticmaalaa asalka ama meesha wax ka yimaadeen.",
-        uses: 2,
-        example: "Woher kommst du? / Xaggee baad ka timid?"
-    },
-    {
-        so: "mitkommen",
-        de: "raacid / la imaatin",
-        explanation: "Waxaa loo adeegsadaa marka qof lala yimaado.",
-        uses: 2,
-        example: "Kommst du mit? / Ma nala imanaysaa?"
-    },
-    {
-        so: "nachkommen",
-        de: "raacid / fulin",
-        explanation: "Waxaa loo isticmaalaa fulinta waajib ama amar.",
-        uses: 1,
-        example: "Er kommt seiner Pflicht nach / Wuxuu gutay waajibkiisa"
-    },
-    {
-        so: "umkommen",
-        de: "dhimasho / halaag",
-        explanation: "Waxaa loo adeegsadaa dhimasho ku timaadda shil ama masiibo.",
-        uses: 1,
-        example: "Viele Menschen kamen um / Dad badan ayaa dhintay"
-    },
-    {
-        so: "vorbeikommen",
-        de: "soo dhaafid / martid",
-        explanation: "Waxaa loo isticmaalaa marka qof si kooban u soo booqdo.",
-        uses: 2,
-        example: "Ich komme später vorbei / Waan soo dhaafi doonaa dambe"
-    },
-    {
-        so: "zurückkommen",
-        de: "soo noqosho",
-        explanation: "Waxaa loo adeegsadaa ku soo laabashada meel.",
-        uses: 2,
-        example: "Er kommt morgen zurück / Wuxuu soo noqonayaa berri"
-    },
+            {
+                so: "kommen",
+                de: "imaansho",
+                explanation: "Waxaa loo isticmaalaa imaanshaha qof ama wax.",
+                uses: 2,
+                example: "Ich komme nach Hause / Waxaan imaanayaa guriga"
+            },
+            {
+                so: "ankommen",
+                de: "gaadhid",
+                explanation: "Waxaa loo adeegsadaa marka qof ama wax meel gaadho.",
+                uses: 2,
+                example: "Der Zug kommt pünktlich an / Tareenku wuu gaadhay waqtigiisii"
+            },
+            {
+                so: "aufkommen",
+                de: "soo bixid / kacid",
+                explanation: "Waxaa loo isticmaalaa fikrad, su'aal ama dhibaato soo baxda.",
+                uses: 1,
+                example: "Eine Frage kommt auf / Su’aal ayaa soo baxday"
+            },
+            {
+                so: "bekommen",
+                de: "helid / qaadasho",
+                explanation: "Waxaa loo adeegsadaa helidda ama qaadashada wax.",
+                uses: 2,
+                example: "Ich bekomme ein Geschenk / Waxaan helayaa hadiyad"
+            },
+            {
+                so: "einkommen",
+                de: "soo gelid",
+                explanation: "Waxaa loo isticmaalaa marka lacag ama xog soo gasho.",
+                uses: 1,
+                example: "Das Geld kommt ein / Lacagtu way soo gashay"
+            },
+            {
+                so: "entkommen",
+                de: "ka baxsad",
+                explanation: "Waxaa loo adeegsadaa baxsad ama ka badbaadid khatar.",
+                uses: 1,
+                example: "Der Dieb konnte entkommen / Tuuggii wuu baxsaday"
+            },
+            {
+                so: "herkommen",
+                de: "ka imaanid",
+                explanation: "Waxaa loo isticmaalaa asalka ama meesha wax ka yimaadeen.",
+                uses: 2,
+                example: "Woher kommst du? / Xaggee baad ka timid?"
+            },
+            {
+                so: "mitkommen",
+                de: "raacid / la imaatin",
+                explanation: "Waxaa loo adeegsadaa marka qof lala yimaado.",
+                uses: 2,
+                example: "Kommst du mit? / Ma nala imanaysaa?"
+            },
+            {
+                so: "nachkommen",
+                de: "raacid / fulin",
+                explanation: "Waxaa loo isticmaalaa fulinta waajib ama amar.",
+                uses: 1,
+                example: "Er kommt seiner Pflicht nach / Wuxuu gutay waajibkiisa"
+            },
+            {
+                so: "umkommen",
+                de: "dhimasho / halaag",
+                explanation: "Waxaa loo adeegsadaa dhimasho ku timaadda shil ama masiibo.",
+                uses: 1,
+                example: "Viele Menschen kamen um / Dad badan ayaa dhintay"
+            },
+            {
+                so: "vorbeikommen",
+                de: "soo dhaafid / martid",
+                explanation: "Waxaa loo isticmaalaa marka qof si kooban u soo booqdo.",
+                uses: 2,
+                example: "Ich komme später vorbei / Waan soo dhaafi doonaa dambe"
+            },
+            {
+                so: "zurückkommen",
+                de: "soo noqosho",
+                explanation: "Waxaa loo adeegsadaa ku soo laabashada meel.",
+                uses: 2,
+                example: "Er kommt morgen zurück / Wuxuu soo noqonayaa berri"
+            },
 
-    {
-        so: "springen",
-        de: "boodid",
-        explanation: "Waxaa loo isticmaalaa boodidda qof ama shay.",
-        uses: 2,
-        example: "Das Kind springt hoch / Ilmuhu wuu boodaa"
-    },
-    {
-        so: "aufspringen",
-        de: "si kedis ah u boodid / furmid",
-        explanation: "Waxaa loo adeegsadaa marka qof si degdeg ah u boodo ama shay isfuro.",
-        uses: 2,
-        example: "Er springt vom Stuhl auf / Wuxuu si kedis ah uga booday kursiga"
-    },
-    {
-        so: "abspringen",
-        de: "ka boodid",
-        explanation: "Waxaa loo isticmaalaa boodid laga boodo meel sare ama gaari socda.",
-        uses: 2,
-        example: "Er springt vom Zug ab / Wuxuu ka booday tareenka"
-    },
-    {
-        so: "einspringen",
-        de: "beddelid / ku meel gaar shaqayn",
-        explanation: "Waxaa loo adeegsadaa marka qof kale booskiisa la galo.",
-        uses: 1,
-        example: "Ich springe für ihn ein / Waxaan u beddelayaa isaga"
-    },
-    {
-        so: "herausspringen",
-        de: "dibadda u boodid",
-        explanation: "Waxaa loo isticmaalaa marka wax si lama filaan ah dibadda u soo boodaan.",
-        uses: 2,
-        example: "Der Ball springt aus der Tasche heraus / Kubbaddu boorsada ayay ka soo boodday"
-    },
-    {
-        so: "überspringen",
-        de: "ka boodid / dhaafid",
-        explanation: "Waxaa loo adeegsadaa marka wax la iska dhaafo ama laga boodo.",
-        uses: 1,
-        example: "Wir überspringen dieses Kapitel / Waxaan ka boodnay cutubkan"
-    },
-    {
-        so: "zurückspringen",
-        de: "dib u boodid",
-        explanation: "Waxaa loo isticmaalaa boodid dib loogu laabto meel hore.",
-        uses: 2,
-        example: "Die Katze springt zurück / Bisaddu way dib u boodday"
-    },
-    {
-        so: "wegspringen",
-        de: "ka boodid / ka cararid",
-        explanation: "Waxaa loo adeegsadaa boodid degdeg ah si looga fogaado khatar.",
-        uses: 2,
-        example: "Er springt zur Seite weg / Wuxuu dhinac uga booday"
-    },
+            {
+                so: "springen",
+                de: "boodid",
+                explanation: "Waxaa loo isticmaalaa boodidda qof ama shay.",
+                uses: 2,
+                example: "Das Kind springt hoch / Ilmuhu wuu boodaa"
+            },
+            {
+                so: "aufspringen",
+                de: "si kedis ah u boodid / furmid",
+                explanation: "Waxaa loo adeegsadaa marka qof si degdeg ah u boodo ama shay isfuro.",
+                uses: 2,
+                example: "Er springt vom Stuhl auf / Wuxuu si kedis ah uga booday kursiga"
+            },
+            {
+                so: "abspringen",
+                de: "ka boodid",
+                explanation: "Waxaa loo isticmaalaa boodid laga boodo meel sare ama gaari socda.",
+                uses: 2,
+                example: "Er springt vom Zug ab / Wuxuu ka booday tareenka"
+            },
+            {
+                so: "einspringen",
+                de: "beddelid / ku meel gaar shaqayn",
+                explanation: "Waxaa loo adeegsadaa marka qof kale booskiisa la galo.",
+                uses: 1,
+                example: "Ich springe für ihn ein / Waxaan u beddelayaa isaga"
+            },
+            {
+                so: "herausspringen",
+                de: "dibadda u boodid",
+                explanation: "Waxaa loo isticmaalaa marka wax si lama filaan ah dibadda u soo boodaan.",
+                uses: 2,
+                example: "Der Ball springt aus der Tasche heraus / Kubbaddu boorsada ayay ka soo boodday"
+            },
+            {
+                so: "überspringen",
+                de: "ka boodid / dhaafid",
+                explanation: "Waxaa loo adeegsadaa marka wax la iska dhaafo ama laga boodo.",
+                uses: 1,
+                example: "Wir überspringen dieses Kapitel / Waxaan ka boodnay cutubkan"
+            },
+            {
+                so: "zurückspringen",
+                de: "dib u boodid",
+                explanation: "Waxaa loo isticmaalaa boodid dib loogu laabto meel hore.",
+                uses: 2,
+                example: "Die Katze springt zurück / Bisaddu way dib u boodday"
+            },
+            {
+                so: "wegspringen",
+                de: "ka boodid / ka cararid",
+                explanation: "Waxaa loo adeegsadaa boodid degdeg ah si looga fogaado khatar.",
+                uses: 2,
+                example: "Er springt zur Seite weg / Wuxuu dhinac uga booday"
+            },
 
+            {
+                so: "fangen",
+                de: "qabasho",
+                explanation: "Waxaa loo isticmaalaa qabashada qof ama shay.",
+                uses: 2,
+                example: "Der Hund fängt den Ball / Eygu wuxuu qabtay kubbadda"
+            },
+            {
+                so: "anfangen",
+                de: "bilaabid",
+                explanation: "Waxaa loo adeegsadaa bilaabidda hawl, shaqo ama waxbarasho.",
+                uses: 2,
+                example: "Wir fangen mit der Arbeit an / Waxaan bilaabaynaa shaqada"
+            },
+            {
+                so: "auffangen",
+                de: "qabasho / celin",
+                explanation: "Waxaa loo isticmaalaa qabashada wax dhacaya ama yaraynta saameyn.",
+                uses: 1,
+                example: "Er fängt das Glas auf / Wuxuu qabtay koobka"
+            },
+            {
+                so: "abfangen",
+                de: "hor istaagid / qabasho",
+                explanation: "Waxaa loo adeegsadaa wax hor istaagid ama ka hor qabasho.",
+                uses: 1,
+                example: "Die Polizei fängt den Dieb ab / Boolisku wuxuu qabtay tuugga"
+            },
+            {
+                so: "einfangen",
+                de: "qabasho / ururin",
+                explanation: "Waxaa loo isticmaalaa qabashada xoolo ama wax baxsaday.",
+                uses: 1,
+                example: "Die Bauern fangen die Tiere ein / Beeralaydu waxay qabteen xoolihii"
+            },
+            {
+                so: "wegfangen",
+                de: "ka qaadid / ka qabasho",
+                explanation: "Waxaa loo adeegsadaa marka wax qof kale laga hor qabto.",
+                uses: 1,
+                example: "Er fängt mir den Ball weg / Wuxuu iga hor qabtay kubbadda"
+            },
+            {
+                so: "überfangen",
+                de: "ka badbadin / daboolid",
+                explanation: "Waxaa loo isticmaalaa wax si xad-dhaaf ah u daboola ama u gaadha.",
+                uses: 1,
+                example: "Die Angst überfängt ihn / Cabsi ayaa qabsatay"
+            },
 
-    {
-        so: "fangen",
-        de: "qabasho",
-        explanation: "Waxaa loo isticmaalaa qabashada qof ama shay.",
-        uses: 2,
-        example: "Der Hund fängt den Ball / Eygu wuxuu qabtay kubbadda"
-    },
-    {
-        so: "anfangen",
-        de: "bilaabid",
-        explanation: "Waxaa loo adeegsadaa bilaabidda hawl, shaqo ama waxbarasho.",
-        uses: 2,
-        example: "Wir fangen mit der Arbeit an / Waxaan bilaabaynaa shaqada"
-    },
-    {
-        so: "auffangen",
-        de: "qabasho / celin",
-        explanation: "Waxaa loo isticmaalaa qabashada wax dhacaya ama yaraynta saameyn.",
-        uses: 1,
-        example: "Er fängt das Glas auf / Wuxuu qabtay koobka"
-    },
-    {
-        so: "abfangen",
-        de: "hor istaagid / qabasho",
-        explanation: "Waxaa loo adeegsadaa wax hor istaagid ama ka hor qabasho.",
-        uses: 1,
-        example: "Die Polizei fängt den Dieb ab / Boolisku wuxuu qabtay tuugga"
-    },
-    {
-        so: "einfangen",
-        de: "qabasho / ururin",
-        explanation: "Waxaa loo isticmaalaa qabashada xoolo ama wax baxsaday.",
-        uses: 1,
-        example: "Die Bauern fangen die Tiere ein / Beeralaydu waxay qabteen xoolihii"
-    },
-    {
-        so: "wegfangen",
-        de: "ka qaadid / ka qabasho",
-        explanation: "Waxaa loo adeegsadaa marka wax qof kale laga hor qabto.",
-        uses: 1,
-        example: "Er fängt mir den Ball weg / Wuxuu iga hor qabtay kubbadda"
-    },
-    {
-        so: "überfangen",
-        de: "ka badbadin / daboolid",
-        explanation: "Waxaa loo isticmaalaa wax si xad-dhaaf ah u daboola ama u gaadha.",
-        uses: 1,
-        example: "Die Angst überfängt ihn / Cabsi ayaa qabsatay"
-    },
+            {
+                so: "nehmen",
+                de: "qaadid",
+                explanation: "Waxaa loo isticmaalaa qaadashada shay ama qof.",
+                uses: 2,
+                example: "Ich nehme das Buch / Waxaan qaadanayaa buugga"
+            },
+            {
+                so: "annehmen",
+                de: "aqbalid",
+                explanation: "Waxaa loo adeegsadaa aqbalidda dalab, fikrad ama hadiyad.",
+                uses: 2,
+                example: "Er nimmt das Angebot an / Wuxuu aqbalay dalabka"
+            },
+            {
+                so: "aufnehmen",
+                de: "qaadid / duubid",
+                explanation: "Waxaa loo isticmaalaa qaadashada qof ama duubista cod iyo muuqaal.",
+                uses: 2,
+                example: "Die Schule nimmt neue Schüler auf / Dugsigu wuxuu qaadanayaa arday cusub"
+            },
+            {
+                so: "abnehmen",
+                de: "dhimid / ka qaadid",
+                explanation: "Waxaa loo adeegsadaa dhimista miisaan ama wax laga qaado.",
+                uses: 2,
+                example: "Er nimmt ab / Wuu miisaankiisu yaraanayaa"
+            },
+            {
+                so: "mitnehmen",
+                de: "la qaadid",
+                explanation: "Waxaa loo isticmaalaa wax ama qof lala qaato.",
+                uses: 2,
+                example: "Ich nehme dich mit / Waan ku qaadanayaa"
+            },
+            {
+                so: "wegnehmen",
+                de: "ka qaadid",
+                explanation: "Waxaa loo adeegsadaa wax qof kale laga qaado.",
+                uses: 2,
+                example: "Er nimmt mir das Handy weg / Wuxuu iga qaaday taleefanka"
+            },
+            {
+                so: "einnehmen",
+                de: "qaadasho / qabsasho",
+                explanation: "Waxaa loo isticmaalaa qaadashada daawo ama qabsashada meel.",
+                uses: 1,
+                example: "Sie nimmt die Medizin ein / Waxay qaadanaysaa daawada"
+            },
+            {
+                so: "übernehmen",
+                de: "la wareegid / qaadid masuuliyad",
+                explanation: "Waxaa loo adeegsadaa qaadashada masuuliyad ama shaqo.",
+                uses: 1,
+                example: "Er übernimmt die Verantwortung / Wuxuu qaatay masuuliyadda"
+            },
+            {
+                so: "teilnehmen",
+                de: "ka qaybgalid",
+                explanation: "Waxaa loo isticmaalaa ka qaybgalidda dhacdo ama kulan.",
+                uses: 1,
+                example: "Ich nehme am Kurs teil / Waxaan ka qaybgalayaa koorsada"
+            },
+            {
+                so: "zunehmen",
+                de: "kordhid (miisaan)",
+                explanation: "Waxaa loo adeegsadaa miisaan ama tiro kordhaysa.",
+                uses: 1,
+                example: "Er nimmt zu / Wuu miisaankiisu kordhay"
+            },
 
-    {
-        so: "fangen",
-        de: "qabasho",
-        explanation: "Waxaa loo isticmaalaa qabashada qof ama shay.",
-        uses: 2,
-        example: "Der Hund fängt den Ball / Eygu wuxuu qabtay kubbadda"
-    },
-    {
-        so: "anfangen",
-        de: "bilaabid",
-        explanation: "Waxaa loo adeegsadaa bilaabidda hawl, shaqo ama waxbarasho.",
-        uses: 2,
-        example: "Wir fangen mit der Arbeit an / Waxaan bilaabaynaa shaqada"
-    },
-    {
-        so: "auffangen",
-        de: "qabasho / celin",
-        explanation: "Waxaa loo isticmaalaa qabashada wax dhacaya ama yaraynta saameyn.",
-        uses: 1,
-        example: "Er fängt das Glas auf / Wuxuu qabtay koobka"
-    },
-    {
-        so: "abfangen",
-        de: "hor istaagid / qabasho",
-        explanation: "Waxaa loo adeegsadaa wax hor istaagid ama ka hor qabasho.",
-        uses: 1,
-        example: "Die Polizei fängt den Dieb ab / Boolisku wuxuu qabtay tuugga"
-    },
-    {
-        so: "einfangen",
-        de: "qabasho / ururin",
-        explanation: "Waxaa loo isticmaalaa qabashada xoolo ama wax baxsaday.",
-        uses: 1,
-        example: "Die Bauern fangen die Tiere ein / Beeralaydu waxay qabteen xoolihii"
-    },
-    {
-        so: "wegfangen",
-        de: "ka qaadid / ka qabasho",
-        explanation: "Waxaa loo adeegsadaa marka wax qof kale laga hor qabto.",
-        uses: 1,
-        example: "Er fängt mir den Ball weg / Wuxuu iga hor qabtay kubbadda"
-    },
-    {
-        so: "überfangen",
-        de: "ka badbadin / daboolid",
-        explanation: "Waxaa loo isticmaalaa wax si xad-dhaaf ah u daboola ama u gaadha.",
-        uses: 1,
-        example: "Die Angst überfängt ihn / Cabsi ayaa qabsatay"
-    },
+            {
+                so: "geben",
+                de: "siinid",
+                explanation: "Waxaa loo isticmaalaa siinta qof ama shay wax.",
+                uses: 2,
+                example: "Ich gebe dir das Buch / Waxaan ku siinayaa buugga"
+            },
+            {
+                so: "abgeben",
+                de: "wareejin / dhiibid",
+                explanation: "Waxaa loo adeegsadaa wax la dhiibo ama la wareejiyo.",
+                uses: 2,
+                example: "Er gibt den Schlüssel ab / Wuxuu dhiibayaa furaha"
+            },
+            {
+                so: "angeben",
+                de: "sheegid / faanid",
+                explanation: "Waxaa loo isticmaalaa xog sheegid ama faan.",
+                uses: 2,
+                example: "Bitte geben Sie Ihre Adresse an / Fadlan sheeg cinwaankaaga"
+            },
+            {
+                so: "aufgeben",
+                de: "joojin / ka tagid",
+                explanation: "Waxaa loo adeegsadaa ka tagidda ama is dhiibid.",
+                uses: 2,
+                example: "Er gibt nicht auf / Isagu ma quusto"
+            },
+            {
+                so: "ausgeben",
+                de: "kharash gareyn",
+                explanation: "Waxaa loo isticmaalaa lacag bixinta ama wax ku qarash garayn.",
+                uses: 2,
+                example: "Ich gebe viel Geld aus / Waxaan qarash gareeyaa lacag badan"
+            },
+            {
+                so: "eingeben",
+                de: "gelin / ku qorid",
+                explanation: "Waxaa loo adeegsadaa gelinta xog kombiyuutar ama qalab.",
+                uses: 1,
+                example: "Bitte geben Sie das Passwort ein / Fadlan geli erayga sirta"
+            },
+            {
+                so: "mitgeben",
+                de: "la siinid",
+                explanation: "Waxaa loo isticmaalaa wax lala sii diro qof.",
+                uses: 2,
+                example: "Die Mutter gibt dem Kind Essen mit / Hooyadu cunno ayay siisay ilmaha"
+            },
+            {
+                so: "weitergeben",
+                de: "sii gudbin",
+                explanation: "Waxaa loo adeegsadaa xog ama wax loo sii gudbiyo qof kale.",
+                uses: 1,
+                example: "Er gibt die Nachricht weiter / Wuxuu sii gudbiyay fariinta"
+            },
+            {
+                so: "zurückgeben",
+                de: "soo celin",
+                explanation: "Waxaa loo isticmaalaa wax dib loo celiyo.",
+                uses: 2,
+                example: "Ich gebe das Buch zurück / Waxaan soo celinayaa buugga"
+            },
+            {
+                so: "übergeben",
+                de: "ku wareejin / dhiibid",
+                explanation: "Waxaa loo adeegsadaa si rasmi ah wax loo wareejiyo ama qof matago.",
+                uses: 1,
+                example: "Er übergibt das Amt / Wuxuu wareejinayaa xilka"
+            },
 
+            {
+                so: "stehen",
+                de: "istaagid",
+                explanation: "Waxaa loo isticmaalaa istaagga qof ama shay.",
+                uses: 2,
+                example: "Ich stehe vor dem Haus / Waxaan istaagayaa guriga hortiisa"
+            },
+            {
+                so: "aufstehen",
+                de: "kacid / istaagid",
+                explanation: "Waxaa loo adeegsadaa ka kacidda sariir ama kursi.",
+                uses: 2,
+                example: "Ich stehe früh auf / Waxaan kacaa aroortii hore"
+            },
+            {
+                so: "anstehen",
+                de: "saf u galid / sugid",
+                explanation: "Waxaa loo isticmaalaa saf u galid ama wax sugid.",
+                uses: 2,
+                example: "Wir stehen an der Kasse an / Waxaan saf ugu jirnaa khasnadda"
+            },
+            {
+                so: "bestehen",
+                de: "ku guulaysasho / ka koobnaansho",
+                explanation: "Waxaa loo adeegsadaa imtixaan ku guulaysasho ama wax ka koobnaan.",
+                uses: 1,
+                example: "Er besteht die Prüfung / Wuxuu ku guulaystay imtixaanka"
+            },
+            {
+                so: "entstehen",
+                de: "abuurmid / dhalan",
+                explanation: "Waxaa loo isticmaalaa marka wax cusub abuurmaan.",
+                uses: 1,
+                example: "Ein Problem entsteht / Dhibaato ayaa dhalatay"
+            },
+            {
+                so: "feststehen",
+                de: "hubanti noqosho",
+                explanation: "Waxaa loo adeegsadaa marka wax si cad loo hubiyo.",
+                uses: 1,
+                example: "Der Termin steht fest / Ballantu waa hubaal"
+            },
+            {
+                so: "herumstehen",
+                de: "meel ku istaagid",
+                explanation: "Waxaa loo isticmaalaa marka wax meel yaallaan iyagoo aan la isticmaalin.",
+                uses: 1,
+                example: "Die Kartons stehen herum / Sanduuqyada meel bay yaallaan"
+            },
+            {
+                so: "mitstehen",
+                de: "la istaagid",
+                explanation: "Waxaa loo adeegsadaa marka qof la istaago ama la taageero.",
+                uses: 1,
+                example: "Ich stehe dir bei und mit / Waan kula garab istaagayaa"
+            },
+            {
+                so: "umstehen",
+                de: "ku wareegsan istaagid",
+                explanation: "Waxaa loo isticmaalaa marka dad ama wax wax ku wareegsan yihiin.",
+                uses: 1,
+                example: "Viele Leute stehen das Haus um / Dad badan ayaa guriga ku wareegsan"
+            },
+            {
+                so: "zustehen",
+                de: "xaq u lahaansho",
+                explanation: "Waxaa loo adeegsadaa marka qof wax xaq u leeyahay.",
+                uses: 1,
+                example: "Das Geld steht ihm zu / Lacagtu waa xaqiisa"
+            },
 
-    {
-        so: "nehmen",
-        de: "qaadid",
-        explanation: "Waxaa loo isticmaalaa qaadashada shay ama qof.",
-        uses: 2,
-        example: "Ich nehme das Buch / Waxaan qaadanayaa buugga"
-    },
-    {
-        so: "annehmen",
-        de: "aqbalid",
-        explanation: "Waxaa loo adeegsadaa aqbalidda dalab, fikrad ama hadiyad.",
-        uses: 2,
-        example: "Er nimmt das Angebot an / Wuxuu aqbalay dalabka"
-    },
-    {
-        so: "aufnehmen",
-        de: "qaadid / duubid",
-        explanation: "Waxaa loo isticmaalaa qaadashada qof ama duubista cod iyo muuqaal.",
-        uses: 2,
-        example: "Die Schule nimmt neue Schüler auf / Dugsigu wuxuu qaadanayaa arday cusub"
-    },
-    {
-        so: "abnehmen",
-        de: "dhimid / ka qaadid",
-        explanation: "Waxaa loo adeegsadaa dhimista miisaan ama wax laga qaado.",
-        uses: 2,
-        example: "Er nimmt ab / Wuu miisaankiisu yaraanayaa"
-    },
-    {
-        so: "mitnehmen",
-        de: "la qaadid",
-        explanation: "Waxaa loo isticmaalaa wax ama qof lala qaato.",
-        uses: 2,
-        example: "Ich nehme dich mit / Waan ku qaadanayaa"
-    },
-    {
-        so: "wegnehmen",
-        de: "ka qaadid",
-        explanation: "Waxaa loo adeegsadaa wax qof kale laga qaado.",
-        uses: 2,
-        example: "Er nimmt mir das Handy weg / Wuxuu iga qaaday taleefanka"
-    },
-    {
-        so: "einnehmen",
-        de: "qaadasho / qabsasho",
-        explanation: "Waxaa loo isticmaalaa qaadashada daawo ama qabsashada meel.",
-        uses: 1,
-        example: "Sie nimmt die Medizin ein / Waxay qaadanaysaa daawada"
-    },
-    {
-        so: "übernehmen",
-        de: "la wareegid / qaadid masuuliyad",
-        explanation: "Waxaa loo adeegsadaa qaadashada masuuliyad ama shaqo.",
-        uses: 1,
-        example: "Er übernimmt die Verantwortung / Wuxuu qaatay masuuliyadda"
-    },
-    {
-        so: "teilnehmen",
-        de: "ka qaybgalid",
-        explanation: "Waxaa loo isticmaalaa ka qaybgalidda dhacdo ama kulan.",
-        uses: 1,
-        example: "Ich nehme am Kurs teil / Waxaan ka qaybgalayaa koorsada"
-    },
-    {
-        so: "zunehmen",
-        de: "kordhid (miisaan)",
-        explanation: "Waxaa loo adeegsadaa miisaan ama tiro kordhaysa.",
-        uses: 1,
-        example: "Er nimmt zu / Wuu miisaankiisu kordhay"
-    },
-
-    {
-        so: "geben",
-        de: "siinid",
-        explanation: "Waxaa loo isticmaalaa siinta qof ama shay wax.",
-        uses: 2,
-        example: "Ich gebe dir das Buch / Waxaan ku siinayaa buugga"
-    },
-    {
-        so: "abgeben",
-        de: "wareejin / dhiibid",
-        explanation: "Waxaa loo adeegsadaa wax la dhiibo ama la wareejiyo.",
-        uses: 2,
-        example: "Er gibt den Schlüssel ab / Wuxuu dhiibayaa furaha"
-    },
-    {
-        so: "angeben",
-        de: "sheegid / faanid",
-        explanation: "Waxaa loo isticmaalaa xog sheegid ama faan.",
-        uses: 2,
-        example: "Bitte geben Sie Ihre Adresse an / Fadlan sheeg cinwaankaaga"
-    },
-    {
-        so: "aufgeben",
-        de: "joojin / ka tagid",
-        explanation: "Waxaa loo adeegsadaa ka tagidda ama is dhiibid.",
-        uses: 2,
-        example: "Er gibt nicht auf / Isagu ma quusto"
-    },
-    {
-        so: "ausgeben",
-        de: "kharash gareyn",
-        explanation: "Waxaa loo isticmaalaa lacag bixinta ama wax ku qarash garayn.",
-        uses: 2,
-        example: "Ich gebe viel Geld aus / Waxaan qarash gareeyaa lacag badan"
-    },
-    {
-        so: "eingeben",
-        de: "gelin / ku qorid",
-        explanation: "Waxaa loo adeegsadaa gelinta xog kombiyuutar ama qalab.",
-        uses: 1,
-        example: "Bitte geben Sie das Passwort ein / Fadlan geli erayga sirta"
-    },
-    {
-        so: "mitgeben",
-        de: "la siinid",
-        explanation: "Waxaa loo isticmaalaa wax lala sii diro qof.",
-        uses: 2,
-        example: "Die Mutter gibt dem Kind Essen mit / Hooyadu cunno ayay siisay ilmaha"
-    },
-    {
-        so: "weitergeben",
-        de: "sii gudbin",
-        explanation: "Waxaa loo adeegsadaa xog ama wax loo sii gudbiyo qof kale.",
-        uses: 1,
-        example: "Er gibt die Nachricht weiter / Wuxuu sii gudbiyay fariinta"
-    },
-    {
-        so: "zurückgeben",
-        de: "soo celin",
-        explanation: "Waxaa loo isticmaalaa wax dib loo celiyo.",
-        uses: 2,
-        example: "Ich gebe das Buch zurück / Waxaan soo celinayaa buugga"
-    },
-    {
-        so: "übergeben",
-        de: "ku wareejin / dhiibid",
-        explanation: "Waxaa loo adeegsadaa si rasmi ah wax loo wareejiyo ama qof matago.",
-        uses: 1,
-        example: "Er übergibt das Amt / Wuxuu wareejinayaa xilka"
-    },
-
-    {
-        so: "stehen",
-        de: "istaagid",
-        explanation: "Waxaa loo isticmaalaa istaagga qof ama shay.",
-        uses: 2,
-        example: "Ich stehe vor dem Haus / Waxaan istaagayaa guriga hortiisa"
-    },
-    {
-        so: "aufstehen",
-        de: "kacid / istaagid",
-        explanation: "Waxaa loo adeegsadaa ka kacidda sariir ama kursi.",
-        uses: 2,
-        example: "Ich stehe früh auf / Waxaan kacaa aroortii hore"
-    },
-    {
-        so: "anstehen",
-        de: "saf u galid / sugid",
-        explanation: "Waxaa loo isticmaalaa saf u galid ama wax sugid.",
-        uses: 2,
-        example: "Wir stehen an der Kasse an / Waxaan saf ugu jirnaa khasnadda"
-    },
-    {
-        so: "bestehen",
-        de: "ku guulaysasho / ka koobnaansho",
-        explanation: "Waxaa loo adeegsadaa imtixaan ku guulaysasho ama wax ka koobnaan.",
-        uses: 1,
-        example: "Er besteht die Prüfung / Wuxuu ku guulaystay imtixaanka"
-    },
-    {
-        so: "entstehen",
-        de: "abuurmid / dhalan",
-        explanation: "Waxaa loo isticmaalaa marka wax cusub abuurmaan.",
-        uses: 1,
-        example: "Ein Problem entsteht / Dhibaato ayaa dhalatay"
-    },
-    {
-        so: "feststehen",
-        de: "hubanti noqosho",
-        explanation: "Waxaa loo adeegsadaa marka wax si cad loo hubiyo.",
-        uses: 1,
-        example: "Der Termin steht fest / Ballantu waa hubaal"
-    },
-    {
-        so: "herumstehen",
-        de: "meel ku istaagid",
-        explanation: "Waxaa loo isticmaalaa marka wax meel yaallaan iyagoo aan la isticmaalin.",
-        uses: 1,
-        example: "Die Kartons stehen herum / Sanduuqyada meel bay yaallaan"
-    },
-    {
-        so: "mitstehen",
-        de: "la istaagid",
-        explanation: "Waxaa loo adeegsadaa marka qof la istaago ama la taageero.",
-        uses: 1,
-        example: "Ich stehe dir bei und mit / Waan kula garab istaagayaa"
-    },
-    {
-        so: "umstehen",
-        de: "ku wareegsan istaagid",
-        explanation: "Waxaa loo isticmaalaa marka dad ama wax wax ku wareegsan yihiin.",
-        uses: 1,
-        example: "Viele Leute stehen das Haus um / Dad badan ayaa guriga ku wareegsan"
-    },
-    {
-        so: "zustehen",
-        de: "xaq u lahaansho",
-        explanation: "Waxaa loo adeegsadaa marka qof wax xaq u leeyahay.",
-        uses: 1,
-        example: "Das Geld steht ihm zu / Lacagtu waa xaqiisa"
-    },
-
-    {
-        so: "setzen",
-        de: "dhigid / fadhiisin",
-        explanation: "Waxaa loo isticmaalaa wax dhigid ama qof fadhiisin.",
-        uses: 2,
-        example: "Ich setze mich auf den Stuhl / Waxaan fariisanayaa kursiga"
-    },
-    {
-        so: "aufsetzen",
-        de: "saarid korka / xirid",
-        explanation: "Waxaa loo isticmaalaa wax korka la saaro sida koofiyad ama muraayad.",
-        uses: 2,
-        example: "Ich setze die Brille auf / Waxaan xirayaa muraayadaha"
-    },
-    {
-        so: "absetzen",
-        de: "dejid / ka joojin",
-        explanation: "Waxaa loo isticmaalaa rakaab dejin ama wax joojin.",
-        uses: 2,
-        example: "Der Bus setzt die Fahrgäste ab / Basku wuxuu dejinayaa rakaabka"
-    },
-    {
-        so: "einsetzen",
-        de: "isticmaalid / shaqo gelin",
-        explanation: "Waxaa loo adeegsadaa adeegsi ama shaqo gelin qalab ama qof.",
-        uses: 2,
-        example: "Die Firma setzt neue Maschinen ein / Shirkaddu waxay adeegsanaysaa mashiinno cusub"
-    },
-    {
-        so: "aussetzen",
-        de: "joojin / ku harid dibadda",
-        explanation: "Waxaa loo isticmaalaa joojinta hawl ama qof dibadda loo daayo.",
-        uses: 1,
-        example: "Er setzt die Arbeit aus / Wuxuu shaqada joojiyay"
-    },
-    {
-        so: "fortsetzen",
-        de: "sii wadid",
-        explanation: "Waxaa loo isticmaalaa wax sii wadid kadib hakad.",
-        uses: 1,
-        example: "Der Lehrer setzt den Unterricht fort / Macallinku wuu sii wadayaa casharka"
-    },
-    {
-        so: "umsetzen",
-        de: "fulin / beddelid",
-        explanation: "Waxaa loo isticmaalaa fulinta qorshe ama fikrad, ama beddelid.",
-        uses: 1,
-        example: "Wir setzen den Plan um / Waxaan fulinaynaa qorshaha"
-    },
-    {
-        so: "durchsetzen",
-        de: "hirgelin / ku adkaysasho",
-        explanation: "Waxaa loo isticmaalaa hirgelinta fikrad ama sharci iyadoo la adkaysanayo.",
-        uses: 1,
-        example: "Er setzt seine Meinung durch / Wuxuu hirgeliyay fikradiisa"
-    },
-    {
-        so: "zusetzen",
-        de: "kordhin / ku darid",
-        explanation: "Waxaa loo isticmaalaa ku daridda wax si loo kordhiyo.",
-        uses: 1,
-        example: "Man setzt Salz dem Essen zu / Waxaa cuntada lagu daray cusbo"
-    },
-    {
-        so: "zusammen setzen",
-        de: "isku dhigid / wada fadhiisin",
-        explanation: "Waxaa loo isticmaalaa in wax la isku dhigo ama dadka la wada fariisiyo.",
-        uses: 1,
-        example: "Wir setzen uns zusammen / Waxaan iskula fariisanay"
-    }
-];
-
+            {
+                so: "setzen",
+                de: "dhigid / fadhiisin",
+                explanation: "Waxaa loo isticmaalaa wax dhigid ama qof fadhiisin.",
+                uses: 2,
+                example: "Ich setze mich auf den Stuhl / Waxaan fariisanayaa kursiga"
+            },
+            {
+                so: "aufsetzen",
+                de: "saarid korka / xirid",
+                explanation: "Waxaa loo isticmaalaa wax korka la saaro sida koofiyad ama muraayad.",
+                uses: 2,
+                example: "Ich setze die Brille auf / Waxaan xirayaa muraayadaha"
+            },
+            {
+                so: "absetzen",
+                de: "dejid / ka joojin",
+                explanation: "Waxaa loo isticmaalaa rakaab dejin ama wax joojin.",
+                uses: 2,
+                example: "Der Bus setzt die Fahrgäste ab / Basku wuxuu dejinayaa rakaabka"
+            },
+            {
+                so: "einsetzen",
+                de: "isticmaalid / shaqo gelin",
+                explanation: "Waxaa loo adeegsadaa adeegsi ama shaqo gelin qalab ama qof.",
+                uses: 2,
+                example: "Die Firma setzt neue Maschinen ein / Shirkaddu waxay adeegsanaysaa mashiinno cusub"
+            },
+            {
+                so: "aussetzen",
+                de: "joojin / ku harid dibadda",
+                explanation: "Waxaa loo isticmaalaa joojinta hawl ama qof dibadda loo daayo.",
+                uses: 1,
+                example: "Er setzt die Arbeit aus / Wuxuu shaqada joojiyay"
+            },
+            {
+                so: "fortsetzen",
+                de: "sii wadid",
+                explanation: "Waxaa loo isticmaalaa wax sii wadid kadib hakad.",
+                uses: 1,
+                example: "Der Lehrer setzt den Unterricht fort / Macallinku wuu sii wadayaa casharka"
+            },
+            {
+                so: "umsetzen",
+                de: "fulin / beddelid",
+                explanation: "Waxaa loo isticmaalaa fulinta qorshe ama fikrad, ama beddelid.",
+                uses: 1,
+                example: "Wir setzen den Plan um / Waxaan fulinaynaa qorshaha"
+            },
+            {
+                so: "durchsetzen",
+                de: "hirgelin / ku adkaysasho",
+                explanation: "Waxaa loo isticmaalaa hirgelinta fikrad ama sharci iyadoo la adkaysanayo.",
+                uses: 1,
+                example: "Er setzt seine Meinung durch / Wuxuu hirgeliyay fikradiisa"
+            },
+            {
+                so: "zusetzen",
+                de: "kordhin / ku darid",
+                explanation: "Waxaa loo isticmaalaa ku daridda wax si loo kordhiyo.",
+                uses: 1,
+                example: "Man setzt Salz dem Essen zu / Waxaa cuntada lagu daray cusbo"
+            },
+            {
+                so: "zusammen setzen",
+                de: "isku dhigid / wada fadhiisin",
+                explanation: "Waxaa loo isticmaalaa in wax la isku dhigo ama dadka la wada fariisiyo.",
+                uses: 1,
+                example: "Wir setzen uns zusammen / Waxaan iskula fariisanay"
+            }
+        ];
 
         // Global variables
         let soundEnabled = true;
@@ -855,6 +803,16 @@
                         return listByPrefix('bringen');
                     } else if (args === 'bauen') {
                         return listByPrefix('bauen');
+                    } else if (args === 'fangen') {
+                        return listByPrefix('fangen');
+                    } else if (args === 'nehmen') {
+                        return listByPrefix('nehmen');
+                    } else if (args === 'geben') {
+                        return listByPrefix('geben');
+                    } else if (args === 'stehen') {
+                        return listByPrefix('stehen');
+                    } else if (args === 'springen') {
+                        return listByPrefix('springen');
                     } else {
                         showAllWords();
                         return `Showing all ${words.length} words`;
@@ -926,7 +884,8 @@
                     // Check if it's a wildcard search
                     if (args.endsWith('*')) {
                         const prefix = args.slice(0, -1); // Remove *
-                        return showWordsStartingWith(prefix);
+                        const matchingWords = showWordsStartingWith(prefix);
+                        return matchingWords;
                     }
                     
                     // Search for exact or partial match
@@ -968,7 +927,18 @@
                     showFilteredWords(matchingWords);
                     return `Found ${matchingWords.length} words containing "${searchTerm}"`;
                 } else {
-                    return `No word found for "${searchTerm}". Try 'info ab*' for words starting with "ab"`;
+                    // Try fuzzy search for similar words
+                    const similarWords = words.filter(word => 
+                        word.so.toLowerCase().startsWith(searchTerm.substring(0, 3)) ||
+                        getSimilarity(word.so.toLowerCase(), searchTerm) > 0.6
+                    );
+                    
+                    if (similarWords.length > 0) {
+                        showFilteredWords(similarWords);
+                        return `Found ${similarWords.length} similar words for "${searchTerm}"`;
+                    } else {
+                        return `No word found for "${searchTerm}". Try 'info ab*' for words starting with "ab"`;
+                    }
                 }
             }
         }
@@ -990,6 +960,49 @@
             }
         }
 
+        // Simple similarity function for fuzzy search
+        function getSimilarity(str1, str2) {
+            let longer = str1;
+            let shorter = str2;
+            if (str1.length < str2.length) {
+                longer = str2;
+                shorter = str1;
+            }
+            let longerLength = longer.length;
+            if (longerLength === 0) {
+                return 1.0;
+            }
+            return (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength);
+        }
+
+        function editDistance(s1, s2) {
+            s1 = s1.toLowerCase();
+            s2 = s2.toLowerCase();
+            
+            let costs = [];
+            for (let i = 0; i <= s1.length; i++) {
+                let lastValue = i;
+                for (let j = 0; j <= s2.length; j++) {
+                    if (i === 0) {
+                        costs[j] = j;
+                    } else {
+                        if (j > 0) {
+                            let newValue = costs[j - 1];
+                            if (s1.charAt(i - 1) !== s2.charAt(j - 1)) {
+                                newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
+                            }
+                            costs[j - 1] = lastValue;
+                            lastValue = newValue;
+                        }
+                    }
+                }
+                if (i > 0) {
+                    costs[s2.length] = lastValue;
+                }
+            }
+            return costs[s2.length];
+        }
+
         // Quick command execution
         function executeQuickCommand(cmd) {
             document.getElementById('cmdInput').value = cmd;
@@ -998,7 +1011,7 @@
 
         // List words by prefix
         function listByPrefix(prefix) {
-            const filtered = words.filter(w => w.de.toLowerCase().includes(prefix));
+            const filtered = words.filter(w => w.so.toLowerCase().includes(prefix));
             
             if (filtered.length === 0) {
                 return `No words found with prefix: ${prefix}`;
@@ -1006,7 +1019,7 @@
             
             let result = `Words with "${prefix}":\n\n`;
             filtered.forEach((word, i) => {
-                result += `${i+1}. ${word.de} - ${word.so}\n`;
+                result += `${i+1}. ${word.so} - ${word.de}\n`;
             });
             
             // Also display in UI
@@ -1017,11 +1030,11 @@
 
         // List verbs
         function listByType(type) {
-            const filtered = words.filter(w => w.de.endsWith('en'));
+            const filtered = words.filter(w => w.so.endsWith('en'));
             
             let result = `German verbs (${filtered.length}):\n\n`;
             filtered.forEach((word, i) => {
-                result += `${i+1}. ${word.de} - ${word.so}\n`;
+                result += `${i+1}. ${word.so} - ${word.de}\n`;
             });
             
             showFilteredWords(filtered);
