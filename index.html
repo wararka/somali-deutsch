@@ -5,7 +5,603 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fal Somali → Jarmal</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="index.css">
+  <style>
+
+:root {
+  --primary-color: #6c63ff;
+  --secondary-color: #ff6584;
+  --dark-bg: #0f111a;
+  --dark-card: #1a1d2b;
+  --dark-border: #2a2f42;
+  --light-bg: #f8f9fa;
+  --light-card: #ffffff;
+  --light-border: #e1e5eb;
+  --white: #ffffff;
+  --black: #333333;
+  --cyan: #4fc3f7;
+  --yellow: #ffd166;
+  --success: #4caf50;
+  --primary-transparent: rgba(108, 99, 255, 0.1);
+}
+
+/* Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body.dark-mode {
+  background: linear-gradient(135deg, #0c0e1a 0%, #1a1d2b 100%);
+  color: var(--white);
+}
+
+body.light-mode {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  color: var(--black);
+}
+
+/* Glow Effects */
+.glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+  z-index: 0;
+}
+
+.glow-1 {
+  width: 400px;
+  height: 400px;
+  background: var(--primary-color);
+  top: -100px;
+  left: -100px;
+}
+
+.glow-2 {
+  width: 300px;
+  height: 300px;
+  background: var(--secondary-color);
+  bottom: -100px;
+  right: -100px;
+}
+
+/* Theme Toggle */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(108, 99, 255, 0.3);
+}
+
+.theme-toggle:hover {
+  transform: rotate(30deg);
+}
+
+.theme-toggle i {
+  color: white;
+  font-size: 1.5rem;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 20px;
+  position: relative;
+  z-index: 1;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 2.2rem;
+  background: linear-gradient(90deg, var(--primary-color), var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+/* Search Box */
+.search-box {
+  background: var(--dark-card);
+  padding: 30px;
+  border-radius: 20px;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--dark-border);
+}
+
+body.light-mode .search-box {
+  background: var(--light-card);
+  border: 1px solid var(--light-border);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.search-box input {
+  width: 100%;
+  padding: 18px 25px;
+  border: 2px solid var(--dark-border);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--white);
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  outline: none;
+}
+
+body.light-mode .search-box input {
+  background: rgba(0, 0, 0, 0.03);
+  color: var(--black);
+  border: 2px solid var(--light-border);
+}
+
+.search-box input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--primary-transparent);
+}
+
+.search-box button {
+  width: 100%;
+  padding: 18px;
+  background: linear-gradient(135deg, var(--primary-color), var(--cyan));
+  border: none;
+  border-radius: 15px;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.search-box button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(108, 99, 255, 0.3);
+}
+
+/* Results */
+.result {
+  background: var(--dark-card);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--dark-border);
+  min-height: 300px;
+}
+
+body.light-mode .result {
+  background: var(--light-card);
+  border: 1px solid var(--light-border);
+}
+
+/* No Results */
+.no-results {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.no-results i {
+  font-size: 4rem;
+  color: var(--primary-color);
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+.no-results p {
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+  color: #888;
+}
+
+/* Suggestions */
+.suggestions h4 {
+  margin-bottom: 20px;
+  color: var(--white);
+}
+
+body.light-mode .suggestions h4 {
+  color: var(--black);
+}
+
+.suggestion-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+}
+
+.suggestion-tag {
+  background: linear-gradient(135deg, var(--primary-transparent), rgba(255, 101, 132, 0.1));
+  border: 1px solid var(--primary-color);
+  padding: 12px 24px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: var(--white);
+  font-weight: 500;
+}
+
+body.light-mode .suggestion-tag {
+  color: var(--black);
+  border: 1px solid var(--light-border);
+  background: rgba(108, 99, 255, 0.05);
+}
+
+.suggestion-tag:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(108, 99, 255, 0.2);
+  background: var(--primary-color);
+  color: white;
+}
+
+/* Result Header */
+.result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--dark-border);
+}
+
+body.light-mode .result-header {
+  border-bottom: 1px solid var(--light-border);
+}
+
+/* Verbs Container */
+.verbs-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 25px;
+}
+
+/* Verb Card */
+.verb-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--dark-border);
+  border-radius: 15px;
+  padding: 25px;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+body.light-mode .verb-card {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid var(--light-border);
+}
+
+.verb-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary-color);
+  box-shadow: 0 15px 35px rgba(108, 99, 255, 0.1);
+}
+
+.verb-card h3 {
+  color: var(--cyan);
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.examples-preview p {
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+.click-hint {
+  margin-top: 20px;
+  padding: 12px;
+  background: var(--primary-transparent);
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background: var(--dark-card);
+  border-radius: 20px;
+  max-width: 700px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  border: 1px solid var(--dark-border);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+body.light-mode .modal-content {
+  background: var(--light-card);
+  border: 1px solid var(--light-border);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 30px;
+  border-bottom: 1px solid var(--dark-border);
+  position: sticky;
+  top: 0;
+  background: var(--dark-card);
+  z-index: 1;
+}
+
+body.light-mode .modal-header {
+  border-bottom: 1px solid var(--light-border);
+  background: var(--light-card);
+}
+
+.close-modal {
+  background: none;
+  border: none;
+  color: var(--white);
+  font-size: 2.5rem;
+  cursor: pointer;
+  line-height: 1;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.3s;
+}
+
+body.light-mode .close-modal {
+  color: var(--black);
+}
+
+.close-modal:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.modal-body {
+  padding: 30px;
+}
+
+/* Examples */
+.examples-container {
+  margin-top: 20px;
+}
+
+.example-item {
+  margin-bottom: 10px;
+}
+
+.example-language {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+}
+
+.example-language.so {
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: white;
+}
+
+.example-language.de {
+  background: linear-gradient(135deg, #ff416c, #ff4b2b);
+  color: white;
+}
+
+.example-text {
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  margin-bottom: 15px;
+  line-height: 1.6;
+  border-left: 3px solid var(--primary-color);
+}
+
+body.light-mode .example-text {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  h2 {
+    font-size: 1.8rem;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .verbs-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .result-header {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  
+  .modal-header h3 {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 20px 15px;
+  }
+  
+  .search-box {
+    padding: 20px;
+  }
+  
+  .result {
+    padding: 20px;
+  }
+  
+  .suggestion-tags {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+    /* Category Buttons */
+.verb-categories {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid var(--dark-border);
+}
+
+body.light-mode .verb-categories {
+  border-top: 1px solid var(--light-border);
+}
+
+.category-buttons {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.category-btn {
+  padding: 15px 25px;
+  background: linear-gradient(135deg, var(--primary-transparent), rgba(76, 195, 247, 0.1));
+  border: 1px solid var(--primary-color);
+  border-radius: 12px;
+  color: var(--primary-color);
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s;
+  font-size: 1rem;
+}
+
+.category-btn:hover {
+  background: var(--primary-color);
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(108, 99, 255, 0.2);
+}
+
+/* Loading Animation */
+.loading {
+  text-align: center;
+  padding: 60px;
+}
+
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-left-color: var(--primary-color);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Tooltip */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 200px;
+  background-color: var(--dark-card);
+  color: var(--white);
+  text-align: center;
+  border-radius: 6px;
+  padding: 10px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -100px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  border: 1px solid var(--dark-border);
+  font-size: 0.9rem;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Notification */
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 15px 25px;
+  background: var(--success);
+  color: white;
+  border-radius: 10px;
+  z-index: 1000;
+  animation: slideIn 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+  </style>
 </head>
 <body class="dark-mode">
   <!-- Glow Effects -->
@@ -63,560 +659,710 @@
 
   <script>
     // DOM Elements
-const verbInput = document.getElementById('verbInput');
-const resultDiv = document.getElementById('result');
-const modal = document.getElementById('exampleModal');
-const modalBody = document.getElementById('modalBody');
-const themeIcon = document.getElementById('themeIcon');
+    const verbInput = document.getElementById('verbInput');
+    const resultDiv = document.getElementById('result');
+    const modal = document.getElementById('exampleModal');
+    const modalBody = document.getElementById('modalBody');
+    const themeIcon = document.getElementById('themeIcon');
 
-// Verbs Database
-const verbs = {
-  "bandhigid": [
-    {
-      german: "präsentieren",
-      examples: [
-        { so: "Mashruuceyga ayaan bandhigayaa shirkadda.", de: "Ich präsentiere mein Projekt der Firma." },
-        { so: "Arjigii cusub ayaa loo bandhigayay dadweynaha.", de: "Das neue Produkt wurde der Öffentlichkeit präsentiert." }
-      ]
-    },
-    {
-      german: "vorstellen",
-      examples: [
-        { so: "Wuxuu soo bandhigayaa fikradiisa shirka.", de: "Er stellt seine Idee in der Sitzung vor." },
-        { so: "Macallinku wuxuu noo bandhigay qorshaha casharka.", de: "Der Lehrer stellte uns den Unterrichtsplan vor." }
-      ]
-    },
-    {
-      german: "ausstellen",
-      examples: [
-        { so: "Sawirrada waa la bandhigay galeriyada.", de: "Die Bilder werden in den Galerien ausgestellt." },
-        { so: "Xayawaanka duurjoogta ah ayaa la bandhigay zooga.", de: "Die Wildtiere werden im Zoo ausgestellt." }
-      ]
-    },
-    {
-      german: "vorlegen",
-      examples: [
-        { so: "Fadlan soo bandhig dukumeentiyada aqoonsiga.", de: "Bitte legen Sie die Identitätsdokumente vor." },
-        { so: "Waxay soo bandhigaysaa caddaymo shaqada.", de: "Sie legt Nachweise für die Arbeit vor." }
-      ]
-    }
-  ],
+    // Verbs Database
+    const verbs = {
+      "bandhigid": [
+        {
+          german: "präsentieren",
+          examples: [
+            { so: "Mashruuceyga ayaan bandhigayaa shirkadda.", de: "Ich präsentiere mein Projekt der Firma." },
+            { so: "Arjigii cusub ayaa loo bandhigayay dadweynaha.", de: "Das neue Produkt wurde der Öffentlichkeit präsentiert." }
+          ]
+        },
+        {
+          german: "vorstellen",
+          examples: [
+            { so: "Wuxuu soo bandhigayaa fikradiisa shirka.", de: "Er stellt seine Idee in der Sitzung vor." },
+            { so: "Macallinku wuxuu noo bandhigay qorshaha casharka.", de: "Der Lehrer stellte uns den Unterrichtsplan vor." }
+          ]
+        },
+        {
+          german: "ausstellen",
+          examples: [
+            { so: "Sawirrada waa la bandhigay galeriyada.", de: "Die Bilder werden in den Galerien ausgestellt." },
+            { so: "Xayawaanka duurjoogta ah ayaa la bandhigay zooga.", de: "Die Wildtiere werden im Zoo ausgestellt." }
+          ]
+        },
+        {
+          german: "vorlegen",
+          examples: [
+            { so: "Fadlan soo bandhig dukumeentiyada aqoonsiga.", de: "Bitte legen Sie die Identitätsdokumente vor." },
+            { so: "Waxay soo bandhigaysaa caddaymo shaqada.", de: "Sie legt Nachweise für die Arbeit vor." }
+          ]
+        }
+      ],
 
-  "wax ka qabasho": [
-    {
-      german: "angehen",
-      examples: [
-        { so: "Arrintan waa in si degdeg ah wax looga qabtaa.", de: "Dieses Problem muss dringend angegangen werden." },
-        { so: "Dowladdu waxay bilowday inay wax ka qabato arrinta amniga.", de: "Die Regierung hat begonnen, das Sicherheitsproblem anzugehen." }
-      ]
-    },
-    {
-      german: "sich kümmern um",
-      examples: [
-        { so: "Wuxuu wax ka qabtay cabashada macaamiisha.", de: "Er hat sich um die Beschwerde der Kunden gekümmert." },
-        { so: "Waxaan wax ka qabanaa baahiyaha carruurta.", de: "Wir kümmern uns um die Bedürfnisse der Kinder." }
-      ]
-    },
-    {
-      german: "bearbeiten",
-      examples: [
-        { so: "Codsigaaga waa la wax ka qabtay.", de: "Ihr Antrag wurde bearbeitet." },
-        { so: "Shaqaalaha xafiiska ayaa wax ka qabtay faylka.", de: "Die Mitarbeiter haben die Akte bearbeitet." }
-      ]
-    },
-    {
-      german: "behandeln",
-      examples: [
-        { so: "Shirkaddu waxay wax ka qabatay dhibaatada si xirfad leh.", de: "Das Unternehmen hat das Problem professionell behandelt." },
-        { so: "Arrintan waa in si cadaalad ah wax looga qabtaa.", de: "Diese Angelegenheit muss fair behandelt werden." }
-      ]
-    },
-    {
-      german: "lösen",
-      examples: [
-        { so: "Dhibaatada si guul leh ayaa wax looga qabtay.", de: "Das Problem wurde erfolgreich gelöst." },
-        { so: "Wuxuu awooday inuu wax ka qabto khilaafka.", de: "Er konnte den Konflikt lösen." }
-      ]
-    }
-  ],
+      "wax ka qabasho": [
+        {
+          german: "angehen",
+          examples: [
+            { so: "Arrintan waa in si degdeg ah wax looga qabtaa.", de: "Dieses Problem muss dringend angegangen werden." },
+            { so: "Dowladdu waxay bilowday inay wax ka qabato arrinta amniga.", de: "Die Regierung hat begonnen, das Sicherheitsproblem anzugehen." }
+          ]
+        },
+        {
+          german: "sich kümmern um",
+          examples: [
+            { so: "Wuxuu wax ka qabtay cabashada macaamiisha.", de: "Er hat sich um die Beschwerde der Kunden gekümmert." },
+            { so: "Waxaan wax ka qabanaa baahiyaha carruurta.", de: "Wir kümmern uns um die Bedürfnisse der Kinder." }
+          ]
+        },
+        {
+          german: "bearbeiten",
+          examples: [
+            { so: "Codsigaaga waa la wax ka qabtay.", de: "Ihr Antrag wurde bearbeitet." },
+            { so: "Shaqaalaha xafiiska ayaa wax ka qabtay faylka.", de: "Die Mitarbeiter haben die Akte bearbeitet." }
+          ]
+        },
+        {
+          german: "behandeln",
+          examples: [
+            { so: "Shirkaddu waxay wax ka qabatay dhibaatada si xirfad leh.", de: "Das Unternehmen hat das Problem professionell behandelt." },
+            { so: "Arrintan waa in si cadaalad ah wax looga qabtaa.", de: "Diese Angelegenheit muss fair behandelt werden." }
+          ]
+        },
+        {
+          german: "lösen",
+          examples: [
+            { so: "Dhibaatada si guul leh ayaa wax looga qabtay.", de: "Das Problem wurde erfolgreich gelöst." },
+            { so: "Wuxuu awooday inuu wax ka qabto khilaafka.", de: "Er konnte den Konflikt lösen." }
+          ]
+        }
+      ],
 
-  "istahilid": [
-    {
-      german: "verdienen",
-      examples: [
-        { so: "Waxaad istahishaa bilad.", de: "Du verdienst eine Medaille." },
-        { so: "Wuxuu istahilay ammaanta dadweynaha.", de: "Er hat das Lob der Öffentlichkeit verdient." }
-      ]
-    },
-    {
-      german: "sich verdienen",
-      examples: [
-        { so: "Waxay istahishay abaalmarinta shaqadeeda adag.", de: "Sie hat sich die Auszeichnung durch ihre harte Arbeit verdient." },
-        { so: "Kooxdu waxay istahishay guusha.", de: "Das Team hat sich den Sieg verdient." }
-      ]
-    },
-    {
-      german: "würdig sein",
-      examples: [
-        { so: "Waa mid istahilaya bilad sharaf.", de: "Er ist einer Ehrenmedaille würdig." },
-        { so: "Waxay istahilaysaa ixtiraam buuxa.", de: "Sie ist vollen Respekts würdig." }
-      ]
-    }
-  ],
+      "istahilid": [
+        {
+          german: "verdienen",
+          examples: [
+            { so: "Waxaad istahishaa bilad.", de: "Du verdienst eine Medaille." },
+            { so: "Wuxuu istahilay ammaanta dadweynaha.", de: "Er hat das Lob der Öffentlichkeit verdient." }
+          ]
+        },
+        {
+          german: "sich verdienen",
+          examples: [
+            { so: "Waxay istahishay abaalmarinta shaqadeeda adag.", de: "Sie hat sich die Auszeichnung durch ihre harte Arbeit verdient." },
+            { so: "Kooxdu waxay istahishay guusha.", de: "Das Team hat sich den Sieg verdient." }
+          ]
+        },
+        {
+          german: "würdig sein",
+          examples: [
+            { so: "Waa mid istahilaya bilad sharaf.", de: "Er ist einer Ehrenmedaille würdig." },
+            { so: "Waxay istahilaysaa ixtiraam buuxa.", de: "Sie ist vollen Respekts würdig." }
+          ]
+        }
+      ],
 
-  "badalid": [
-    {
-      german: "ändern",
-      examples: [
-        { so: "Waxaan badalay jadwalkayga shaqo.", de: "Ich habe meinen Arbeitsplan geändert." },
-        { so: "Wuxuu badalay go'aankiisii hore.", de: "Er hat seine frühere Entscheidung geändert." }
-      ]
-    },
-    {
-      german: "wechseln",
-      examples: [
-        { so: "Waxaan badalay qalabka kombiyuutarka.", de: "Ich habe die Computerhardware gewechselt." },
-        { so: "Waxay badashay booskeeda shaqo.", de: "Sie hat ihren Arbeitsplatz gewechselt." }
-      ]
-    },
-    {
-      german: "umwandeln",
-      examples: [
-        { so: "Warqadda waxaa loo badalay dukumeenti elektaroonik ah.", de: "Das Dokument wurde in eine elektronische Datei umgewandelt." },
-        { so: "Shirkaddu waxay badashay qaab dhismeedkeeda.", de: "Das Unternehmen hat seine Struktur umgewandelt." }
-      ]
-    },
-    {
-      german: "modifizieren",
-      examples: [
-        { so: "Barnaamijka waa la badalay si uu u noqdo mid fudud.", de: "Das Programm wurde modifiziert, um benutzerfreundlicher zu sein." },
-        { so: "Qalabka farsamadu waa la badalay.", de: "Die technische Ausrüstung wurde modifiziert." }
-      ]
-    }
-  ],
+      "badalid": [
+        {
+          german: "ändern",
+          examples: [
+            { so: "Waxaan badalay jadwalkayga shaqo.", de: "Ich habe meinen Arbeitsplan geändert." },
+            { so: "Wuxuu badalay go'aankiisii hore.", de: "Er hat seine frühere Entscheidung geändert." }
+          ]
+        },
+        {
+          german: "wechseln",
+          examples: [
+            { so: "Waxaan badalay qalabka kombiyuutarka.", de: "Ich habe die Computerhardware gewechselt." },
+            { so: "Waxay badashay booskeeda shaqo.", de: "Sie hat ihren Arbeitsplatz gewechselt." }
+          ]
+        },
+        {
+          german: "umwandeln",
+          examples: [
+            { so: "Warqadda waxaa loo badalay dukumeenti elektaroonik ah.", de: "Das Dokument wurde in eine elektronische Datei umgewandelt." },
+            { so: "Shirkaddu waxay badashay qaab dhismeedkeeda.", de: "Das Unternehmen hat seine Struktur umgewandelt." }
+          ]
+        },
+        {
+          german: "modifizieren",
+          examples: [
+            { so: "Barnaamijka waa la badalay si uu u noqdo mid fudud.", de: "Das Programm wurde modifiziert, um benutzerfreundlicher zu sein." },
+            { so: "Qalabka farsamadu waa la badalay.", de: "Die technische Ausrüstung wurde modifiziert." }
+          ]
+        }
+      ],
 
-  "guur": [
-    {
-      german: "umziehen",
-      examples: [
-        { so: "Bisha dambe ayaan guriga cusub u guurayaa.", de: "Ich ziehe nächsten Monat in das neue Haus um." },
-        { so: "Markii uu shaqo heshay ayuu magaalo kale u guuray.", de: "Als er einen Job bekam, zog er in eine andere Stadt um." }
-      ]
-    },
-    {
-      german: "ausziehen",
-      examples: [
-        { so: "Guriga waalidkay ayaan ka guurayaa markaan kaalmo helo.", de: "Ich ziehe aus dem Haus meiner Eltern aus, wenn ich Unterstützung bekomme." },
-        { so: "Wiilku wuxuu ka guuray guriga markii uu dhexgalay.", de: "Der Junge zog aus dem Haus aus, als er volljährig wurde." }
-      ]
-    },
-    {
-      german: "wegziehen",
-      examples: [
-        { so: "Waxay u guureysaa magaalo kale sababtoo ah shaqo.", de: "Sie zieht wegen einer Arbeit in eine andere Stadt weg." },
-        { so: "Reerka oo dhan ayaa ka guuray dalka dagaalka ka dib.", de: "Die ganze Familie ist nach dem Krieg aus dem Land weggezogen." }
-      ]
-    }
-  ],
+      "guur": [
+        {
+          german: "umziehen",
+          examples: [
+            { so: "Bisha dambe ayaan guriga cusub u guurayaa.", de: "Ich ziehe nächsten Monat in das neue Haus um." },
+            { so: "Markii uu shaqo heshay ayuu magaalo kale u guuray.", de: "Als er einen Job bekam, zog er in eine andere Stadt um." }
+          ]
+        },
+        {
+          german: "ausziehen",
+          examples: [
+            { so: "Guriga waalidkay ayaan ka guurayaa markaan kaalmo helo.", de: "Ich ziehe aus dem Haus meiner Eltern aus, wenn ich Unterstützung bekomme." },
+            { so: "Wiilku wuxuu ka guuray guriga markii uu dhexgalay.", de: "Der Junge zog aus dem Haus aus, als er volljährig wurde." }
+          ]
+        },
+        {
+          german: "wegziehen",
+          examples: [
+            { so: "Waxay u guureysaa magaalo kale sababtoo ah shaqo.", de: "Sie zieht wegen einer Arbeit in eine andere Stadt weg." },
+            { so: "Reerka oo dhan ayaa ka guuray dalka dagaalka ka dib.", de: "Die ganze Familie ist nach dem Krieg aus dem Land weggezogen." }
+          ]
+        }
+      ],
 
-  "akhri": [
-    {
-      german: "lesen",
-      examples: [
-        { so: "Buug cajiib ah ayaan akhrinayaa maanta.", de: "Ich lese heute ein tolles Buch." },
-        { so: "Wiilku wuxuu akhriyay wargeyska subax kasta.", de: "Der Junge hat jeden Morgen die Zeitung gelesen." }
-      ]
-    },
-    {
-      german: "vorlesen",
-      examples: [
-        { so: "Hooyaday ayaa ii akhrisay sheeko habeenkii.", de: "Meine Mutter hat mir abends eine Geschichte vorgelesen." },
-        { so: "Macallinku wuxuu akhriyay qisadda dugsiga.", de: "Der Lehrer hat die Geschichte der Schule vorgelesen." }
-      ]
-    }
-  ],
+      "akhri": [
+        {
+          german: "lesen",
+          examples: [
+            { so: "Buug cajiib ah ayaan akhrinayaa maanta.", de: "Ich lese heute ein tolles Buch." },
+            { so: "Wiilku wuxuu akhriyay wargeyska subax kasta.", de: "Der Junge hat jeden Morgen die Zeitung gelesen." }
+          ]
+        },
+        {
+          german: "vorlesen",
+          examples: [
+            { so: "Hooyaday ayaa ii akhrisay sheeko habeenkii.", de: "Meine Mutter hat mir abends eine Geschichte vorgelesen." },
+            { so: "Macallinku wuxuu akhriyay qisadda dugsiga.", de: "Der Lehrer hat die Geschichte der Schule vorgelesen." }
+          ]
+        }
+      ],
 
-  "cun": [
-    {
-      german: "essen",
-      examples: [
-        { so: "Sabayad ayaan cunayaa subaxii.", de: "Ich esse Brot zum Frühstück." },
-        { so: "Cuntada Soomaalida ayaan jeclahay inaan cuno.", de: "Ich mag es, somalisches Essen zu essen." }
-      ]
-    },
-    {
-      german: "fressen",
-      examples: [
-        { so: "Bisadu waxay cuntay canugii.", de: "Die Katze hat das Kätzchen gefressen." },
-        { so: "Libinta waxay cuntaan caleemo.", de: "Die Ziegen fressen Blätter." }
-      ]
-    }
-  ],
+      "cun": [
+        {
+          german: "essen",
+          examples: [
+            { so: "Sabayad ayaan cunayaa subaxii.", de: "Ich esse Brot zum Frühstück." },
+            { so: "Cuntada Soomaalida ayaan jeclahay inaan cuno.", de: "Ich mag es, somalisches Essen zu essen." }
+          ]
+        },
+        {
+          german: "fressen",
+          examples: [
+            { so: "Bisadu waxay cuntay canugii.", de: "Die Katze hat das Kätzchen gefressen." },
+            { so: "Libinta waxay cuntaan caleemo.", de: "Die Ziegen fressen Blätter." }
+          ]
+        }
+      ],
 
-  "qor": [
-    {
-      german: "schreiben",
-      examples: [
-        { so: "Waxaan qorayaa wargeys.", de: "Ich schreibe einen Artikel." },
-        { so: "Macallinku wuxuu noo qoray cashar.", de: "Der Lehrer hat uns eine Lektion geschrieben." }
-      ]
-    },
-    {
-      german: "aufschreiben",
-      examples: [
-        { so: "Fadlan qor lambarkayga teleefanka.", de: "Bitte schreiben Sie meine Telefonnummer auf." },
-        { so: "Wuxuu qoray magacyada dhamaan xubnaha.", de: "Er hat die Namen aller Mitglieder aufgeschrieben." }
-      ]
-    },
-    {
-      german: "verfassen",
-      examples: [
-        { so: "Waxay qortay buug cajiib ah.", de: "Sie hat ein tolles Buch verfasst." },
-        { so: "Waxaan qoray maqaal cilmibaaris.", de: "Ich habe einen wissenschaftlichen Artikel verfasst." }
-      ]
-    }
-  ],
+      "qor": [
+        {
+          german: "schreiben",
+          examples: [
+            { so: "Waxaan qorayaa wargeys.", de: "Ich schreibe einen Artikel." },
+            { so: "Macallinku wuxuu noo qoray cashar.", de: "Der Lehrer hat uns eine Lektion geschrieben." }
+          ]
+        },
+        {
+          german: "aufschreiben",
+          examples: [
+            { so: "Fadlan qor lambarkayga teleefanka.", de: "Bitte schreiben Sie meine Telefonnummer auf." },
+            { so: "Wuxuu qoray magacyada dhamaan xubnaha.", de: "Er hat die Namen aller Mitglieder aufgeschrieben." }
+          ]
+        },
+        {
+          german: "verfassen",
+          examples: [
+            { so: "Waxay qortay buug cajiib ah.", de: "Sie hat ein tolles Buch verfasst." },
+            { so: "Waxaan qoray maqaal cilmibaaris.", de: "Ich habe einen wissenschaftlichen Artikel verfasst." }
+          ]
+        }
+      ],
 
-  "tag": [
-    {
-      german: "gehen",
-      examples: [
-        { so: "Waxaan tagayaa suuqa.", de: "Ich gehe zum Markt." },
-        { so: "Wiilku wuxuu tagay dugsiga.", de: "Der Junge ging zur Schule." }
-      ]
-    },
-    {
-      german: "verreisen",
-      examples: [
-        { so: "Waxay u tagayaan dal shisheeye soona.", de: "Sie verreisen nächsten Monat ins Ausland." },
-        { so: "Shan bilood ayuu tagay waddamo shisheeye.", de: "Er ist für fünf Monate ins Ausland gereist." }
-      ]
-    },
-    {
-      german: "weggehen",
-      examples: [
-        { so: "Fadlan ha tagin!", de: "Bitte gehen Sie nicht weg!" },
-        { so: "Waxay ka tagtay shirka markii ay cadho gashay.", de: "Sie ging aus dem Meeting weg, als sie wütend wurde." }
-      ]
-    }
-  ],
+      "tag": [
+        {
+          german: "gehen",
+          examples: [
+            { so: "Waxaan tagayaa suuqa.", de: "Ich gehe zum Markt." },
+            { so: "Wiilku wuxuu tagay dugsiga.", de: "Der Junge ging zur Schule." }
+          ]
+        },
+        {
+          german: "verreisen",
+          examples: [
+            { so: "Waxay u tagayaan dal shisheeye soona.", de: "Sie verreisen nächsten Monat ins Ausland." },
+            { so: "Shan bilood ayuu tagay waddamo shisheeye.", de: "Er ist für fünf Monate ins Ausland gereist." }
+          ]
+        },
+        {
+          german: "weggehen",
+          examples: [
+            { so: "Fadlan ha tagin!", de: "Bitte gehen Sie nicht weg!" },
+            { so: "Waxay ka tagtay shirka markii ay cadho gashay.", de: "Sie ging aus dem Meeting weg, als sie wütend wurde." }
+          ]
+        }
+      ],
 
-  "keen": [
-    {
-      german: "bringen",
-      examples: [
-        { so: "Waxay ii keenaysaa buug cusub.", de: "Sie bringt mir ein neues Buch." },
-        { so: "Wiilku wuxuu keenay biyaha.", de: "Der Junge hat das Wasser gebracht." }
-      ]
-    },
-    {
-      german: "mitbringen",
-      examples: [
-        { so: "Fadlan ii keen kafe.", de: "Bitte bringen Sie mir Kaffee mit." },
-        { so: "Wuxuu u keenay hadiyad goobta.", de: "Er brachte dem Gast ein Geschenk mit." }
-      ]
-    }
-  ],
+      "keen": [
+        {
+          german: "bringen",
+          examples: [
+            { so: "Waxay ii keenaysaa buug cusub.", de: "Sie bringt mir ein neues Buch." },
+            { so: "Wiilku wuxuu keenay biyaha.", de: "Der Junge hat das Wasser gebracht." }
+          ]
+        },
+        {
+          german: "mitbringen",
+          examples: [
+            { so: "Fadlan ii keen kafe.", de: "Bitte bringen Sie mir Kaffee mit." },
+            { so: "Wuxuu u keenay hadiyad goobta.", de: "Er brachte dem Gast ein Geschenk mit." }
+          ]
+        }
+      ],
 
-  "helid": [
-    {
-      german: "finden",
-      examples: [
-        { so: "Waxaan helay lacag dhowr toddobaad ka hor.", de: "Ich habe vor einigen Wochen Geld gefunden." },
-        { so: "Waxay heli karaan fursad wanaagsan.", de: "Sie können eine gute Gelegenheit finden." }
-      ]
-    },
-    {
-      german: "bekommen",
-      examples: [
-        { so: "Waxaan helay wargadii aqoonsiga.", de: "Ich habe meinen Ausweis bekommen." },
-        { so: "Wiilku wuxuu helay abaalmarinta.", de: "Der Junge hat die Belohnung bekommen." }
-      ]
-    },
-    {
-      german: "erhalten",
-      examples: [
-        { so: "Waxaan helay wiciyo badan bulshada.", de: "Ich erhielt viel Unterstützung von der Gemeinschaft." },
-        { so: "Shirkaddu waxay helaysaa deeqyo qaaradaha deriska ah.", de: "Das Unternehmen erhält Spenden aus benachbarten Ländern." }
-      ]
-    }
-  ],
+      "helid": [
+        {
+          german: "finden",
+          examples: [
+            { so: "Waxaan helay lacag dhowr toddobaad ka hor.", de: "Ich habe vor einigen Wochen Geld gefunden." },
+            { so: "Waxay heli karaan fursad wanaagsan.", de: "Sie können eine gute Gelegenheit finden." }
+          ]
+        },
+        {
+          german: "bekommen",
+          examples: [
+            { so: "Waxaan helay wargadii aqoonsiga.", de: "Ich habe meinen Ausweis bekommen." },
+            { so: "Wiilku wuxuu helay abaalmarinta.", de: "Der Junge hat die Belohnung bekommen." }
+          ]
+        },
+        {
+          german: "erhalten",
+          examples: [
+            { so: "Waxaan helay wiciyo badan bulshada.", de: "Ich erhielt viel Unterstützung von der Gemeinschaft." },
+            { so: "Shirkaddu waxay helaysaa deeqyo qaaradaha deriska ah.", de: "Das Unternehmen erhält Spenden aus benachbarten Ländern." }
+          ]
+        }
+      ],
 
-  "heshiis": [
-    {
-      german: "vereinbaren",
-      examples: [
-        { so: "Waxaan heshiisay inaan kulanno bisha soo socota.", de: "Ich habe vereinbart, dass wir uns nächsten Monat treffen." },
-        { so: "Shirkadaha waxay heshiisay xisaabaadka ganacsiga.", de: "Die Unternehmen haben die Handelsbedingungen vereinbart." }
-      ]
-    },
-    {
-      german: "abmachen",
-      examples: [
-        { so: "Waxaan heshiisay wakhti lagu kulmo.", de: "Ich habe eine Zeit für ein Treffen abgemacht." },
-        { so: "Wiilashu waxay heshiisay inay iska cayaaraan.", de: "Die Jungen haben abgemacht, zusammen zu spielen." }
-      ]
-    },
-    {
-      german: "verabreden",
-      examples: [
-        { so: "Waxaan heshiisay inaan is arko galabtii.", de: "Ich habe mich mit ihr für den Nachmittag verabredet." },
-        { so: "Waxay heshiisay inay shir la yeesho madaxda.", de: "Sie hat sich mit den Leitern zu einem Meeting verabredet." }
-      ]
-    },
-    {
-      german: "ausmachen",
-      examples: [
-        { so: "Waxaan heshiisay inuu ii keenayo alaabta.", de: "Ich habe ausgemacht, dass er mir die Ware bringt." },
-        { so: "Waxay heshiisay qiimaha alaabta.", de: "Sie hat den Preis der Ware ausgemacht." }
-      ]
-    }
-  ],
+      "heshiis": [
+        {
+          german: "vereinbaren",
+          examples: [
+            { so: "Waxaan heshiisay inaan kulanno bisha soo socota.", de: "Ich habe vereinbart, dass wir uns nächsten Monat treffen." },
+            { so: "Shirkadaha waxay heshiisay xisaabaadka ganacsiga.", de: "Die Unternehmen haben die Handelsbedingungen vereinbart." }
+          ]
+        },
+        {
+          german: "abmachen",
+          examples: [
+            { so: "Waxaan heshiisay wakhti lagu kulmo.", de: "Ich habe eine Zeit für ein Treffen abgemacht." },
+            { so: "Wiilashu waxay heshiisay inay iska cayaaraan.", de: "Die Jungen haben abgemacht, zusammen zu spielen." }
+          ]
+        },
+        {
+          german: "verabreden",
+          examples: [
+            { so: "Waxaan heshiisay inaan is arko galabtii.", de: "Ich habe mich mit ihr für den Nachmittag verabredet." },
+            { so: "Waxay heshiisay inay shir la yeesho madaxda.", de: "Sie hat sich mit den Leitern zu einem Meeting verabredet." }
+          ]
+        },
+        {
+          german: "ausmachen",
+          examples: [
+            { so: "Waxaan heshiisay inuu ii keenayo alaabta.", de: "Ich habe ausgemacht, dass er mir die Ware bringt." },
+            { so: "Waxay heshiisay qiimaha alaabta.", de: "Sie hat den Preis der Ware ausgemacht." }
+          ]
+        }
+      ],
 
-  "karid": [
-    {
-      german: "können",
-      examples: [
-        { so: "Waxaan kari karaa inaan ku hadlo afar af.", de: "Ich kann vier Sprachen sprechen." },
-        { so: "Wiilku wuxuu kari karaa inuu sawiro sameeyo.", de: "Der Junge kann zeichnen." }
-      ]
-    },
-    {
-      german: "fähig sein",
-      examples: [
-        { so: "Waxay kartaa inay hantida maamusho.", de: "Sie ist fähig, das Vermögen zu verwalten." },
-        { so: "Shirkaddu waxay kartaa inay soo saarto 10,000 alaab toddobaadkii.", de: "Das Unternehmen ist fähig, 10.000 Produkte pro Woche zu produzieren." }
-      ]
-    },
-    {
-      german: "imstande sein",
-      examples: [
-        { so: "Waxaan karnaa inaan ka jawaabno baahiyaha macaamiisha.", de: "Wir sind imstande, auf die Bedürfnisse der Kunden zu reagieren." },
-        { so: "Ma karto inaad dhamayso shaqadan maalintii keliya?", de: "Bist du imstande, diese Arbeit an einem Tag zu beenden?" }
-      ]
-    }
-  ],
+      "karid": [
+        {
+          german: "können",
+          examples: [
+            { so: "Waxaan kari karaa inaan ku hadlo afar af.", de: "Ich kann vier Sprachen sprechen." },
+            { so: "Wiilku wuxuu kari karaa inuu sawiro sameeyo.", de: "Der Junge kann zeichnen." }
+          ]
+        },
+        {
+          german: "fähig sein",
+          examples: [
+            { so: "Waxay kartaa inay hantida maamusho.", de: "Sie ist fähig, das Vermögen zu verwalten." },
+            { so: "Shirkaddu waxay kartaa inay soo saarto 10,000 alaab toddobaadkii.", de: "Das Unternehmen ist fähig, 10.000 Produkte pro Woche zu produzieren." }
+          ]
+        },
+        {
+          german: "imstande sein",
+          examples: [
+            { so: "Waxaan karnaa inaan ka jawaabno baahiyaha macaamiisha.", de: "Wir sind imstande, auf die Bedürfnisse der Kunden zu reagieren." },
+            { so: "Ma karto inaad dhamayso shaqadan maalintii keliya?", de: "Bist du imstande, diese Arbeit an einem Tag zu beenden?" }
+          ]
+        }
+      ],
 
-  "sami": [
-    {
-      german: "machen",
-      examples: [
-        { so: "Waxaan samaynayaa cunto.", de: "Ich mache Essen." },
-        { so: "Wiilku wuxuu samaynayaa xaflad.", de: "Der Junge macht eine Party." }
-      ]
-    },
-    {
-      german: "herstellen",
-      examples: [
-        { so: "Shirkaddu waxay samaysaa qalabka elektaroonik ah.", de: "Das Unternehmen stellt elektronische Geräte her." },
-        { so: "Waxay samayn karaan alaab cusub.", de: "Sie können neue Produkte herstellen." }
-      ]
-    },
-    {
-      german: "erzeugen",
-      examples: [
-        { so: "Qalabku wuxuu samaynaa tamar.", de: "Die Maschine erzeugt Energie." },
-        { so: "Waxay samaynayaan dakhli dheeraad ah.", de: "Sie erzeugen zusätzliches Einkommen." }
-      ]
-    }
-  ],
+      "sami": [
+        {
+          german: "machen",
+          examples: [
+            { so: "Waxaan samaynayaa cunto.", de: "Ich mache Essen." },
+            { so: "Wiilku wuxuu samaynayaa xaflad.", de: "Der Junge macht eine Party." }
+          ]
+        },
+        {
+          german: "herstellen",
+          examples: [
+            { so: "Shirkaddu waxay samaysaa qalabka elektaroonik ah.", de: "Das Unternehmen stellt elektronische Geräte her." },
+            { so: "Waxay samayn karaan alaab cusub.", de: "Sie können neue Produkte herstellen." }
+          ]
+        },
+        {
+          german: "erzeugen",
+          examples: [
+            { so: "Qalabku wuxuu samaynaa tamar.", de: "Die Maschine erzeugt Energie." },
+            { so: "Waxay samaynayaan dakhli dheeraad ah.", de: "Sie erzeugen zusätzliches Einkommen." }
+          ]
+        }
+      ],
 
-  "aragid": [
-    {
-      german: "sehen",
-      examples: [
-        { so: "Waxaan arki karaa buurta ka fog.", de: "Ich kann die Berge in der Ferne sehen." },
-        { so: "Wiilku wuxuu arkay filim cusub.", de: "Der Junge hat einen neuen Film gesehen." }
-      ]
-    },
-    {
-      german: "beobachten",
-      examples: [
-        { so: "Waxaan arkayaa dhacdooyinka cusub.", de: "Ich beobachte die neuen Ereignisse." },
-        { so: "Cilmi baaruhu wuxuu arkayaa xayawaanka duurka.", de: "Der Wissenschaftler beobachtet die Wildtiere." }
-      ]
-    },
-    {
-      german: "erkennen",
-      examples: [
-        { so: "Waxaan aragnay in ay jirto dhibaatad weyn.", de: "Wir haben erkannt, dass es ein großes Problem gibt." },
-        { so: "Wuxuu arkay farqi weyn.", de: "Er hat einen großen Unterschied erkannt." }
-      ]
-    }
-  ],
+      "aragid": [
+        {
+          german: "sehen",
+          examples: [
+            { so: "Waxaan arki karaa buurta ka fog.", de: "Ich kann die Berge in der Ferne sehen." },
+            { so: "Wiilku wuxuu arkay filim cusub.", de: "Der Junge hat einen neuen Film gesehen." }
+          ]
+        },
+        {
+          german: "beobachten",
+          examples: [
+            { so: "Waxaan arkayaa dhacdooyinka cusub.", de: "Ich beobachte die neuen Ereignisse." },
+            { so: "Cilmi baaruhu wuxuu arkayaa xayawaanka duurka.", de: "Der Wissenschaftler beobachtet die Wildtiere." }
+          ]
+        },
+        {
+          german: "erkennen",
+          examples: [
+            { so: "Waxaan aragnay in ay jirto dhibaatad weyn.", de: "Wir haben erkannt, dass es ein großes Problem gibt." },
+            { so: "Wuxuu arkay farqi weyn.", de: "Er hat einen großen Unterschied erkannt." }
+          ]
+        }
+      ],
 
-  "maqasho": [
-    {
-      german: "hören",
-      examples: [
-        { so: "Waxaan maqli karaa codkaaga.", de: "Ich kann deine Stimme hören." },
-        { so: "Wiilku wuxuu maqlay war badan.", de: "Der Junge hat viele Nachrichten gehört." }
-      ]
-    },
-    {
-      german: "zuhören",
-      examples: [
-        { so: "Waxaan maqli doonaa khudbadii madaxweynaha.", de: "Ich werde der Rede des Präsidenten zuhören." },
-        { so: "Fadlan ii maqal markaan kugu hadlo.", de: "Bitte höre mir zu, wenn ich mit dir rede." }
-      ]
-    },
-    {
-      german: "vernehmen",
-      examples: [
-        { so: "Waxaan maqlay in la helay xalka.", de: "Ich habe vernommen, dass eine Lösung gefunden wurde." },
-        { so: "Maxaad ka maqlay dhibaatadan?", de: "Was hast du über dieses Problem vernommen?" }
-      ]
-    }
-  ],
+      "maqasho": [
+        {
+          german: "hören",
+          examples: [
+            { so: "Waxaan maqli karaa codkaaga.", de: "Ich kann deine Stimme hören." },
+            { so: "Wiilku wuxuu maqlay war badan.", de: "Der Junge hat viele Nachrichten gehört." }
+          ]
+        },
+        {
+          german: "zuhören",
+          examples: [
+            { so: "Waxaan maqli doonaa khudbadii madaxweynaha.", de: "Ich werde der Rede des Präsidenten zuhören." },
+            { so: "Fadlan ii maqal markaan kugu hadlo.", de: "Bitte höre mir zu, wenn ich mit dir rede." }
+          ]
+        },
+        {
+          german: "vernehmen",
+          examples: [
+            { so: "Waxaan maqlay in la helay xalka.", de: "Ich habe vernommen, dass eine Lösung gefunden wurde." },
+            { so: "Maxaad ka maqlay dhibaatadan?", de: "Was hast du über dieses Problem vernommen?" }
+          ]
+        }
+      ],
 
-  "sheegid": [
-    {
-      german: "sagen",
-      examples: [
-        { so: "Waxaan kuu sheegi doonaa sida loo sameeyo.", de: "Ich werde dir sagen, wie man es macht." },
-        { so: "Wiilku wuxuu sheegay inuu dugsiga aadi doono.", de: "Der Junge sagte, dass er zur Schule gehen wird." }
-      ]
-    },
-    {
-      german: "mitteilen",
-      examples: [
-        { so: "Waxaan kuu sheegi doonaa go'aanka cusub.", de: "Ich werde Ihnen die neue Entscheidung mitteilen." },
-        { so: "Shirkaddu waxay kuu sheegi doontaa natiijooyinka.", de: "Das Unternehmen wird Ihnen die Ergebnisse mitteilen." }
-      ]
-    },
-    {
-      german: "erzählen",
-      examples: [
-        { so: "Wuxuu ii sheegay sheeko qurux badan.", de: "Er hat mir eine schöne Geschichte erzählt." },
-        { so: "Waxay kuu sheegi doontaa safarkiisii Yurub.", de: "Sie wird Ihnen von ihrer Europareise erzählen." }
-      ]
-    }
-  ],
+      "sheegid": [
+        {
+          german: "sagen",
+          examples: [
+            { so: "Waxaan kuu sheegi doonaa sida loo sameeyo.", de: "Ich werde dir sagen, wie man es macht." },
+            { so: "Wiilku wuxuu sheegay inuu dugsiga aadi doono.", de: "Der Junge sagte, dass er zur Schule gehen wird." }
+          ]
+        },
+        {
+          german: "mitteilen",
+          examples: [
+            { so: "Waxaan kuu sheegi doonaa go'aanka cusub.", de: "Ich werde Ihnen die neue Entscheidung mitteilen." },
+            { so: "Shirkaddu waxay kuu sheegi doontaa natiijooyinka.", de: "Das Unternehmen wird Ihnen die Ergebnisse mitteilen." }
+          ]
+        },
+        {
+          german: "erzählen",
+          examples: [
+            { so: "Wuxuu ii sheegay sheeko qurux badan.", de: "Er hat mir eine schöne Geschichte erzählt." },
+            { so: "Waxay kuu sheegi doontaa safarkiisii Yurub.", de: "Sie wird Ihnen von ihrer Europareise erzählen." }
+          ]
+        }
+      ],
 
-  "tixraacid": [
-    {
-      german: "zitieren",
-      examples: [
-        { so: "Waxaan tixraacayaa buugga Shakespeare.", de: "Ich zitiere das Buch von Shakespeare." },
-        { so: "Wuxuu tixraacay qaaciidooyinka sharciga.", de: "Er zitierte die Gesetzesbestimmungen." }
+      "tixraacid": [
+        {
+          german: "zitieren",
+          examples: [
+            { so: "Waxaan tixraacayaa buugga Shakespeare.", de: "Ich zitiere das Buch von Shakespeare." },
+            { so: "Wuxuu tixraacay qaaciidooyinka sharciga.", de: "Er zitierte die Gesetzesbestimmungen." }
+          ]
+        },
+        {
+          german: "verweisen auf",
+          examples: [
+            { so: "Qoraagu wuxuu tixraacayaa xogta hore.", de: "Der Autor verweist auf die früheren Daten." },
+            { so: "Dukumeentigu wuxuu tixraacayaa qodobka 15aad.", de: "Das Dokument verweist auf Artikel 15." }
+          ]
+        },
+        {
+          german: "anführen",
+          examples: [
+            { so: "Wuxuu tixraacay tusaalooyin badan.", de: "Er führte viele Beispiele an." },
+            { so: "Waxay tixraacday caddaymo cilmiga ah.", de: "Sie führte wissenschaftliche Beweise an." }
+          ]
+        }
       ]
-    },
-    {
-      german: "verweisen auf",
-      examples: [
-        { so: "Qoraagu wuxuu tixraacayaa xogta hore.", de: "Der Autor verweist auf die früheren Daten." },
-        { so: "Dukumeentigu wuxuu tixraacayaa qodobka 15aad.", de: "Das Dokument verweist auf Artikel 15." }
-      ]
-    },
-    {
-      german: "anführen",
-      examples: [
-        { so: "Wuxuu tixraacay tusaalooyin badan.", de: "Er führte viele Beispiele an." },
-        { so: "Waxay tixraacday caddaymo cilmiga ah.", de: "Sie führte wissenschaftliche Beweise an." }
-      ]
+    };
+
+
+
+    // Theme Management Functions
+    function initTheme() {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      
+      if (savedTheme) {
+        document.body.className = savedTheme;
+        updateThemeIcon(savedTheme);
+      } else if (prefersDark) {
+        document.body.className = 'dark-mode';
+        updateThemeIcon('dark-mode');
+      } else {
+        document.body.className = 'light-mode';
+        updateThemeIcon('light-mode');
+      }
     }
-  ]
+
+    function toggleTheme() {
+      const currentTheme = document.body.className;
+      const newTheme = currentTheme === 'dark-mode' ? 'light-mode' : 'dark-mode';
+      
+      document.body.className = newTheme;
+      updateThemeIcon(newTheme);
+      localStorage.setItem('theme', newTheme);
+    }
+
+    function updateThemeIcon(theme) {
+      if (theme === 'dark-mode') {
+        themeIcon.className = 'fas fa-moon';
+      } else {
+        themeIcon.className = 'fas fa-sun';
+      }
+    }
+
+    // Search Functions
+    function showResult() {
+      const input = verbInput.value.trim().toLowerCase();
+      
+      if (!input) {
+        showNoResults("Fadlan geli fal Somali ah si aad u bilowdo raadinta.");
+        return;
+      }
+
+      if (verbs[input]) {
+        displayResults(input, verbs[input]);
+      } else {
+        showNoResults(`Falka "<strong style="color: var(--cyan)">${input}</strong>" lama helin database-ka.`);
+      }
+    }
+
+    function displayResults(somaliVerb, germanVerbs) {
+      let html = `
+        <div class="result-header">
+          <div>
+            <h3><i class="fas fa-search"></i> Natiijooyinka Raadinta</h3>
+            <p>Falka: <strong style="color: var(--primary-color)">${somaliVerb}</strong></p>
+          </div>
+          <div style="background: var(--primary-transparent); padding: 8px 16px; border-radius: 20px; color: var(--primary-color); border: 1px solid var(--primary-color);">
+            <i class="fas fa-list"></i> ${germanVerbs.length} nooc oo Jarmal ah
+          </div>
+        </div>
+
+        <div class="verbs-container">
+      `;
+
+      germanVerbs.forEach((verb, index) => {
+        const firstExample = verb.examples[0];
+        html += `
+          <div class="verb-card" onclick="showExamples('${somaliVerb}', ${index})">
+            <h3><i class="fas fa-code-branch"></i> ${verb.german}</h3>
+            <div class="examples-preview">
+              <p><strong style="color: var(--primary-color)">Tusaale (SO):</strong> ${firstExample.so.substring(0, 85)}${firstExample.so.length > 85 ? '...' : ''}</p>
+              <p><strong style="color: #ff6b9d">Tusaale (DE):</strong> ${firstExample.de.substring(0, 85)}${firstExample.de.length > 85 ? '...' : ''}</p>
+            </div>
+            <div class="click-hint">
+              <i class="fas fa-mouse-pointer"></i> Guji si aad u aragto dhammaan ${verb.examples.length} tusaalo
+            </div>
+          </div>
+        `;
+      });
+
+      html += `</div>`;
+      resultDiv.innerHTML = html;
+    }
+
+    function showExamples(somaliVerb, verbIndex) {
+      const verb = verbs[somaliVerb][verbIndex];
+      
+      let html = `
+        <div style="margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid var(--dark-border);">
+          <h4 style="color: var(--white); margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-language" style="color: var(--primary-color);"></i> 
+            Falka Soomaaliga: <span style="color: var(--primary-color)">${somaliVerb}</span>
+          </h4>
+          <h4 style="color: var(--white); display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-flag" style="color: #ff6b9d;"></i> 
+            Turjumada Jarmalka: <span style="color: #ff6b9d">${verb.german}</span>
+          </h4>
+        </div>
+
+        <div class="examples-container">
+          <h3 style="color: var(--white); margin-bottom: 25px; display: flex; align-items: center; gap: 12px; font-size: 1.3rem;">
+            <i class="fas fa-comments" style="color: var(--primary-color);"></i> 
+            Tusaalooyinka (${verb.examples.length})
+          </h3>
+      `;
+
+      verb.examples.forEach((example, index) => {
+        html += `
+          <div class="example-item">
+            <div class="example-language so">
+              <i class="fas fa-flag"></i> Soomaali
+            </div>
+            <div class="example-text">${example.so}</div>
+            
+            <div class="example-language de" style="margin-top: 18px;">
+              <i class="fas fa-flag"></i> Jarmal
+            </div>
+            <div class="example-text">${example.de}</div>
+            
+            ${index < verb.examples.length - 1 ? 
+              '<div style="margin: 22px 0; height: 1px; background: linear-gradient(90deg, transparent, var(--dark-border), transparent);"></div>' : ''}
+          </div>
+        `;
+      });
+
+      html += `</div>`;
+      modalBody.innerHTML = html;
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    function showNoResults(message) {
+      let html = `
+        <div class="no-results">
+          <i class="fas fa-search"></i>
+          <p>${message}</p>
+          
+          <div class="suggestions">
+            <h4>Falalka la heli karo:</h4>
+            <div class="suggestion-tags">
+              <div class="suggestion-tag" onclick="searchSuggestion('heshiis')">heshiis</div>
+              <div class="suggestion-tag" onclick="searchSuggestion('guur')">guur</div>
+              <div class="suggestion-tag" onclick="searchSuggestion('bandhigid')">bandhigid</div>
+              <div class="suggestion-tag" onclick="searchSuggestion('akhri')">akhri</div>
+              <div class="suggestion-tag" onclick="searchSuggestion('cun')">cun</div>
+              <div class="suggestion-tag" onclick="searchSuggestion('qor')">qor</div>
+            </div>
+          </div>
+        </div>
+      `;
+      resultDiv.innerHTML = html;
+    }
+
+    function searchSuggestion(verb) {
+      verbInput.value = verb;
+      showResult();
+    }
+
+    // Event Listeners
+    verbInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        showResult();
+      }
+    });
+
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+
+    // Initialize when page loads
+    window.addEventListener('load', () => {
+      initTheme();
+      verbInput.focus();
+    });
+
+
+  // Add to existing script
+
+// Audio Pronunciation (if you add audio files later)
+function playAudio(word, language) {
+  // This is a placeholder for audio functionality
+  console.log(`Playing ${language} pronunciation of ${word}`);
+  // You can implement with Web Speech API later
+}
+
+// Copy to Clipboard
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    alert('Luqadda Jarmalka waxa la nuqul sameeyay!');
+  });
+}
+
+// Filter verbs by category
+const verbCategories = {
+  "daily": ["cun", "qor", "akhri", "dhegayso", "fiiri"],
+  "social": ["heshiis", "guur", "tus"],
+  "creative": ["bandhigid", "samee", "kari"]
 };
 
-// Theme Management Functions
-function initTheme() {
-  const savedTheme = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  
-  if (savedTheme) {
-    document.body.className = savedTheme;
-    updateThemeIcon(savedTheme);
-  } else if (prefersDark) {
-    document.body.className = 'dark-mode';
-    updateThemeIcon('dark-mode');
-  } else {
-    document.body.className = 'light-mode';
-    updateThemeIcon('light-mode');
-  }
-}
-
-function toggleTheme() {
-  const currentTheme = document.body.className;
-  const newTheme = currentTheme === 'dark-mode' ? 'light-mode' : 'dark-mode';
-  
-  document.body.className = newTheme;
-  updateThemeIcon(newTheme);
-  localStorage.setItem('theme', newTheme);
-}
-
-function updateThemeIcon(theme) {
-  if (theme === 'dark-mode') {
-    themeIcon.className = 'fas fa-moon';
-  } else {
-    themeIcon.className = 'fas fa-sun';
-  }
-}
-
-// Search Functions
-function showResult() {
-  const input = verbInput.value.trim().toLowerCase();
-  
-  if (!input) {
-    showNoResults("Fadlan geli fal Somali ah si aad u bilowdo raadinta.");
-    return;
-  }
-
-  if (verbs[input]) {
-    displayResults(input, verbs[input]);
-  } else {
-    showNoResults(`Falka "<strong style="color: var(--cyan)">${input}</strong>" lama helin database-ka.`);
-  }
-}
-
-function displayResults(somaliVerb, germanVerbs) {
+function showCategory(category) {
+  const categoryVerbs = verbCategories[category];
   let html = `
     <div class="result-header">
-      <div>
-        <h3><i class="fas fa-search"></i> Natiijooyinka Raadinta</h3>
-        <p>Falka: <strong style="color: var(--cyan)">${somaliVerb}</strong></p>
-      </div>
-      <div style="background: var(--cyan-transparent); padding: 8px 16px; border-radius: 20px; color: var(--cyan); border: 1px solid var(--cyan);">
-        <i class="fas fa-list"></i> ${germanVerbs.length} nooc oo Jarmal ah
-      </div>
+      <h3><i class="fas fa-filter"></i> Falalka ${category}</h3>
     </div>
-
-    <div class="verbs-container">
+    <div class="suggestion-tags">
   `;
-
-  germanVerbs.forEach((verb, index) => {
-    const firstExample = verb.examples[0];
-    html += `
-      <div class="verb-card" onclick="showExamples('${somaliVerb}', ${index})">
-        <h3><i class="fas fa-code-branch"></i> ${verb.german}</h3>
-        <div class="examples-preview">
-          <p><strong style="color: var(--cyan)">Tusaale (SO):</strong> ${firstExample.so.substring(0, 85)}${firstExample.so.length > 85 ? '...' : ''}</p>
-          <p><strong style="color: #ff6b9d">Tusaale (DE):</strong> ${firstExample.de.substring(0, 85)}${firstExample.de.length > 85 ? '...' : ''}</p>
-        </div>
-        <div class="click-hint">
-          <i class="fas fa-mouse-pointer"></i> Guji si aad u aragto dhammaan ${verb.examples.length} tusaalo
-        </div>
-      </div>
-    `;
+  
+  categoryVerbs.forEach(verb => {
+    html += `<div class="suggestion-tag" onclick="searchSuggestion('${verb}')">${verb}</div>`;
   });
-
+  
   html += `</div>`;
   resultDiv.innerHTML = html;
 }
 
-function showExamples(somaliVerb, verbIndex) {
-  const verb = verbs[somaliVerb][verbIndex];
-  
-  let html = `
-    <div style="margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid var(--lightest-navy);">
-      <h4 style="color: var(--white); margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
-        <i class="fas fa-language" style="color: var(--cyan);"></i> 
-        Falka Soomaaliga: <span style="color: var(--cyan)">${somaliVerb}</span>
-      </h4>
-      <h4 style="color: var(--white); display: flex; align-items: center; gap: 10px;">
-        <i class="fas fa-flag" style="color: #ff6b9d;"></i> 
-        Turjumada Jarmalka: <span style="color: #ff6b9d">${verb.german}</span>
-      </h4>
-    </d
+// Add this to the no-results section HTML:
+/*
+<div class="verb-categories">
+  <h4>Kala sooco falalka:</h4>
+  <div class="category-buttons">
+    <button class="category-btn" onclick="showCategory('daily')">
+      <i class="fas fa-home"></i> Maalin kasta
+    </button>
+    <button class="category-btn" onclick="showCategory('social')">
+      <i class="fas fa-users"></i> Bulshada
+    </button>
+    <button class="category-btn" onclick="showCategory('creative')">
+      <i class="fas fa-paint-brush"></i> Farshaxan
+    </button>
+  </div>
+</div>
+*/
   </script>
 </body>
 </html>
